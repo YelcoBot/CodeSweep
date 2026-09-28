@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    uses: YelcoBotCompany/devops-core/main.yml@main
+    uses: YelcoBotCompany/devops-core/.github/workflows/main.yml@main
     with:
       service: code-analysis
       language: netframework

@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy:
-    uses: YelcoBotCompany/devops-core/main.yml@main
+    uses: YelcoBotCompany/devops-core/.github/workflows/main.yml@main
     with:
       service: visual-studio-marketplace
       language: netframework
