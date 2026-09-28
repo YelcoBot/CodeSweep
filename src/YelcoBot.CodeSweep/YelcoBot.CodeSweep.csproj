@@ -39,11 +39,17 @@
     </VSCTCompile>
   </ItemGroup>
 
-  <!-- El manifiesto pide LICENSE.txt: se genera desde el LICENSE del repo y se agrega a la raíz del VSIX -->
-  <Target Name="IncludeLicenseInVsix" AfterTargets="GetVsixSourceItems">
+  <!--
+    Archivos extra en el VSIX:
+    - LICENSE.txt (lo pide el manifiesto), generado desde el LICENSE del repo.
+    - Microsoft.Extensions.DependencyInjection*: el VSSDK los omite, pero VS no garantiza traerlos.
+  -->
+  <Target Name="IncludeExtraFilesInVsix" AfterTargets="GetVsixSourceItems">
     <Copy SourceFiles="..\..\LICENSE" DestinationFiles="$(IntermediateOutputPath)LICENSE.txt" SkipUnchangedFiles="true" />
     <ItemGroup>
       <VSIXSourceItem Include="$(IntermediateOutputPath)LICENSE.txt" />
+      <VSIXSourceItem Include="$(OutDir)Microsoft.Extensions.DependencyInjection.dll" />
+      <VSIXSourceItem Include="$(OutDir)Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
     </ItemGroup>
   </Target>
 

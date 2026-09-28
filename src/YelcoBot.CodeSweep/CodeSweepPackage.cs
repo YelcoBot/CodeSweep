@@ -12,6 +12,7 @@ using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Events;
 namespace YelcoBot.CodeSweep
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
+    [ProvideBindingPath] // VS busca las DLLs de la extensión (Application, Roslyn, DI…) en su carpeta de instalación.
     [InstalledProductRegistration("CodeSweep", "Clean Architecture + Roslyn automated code cleanup", "1.0.0")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(Options.OptionsProvider.GeneralOptionsPage), "CodeSweep", "General", 0, 0, true)]

@@ -14,7 +14,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Workspace
 {
     public class VsWorkspaceAccessor : IWorkspaceAccessor
     {
-        private VisualStudioWorkspace? _workspace;
+            private VisualStudioWorkspace? _workspace;
 
         private VisualStudioWorkspace? Workspace
         {
@@ -35,7 +35,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Workspace
         {
             VisualStudioWorkspace? workspace = Workspace;
             if (workspace == null || workspace.CurrentSolution == null)
-                return Array.Empty<DocumentId>();
+                    return Array.Empty<DocumentId>();
 
             List<DocumentId> openDocIds = workspace.GetOpenDocumentIds().ToList();
             return openDocIds;
