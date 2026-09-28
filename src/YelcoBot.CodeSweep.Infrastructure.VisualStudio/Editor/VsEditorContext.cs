@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
-using Microsoft.VisualStudio.Shell;
 using YelcoBot.CodeSweep.Application.Abstractions;
 
 using ThreadHelper = Microsoft.VisualStudio.Shell.ThreadHelper;

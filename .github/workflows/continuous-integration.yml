@@ -1,0 +1,15 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    uses: YelcoBotCompany/devops-core/main.yml@main
+    with:
+      service: code-analysis
+      language: netframework
+      command: test

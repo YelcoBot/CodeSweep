@@ -1,0 +1,16 @@
+name: Continuous Deployment
+
+on:
+  push:
+
+jobs:
+  deploy:
+    uses: YelcoBotCompany/devops-core/main.yml@main
+    with:
+      service: visual-studio-marketplace
+      language: netframework
+      command: deploy
+      projects: >-
+        [{"name":"CodeSweep","type":"VSIX","projectPattern":"**\\YelcoBot.CodeSweep.csproj","outputPath":""}]
+      artifacts: >-
+        [{"name":"CodeSweep","path":""}]

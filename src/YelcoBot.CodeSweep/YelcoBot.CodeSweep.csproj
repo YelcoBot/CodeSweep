@@ -42,8 +42,9 @@
   <!--
     Archivos extra en el VSIX:
     - LICENSE.txt (lo pide el manifiesto), generado desde el LICENSE del repo.
-    - Microsoft.Extensions.DependencyInjection* (10.x) y su dependencia Microsoft.Bcl.AsyncInterfaces (10.x):
-      el VSSDK los omite y VS no garantiza traer esas versiones.
+    - Microsoft.Extensions.DependencyInjection* y Microsoft.Bcl.AsyncInterfaces: el VSSDK los omite.
+      Deben ser 10.0.10 = la versión que trae VS 2026 (devenv.exe.config redirige 0.0.0.0-10.0.0.10 a su copia).
+      Una versión mayor carga dos copias del mismo tipo (MissingMethodException). En VS 2022 se usan estas.
   -->
   <Target Name="IncludeExtraFilesInVsix" AfterTargets="GetVsixSourceItems">
     <Copy SourceFiles="..\..\LICENSE" DestinationFiles="$(IntermediateOutputPath)LICENSE.txt" SkipUnchangedFiles="true" />
