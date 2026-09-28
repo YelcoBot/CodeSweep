@@ -42,7 +42,8 @@
   <!--
     Archivos extra en el VSIX:
     - LICENSE.txt (lo pide el manifiesto), generado desde el LICENSE del repo.
-    - Microsoft.Extensions.DependencyInjection*: el VSSDK los omite, pero VS no garantiza traerlos.
+    - Microsoft.Extensions.DependencyInjection* (10.x) y su dependencia Microsoft.Bcl.AsyncInterfaces (10.x):
+      el VSSDK los omite y VS no garantiza traer esas versiones.
   -->
   <Target Name="IncludeExtraFilesInVsix" AfterTargets="GetVsixSourceItems">
     <Copy SourceFiles="..\..\LICENSE" DestinationFiles="$(IntermediateOutputPath)LICENSE.txt" SkipUnchangedFiles="true" />
@@ -50,6 +51,7 @@
       <VSIXSourceItem Include="$(IntermediateOutputPath)LICENSE.txt" />
       <VSIXSourceItem Include="$(OutDir)Microsoft.Extensions.DependencyInjection.dll" />
       <VSIXSourceItem Include="$(OutDir)Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+      <VSIXSourceItem Include="$(OutDir)Microsoft.Bcl.AsyncInterfaces.dll" />
     </ItemGroup>
   </Target>
 
