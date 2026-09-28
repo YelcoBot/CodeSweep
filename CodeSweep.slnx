@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/YelcoBot.CodeSweep.Domain/YelcoBot.CodeSweep.Domain.csproj" />
+    <Project Path="src/YelcoBot.CodeSweep.Application/YelcoBot.CodeSweep.Application.csproj" />
+    <Project Path="src/YelcoBot.CodeSweep.Infrastructure.Roslyn/YelcoBot.CodeSweep.Infrastructure.Roslyn.csproj" />
+    <Project Path="src/YelcoBot.CodeSweep.Infrastructure.VisualStudio/YelcoBot.CodeSweep.Infrastructure.VisualStudio.csproj" />
+    <Project Path="src/YelcoBot.CodeSweep.Vsix/YelcoBot.CodeSweep.Vsix.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/YelcoBot.CodeSweep.Domain.Tests/YelcoBot.CodeSweep.Domain.Tests.csproj" />
+    <Project Path="tests/YelcoBot.CodeSweep.Application.Tests/YelcoBot.CodeSweep.Application.Tests.csproj" />
+    <Project Path="tests/YelcoBot.CodeSweep.Infrastructure.Roslyn.Tests/YelcoBot.CodeSweep.Infrastructure.Roslyn.Tests.csproj" />
+  </Folder>
+</Solution>

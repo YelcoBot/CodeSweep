@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net481</TargetFramework>
+    <RootNamespace>YelcoBot.CodeSweep.Infrastructure.VisualStudio</RootNamespace>
+    <AssemblyName>YelcoBot.CodeSweep.Infrastructure.VisualStudio</AssemblyName>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YelcoBot.CodeSweep.Application\YelcoBot.CodeSweep.Application.csproj" />
+    <ProjectReference Include="..\YelcoBot.CodeSweep.Infrastructure.Roslyn\YelcoBot.CodeSweep.Infrastructure.Roslyn.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Community.VisualStudio.Toolkit.17" />
+    <PackageReference Include="Microsoft.VisualStudio.LanguageServices" />
+    <PackageReference Include="Microsoft.VisualStudio.SDK" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidCodeSweepPackage">
+    <Groups>
+      <Group guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidCodeSweepPackageCmdSet" id="CleanupActiveDocumentCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup"/>
+        <Strings>
+          <ButtonText>Cleanup Active Document</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidCodeSweepPackageCmdSet" id="CleanupOpenDocumentsCommandId" priority="0x0200" type="Button">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup"/>
+        <Strings>
+          <ButtonText>Cleanup Open Code</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidCodeSweepPackageCmdSet" id="CleanupSolutionCommandId" priority="0x0300" type="Button">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup"/>
+        <Strings>
+          <ButtonText>Cleanup All Code...</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidCodeSweepPackageCmdSet" id="ToggleCleanupOnSaveCommandId" priority="0x0400" type="Button">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup"/>
+        <Strings>
+          <ButtonText>Automatic Cleanup On Save</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="guidCodeSweepPackage" value="{a2f2b3c4-1111-4222-3333-444455556666}" />
+
+    <GuidSymbol name="guidCodeSweepPackageCmdSet" value="{b3f3c4d5-2222-4333-4444-555566667777}">
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="CleanupActiveDocumentCommandId" value="0x0100" />
+      <IDSymbol name="CleanupOpenDocumentsCommandId" value="0x0200" />
+      <IDSymbol name="CleanupSolutionCommandId" value="0x0300" />
+      <IDSymbol name="ToggleCleanupOnSaveCommandId" value="0x0400" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

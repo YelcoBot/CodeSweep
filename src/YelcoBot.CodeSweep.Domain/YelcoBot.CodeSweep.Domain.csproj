@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>YelcoBot.CodeSweep.Domain</RootNamespace>
+    <AssemblyName>YelcoBot.CodeSweep.Domain</AssemblyName>
+  </PropertyGroup>
+
+</Project>
