@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using YelcoBot.CodeSweep.Application.Services;
+using YelcoBot.CodeSweep.Domain.Routing;
 using YelcoBot.CodeSweep.Domain.Services;
 
 namespace YelcoBot.CodeSweep.Application
@@ -8,6 +10,10 @@ namespace YelcoBot.CodeSweep.Application
         public static IServiceCollection AddCodeSweepApplication(this IServiceCollection services)
         {
             services.AddSingleton<GeneratedCodeDetector>();
+            services.AddSingleton<DocumentRouter>();
+
+            services.AddSingleton<SweepActivity>();
+            services.AddTransient<CleanupOrchestrator>();
 
             services.AddTransient<UseCases.CleanupActiveDocumentUseCase>();
             services.AddTransient<UseCases.CleanupOpenDocumentsUseCase>();

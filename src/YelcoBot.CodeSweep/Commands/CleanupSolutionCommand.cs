@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Shell;
 using YelcoBot.CodeSweep.Application.UseCases;
 using Task = System.Threading.Tasks.Task;
 
-namespace YelcoBot.CodeSweep.Vsix.Commands
+namespace YelcoBot.CodeSweep.Commands
 {
     [Command(PackageGuids.guidCodeSweepPackageCmdSetString, PackageIds.CleanupSolutionCommandId)]
     internal sealed class CleanupSolutionCommand : BaseCommand<CleanupSolutionCommand>

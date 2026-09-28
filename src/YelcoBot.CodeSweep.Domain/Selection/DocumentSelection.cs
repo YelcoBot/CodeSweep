@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace YelcoBot.CodeSweep.Domain.Selection
 {
     public enum DocumentSelectionType
@@ -5,23 +9,24 @@ namespace YelcoBot.CodeSweep.Domain.Selection
         ActiveDocument,
         OpenDocuments,
         Solution,
-        SpecificFile
+        Files
     }
 
     public sealed class DocumentSelection
     {
         public DocumentSelectionType Type { get; }
-        public string? FilePath { get; }
+        public IReadOnlyList<string> FilePaths { get; }
 
-        private DocumentSelection(DocumentSelectionType type, string? filePath = null)
+        private DocumentSelection(DocumentSelectionType type, IReadOnlyList<string>? filePaths = null)
         {
             Type = type;
-            FilePath = filePath;
+            FilePaths = filePaths ?? Array.Empty<string>();
         }
 
         public static DocumentSelection ActiveDocument() => new(DocumentSelectionType.ActiveDocument);
         public static DocumentSelection OpenDocuments() => new(DocumentSelectionType.OpenDocuments);
         public static DocumentSelection Solution() => new(DocumentSelectionType.Solution);
-        public static DocumentSelection File(string filePath) => new(DocumentSelectionType.SpecificFile, filePath);
+        public static DocumentSelection File(string filePath) => new(DocumentSelectionType.Files, new[] { filePath });
+        public static DocumentSelection Files(IEnumerable<string> filePaths) => new(DocumentSelectionType.Files, filePaths.ToList());
     }
 }

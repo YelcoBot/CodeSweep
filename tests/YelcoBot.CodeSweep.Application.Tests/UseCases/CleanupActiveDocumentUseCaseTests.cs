@@ -1,19 +1,25 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
 using YelcoBot.CodeSweep.Application.Abstractions;
+using YelcoBot.CodeSweep.Application.Services;
 using YelcoBot.CodeSweep.Application.UseCases;
 using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Domain.Results;
+using YelcoBot.CodeSweep.Domain.Routing;
 using YelcoBot.CodeSweep.Domain.Selection;
+using YelcoBot.CodeSweep.Domain.Services;
 
 namespace YelcoBot.CodeSweep.Application.Tests.UseCases
 {
     public class CleanupActiveDocumentUseCaseTests
     {
         private readonly ICodeCleaner _codeCleaner = Substitute.For<ICodeCleaner>();
+        private readonly IEditorFormatter _editorFormatter = Substitute.For<IEditorFormatter>();
+        private readonly IDocumentProvider _documentProvider = Substitute.For<IDocumentProvider>();
         private readonly IEditorContext _editorContext = Substitute.For<IEditorContext>();
         private readonly ISettingsStore _settingsStore = Substitute.For<ISettingsStore>();
         private readonly IUserInteraction _userInteraction = Substitute.For<IUserInteraction>();
@@ -22,7 +28,17 @@ namespace YelcoBot.CodeSweep.Application.Tests.UseCases
 
         public CleanupActiveDocumentUseCaseTests()
         {
-            _sut = new CleanupActiveDocumentUseCase(_codeCleaner, _editorContext, _settingsStore, _userInteraction);
+            _documentProvider.GetFilePathsAsync(Arg.Any<DocumentSelection>(), Arg.Any<CancellationToken>())
+                .Returns(call => Task.FromResult(call.Arg<DocumentSelection>().FilePaths));
+
+            CleanupOrchestrator orchestrator = new CleanupOrchestrator(
+                _documentProvider,
+                new DocumentRouter(new GeneratedCodeDetector()),
+                _codeCleaner,
+                _editorFormatter,
+                new SweepActivity());
+
+            _sut = new CleanupActiveDocumentUseCase(orchestrator, _editorContext, _settingsStore, _userInteraction);
         }
 
         [Fact]
@@ -33,6 +49,7 @@ namespace YelcoBot.CodeSweep.Application.Tests.UseCases
             await _sut.ExecuteAsync();
 
             await _codeCleaner.DidNotReceiveWithAnyArgs().CleanAsync(Arg.Any<DocumentSelection>(), Arg.Any<SweepOptions>());
+            await _editorFormatter.DidNotReceiveWithAnyArgs().FormatAsync(Arg.Any<IReadOnlyList<string>>());
         }
 
         [Fact]
@@ -55,6 +72,7 @@ namespace YelcoBot.CodeSweep.Application.Tests.UseCases
 
             await _sut.ExecuteAsync();
 
+            await _codeCleaner.Received(1).CleanAsync(Arg.Any<DocumentSelection>(), Arg.Any<SweepOptions>(), Arg.Any<IProgress<SweepProgress>>(), Arg.Any<CancellationToken>());
             await _userInteraction.Received(1).ShowSummaryAsync(Arg.Any<SweepSummary>());
         }
     }

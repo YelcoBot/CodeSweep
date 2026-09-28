@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using Community.VisualStudio.Toolkit;
 using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings;
 
-namespace YelcoBot.CodeSweep.Vsix.Options
+namespace YelcoBot.CodeSweep.Options
 {
     public class OptionsProvider
     {

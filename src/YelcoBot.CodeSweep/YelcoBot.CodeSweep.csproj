@@ -1,9 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project>
+
+  <!-- Imports explícitos: los targets del VSSDK deben ir DESPUÉS de Sdk.targets (necesitan IntermediateOutputPath, etc.) -->
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
     <TargetFramework>net481</TargetFramework>
-    <RootNamespace>YelcoBot.CodeSweep.Vsix</RootNamespace>
-    <AssemblyName>YelcoBot.CodeSweep.Vsix</AssemblyName>
+    <RootNamespace>YelcoBot.CodeSweep</RootNamespace>
+    <AssemblyName>YelcoBot.CodeSweep</AssemblyName>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
     <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
@@ -35,5 +38,25 @@
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
   </ItemGroup>
+
+  <!-- El manifiesto pide LICENSE.txt: se genera desde el LICENSE del repo y se agrega a la raíz del VSIX -->
+  <Target Name="IncludeLicenseInVsix" AfterTargets="GetVsixSourceItems">
+    <Copy SourceFiles="..\..\LICENSE" DestinationFiles="$(IntermediateOutputPath)LICENSE.txt" SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <VSIXSourceItem Include="$(IntermediateOutputPath)LICENSE.txt" />
+    </ItemGroup>
+  </Target>
+
+  <!-- Publicación al Marketplace (no se empaquetan en el VSIX) -->
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\publishManifest.json" />
+    <None Include="Properties\PublishProfiles\overview.md" />
+    <None Include="Properties\PublishProfiles\Publish-Marketplace.ps1" />
+  </ItemGroup>
+
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+
+  <!-- Targets del VSSDK (vienen en Microsoft.VSSDK.BuildTools): sin esto no se genera el .vsix -->
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
 
 </Project>

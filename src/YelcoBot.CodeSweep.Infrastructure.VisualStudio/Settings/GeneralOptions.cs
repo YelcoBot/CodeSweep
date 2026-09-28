@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Community.VisualStudio.Toolkit;
+using YelcoBot.CodeSweep.Domain.Options;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
 {
@@ -34,6 +35,18 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         [Description("Apply standard Roslyn document formatting according to .editorconfig.")]
         [DefaultValue(true)]
         public bool EnableFormatDocument { get; set; } = true;
+
+        [Category("Editor Files")]
+        [DisplayName("Format Editor Files")]
+        [Description("Format files not supported by Roslyn (aspx, razor, html, xml...) using the Visual Studio editor.")]
+        [DefaultValue(true)]
+        public bool FormatEditorFiles { get; set; } = true;
+
+        [Category("Editor Files")]
+        [DisplayName("Editor File Extensions")]
+        [Description("Semicolon-separated list of extensions formatted with the Visual Studio editor.")]
+        [DefaultValue(SweepOptions.DefaultEditorFileExtensions)]
+        public string EditorFileExtensions { get; set; } = SweepOptions.DefaultEditorFileExtensions;
 
         [Category("Automation")]
         [DisplayName("Automatic Cleanup On Save")]

@@ -12,5 +12,14 @@ namespace YelcoBot.CodeSweep.Domain.Results
         public List<SweepFailure> Failures { get; } = new();
 
         public static SweepSummary Cancelled() => new() { IsCancelled = true };
+
+        public void Merge(SweepSummary other)
+        {
+            ProcessedFilesCount += other.ProcessedFilesCount;
+            ChangedFilesCount += other.ChangedFilesCount;
+            Duration += other.Duration;
+            IsCancelled |= other.IsCancelled;
+            Failures.AddRange(other.Failures);
+        }
     }
 }

@@ -16,7 +16,7 @@ CodeSweep/
 │  │  ├─ Options/
 │  │  │  └─ SweepOptions.cs                          # Qué reglas están activas + CleanupOnSave
 │  │  ├─ Selection/
-│  │  │  └─ DocumentSelection.cs                     # ActiveDocument | OpenDocuments | Solution | File(path)
+│  │  │  └─ DocumentSelection.cs                     # ActiveDocument | OpenDocuments | Solution | Files(paths)
 │  │  ├─ Results/
 │  │  │  ├─ SweepSummary.cs                          # Procesados, cambiados, fallidos, duración, cancelado
 │  │  │  ├─ SweepFailure.cs
@@ -36,7 +36,8 @@ CodeSweep/
 │  │  │  ├─ ISettingsStore.cs                        # Cargar/guardar SweepOptions
 │  │  │  └─ IUserInteraction.cs                      # Confirmar, progreso, mostrar resumen
 │  │  ├─ Services/
-│  │  │  └─ CleanupOrchestrator.cs                   # Enruta: fase 1 Roslyn (paralelo) → fase 2 Editor (secuencial)
+│  │  │  ├─ CleanupOrchestrator.cs                   # Enruta: fase 1 Roslyn (paralelo) → fase 2 Editor (secuencial)
+│  │  │  └─ SweepActivity.cs                         # "¿Hay un cleanup en curso?" → evita cleanup-on-save anidado
 │  │  ├─ UseCases/
 │  │  │  ├─ CleanupActiveDocumentUseCase.cs
 │  │  │  ├─ CleanupOpenDocumentsUseCase.cs
@@ -67,6 +68,8 @@ CodeSweep/
 │  │  │  ├─ VsEditorContext.cs                       # IEditorContext (documento activo)
 │  │  │  ├─ VsDocumentProvider.cs                    # IDocumentProvider (activo / abiertos / solución)
 │  │  │  ├─ VsEditorFormatter.cs                     # IEditorFormatter: elige la estrategia por archivo
+│  │  │  ├─ IEditorFormatStrategy.cs                 # Contrato de estrategia + EditorFormatOutcome
+│  │  │  ├─ FormatDocumentCommand.cs                 # Envía FORMATDOCUMENT a una vista (sin activarla)
 │  │  │  ├─ OpenDocumentFormatStrategy.cs            # Ya abierto → FORMATDOCUMENT sobre su vista
 │  │  │  ├─ InvisibleEditorFormatStrategy.cs         # Cerrado → IVsInvisibleEditorManager + vista oculta
 │  │  │  └─ WindowFormatStrategy.cs                  # Respaldo: abrir → formatear → guardar → cerrar
@@ -79,7 +82,7 @@ CodeSweep/
 │  │  │  └─ SaveEventListener.cs                     # RDT OnBeforeSave → CleanupOnSaveUseCase
 │  │  └─ DependencyInjection.cs                      # services.AddCodeSweepVisualStudio()
 │  │
-│  └─ YelcoBot.CodeSweep.Vsix/                       # net472 — presentación / composition root
+│  └─ YelcoBot.CodeSweep/                       # net472 — presentación / composition root
 │     ├─ CodeSweepPackage.cs                         # AsyncPackage + registro de DI
 │     ├─ CodeSweepPackage.vsct                       # Menú "CodeSweep", botones y atajos
 │     ├─ Commands/                                   # Comandos delgados: solo llaman al caso de uso
@@ -109,7 +112,7 @@ CodeSweep/
 ## Dependencias entre proyectos
 
 ```
-Vsix ──► Infrastructure.VisualStudio ──► Infrastructure.Roslyn ──► Application ──► Domain
+CodeSweep ──► Infrastructure.VisualStudio ──► Infrastructure.Roslyn ──► Application ──► Domain
   └──────────────────────────────────────────────────────────────►┘
 ```
 
@@ -137,7 +140,7 @@ Estrategias de `VsEditorFormatter`, en este orden:
 > ⚠️ La estrategia 2 hay que validarla con un prototipo por tipo de archivo (sobre todo `.aspx` y `.razor`): formatear necesita una vista, y no está garantizado que esos editores funcionen sobre una vista oculta.
 
 Configurable en `SweepOptions`: `FormatEditorFiles` (on/off) y la lista de extensiones.
-- **Vsix**: arma el contenedor de DI y expone los botones.
+- **CodeSweep** (la extensión): arma el contenedor de DI y expone los botones.
 
 ## Botones (menú **CodeSweep**)
 
@@ -155,5 +158,5 @@ Configurable en `SweepOptions`: `FormatEditorFiles` (on/off) y la lista de exten
 | Application | `Microsoft.Extensions.DependencyInjection.Abstractions` |
 | Infrastructure.Roslyn | `Microsoft.CodeAnalysis.CSharp.Workspaces` |
 | Infrastructure.VisualStudio | `Microsoft.VisualStudio.SDK`, `Microsoft.VisualStudio.LanguageServices`, `Community.VisualStudio.Toolkit.17` |
-| Vsix | `Microsoft.VSSDK.BuildTools`, `Community.VisualStudio.Toolkit.DependencyInjection.Microsoft.17` |
+| CodeSweep | `Microsoft.VSSDK.BuildTools`, `Community.VisualStudio.Toolkit.DependencyInjection.Microsoft.17` |
 | Tests | `xunit`, `Microsoft.NET.Test.Sdk`, `Microsoft.CodeAnalysis.CSharp.Workspaces` |

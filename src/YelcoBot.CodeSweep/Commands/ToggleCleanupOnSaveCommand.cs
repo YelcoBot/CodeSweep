@@ -6,7 +6,7 @@ using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Application.UseCases;
 using Task = System.Threading.Tasks.Task;
 
-namespace YelcoBot.CodeSweep.Vsix.Commands
+namespace YelcoBot.CodeSweep.Commands
 {
     [Command(PackageGuids.guidCodeSweepPackageCmdSetString, PackageIds.ToggleCleanupOnSaveCommandId)]
     internal sealed class ToggleCleanupOnSaveCommand : BaseCommand<ToggleCleanupOnSaveCommand>

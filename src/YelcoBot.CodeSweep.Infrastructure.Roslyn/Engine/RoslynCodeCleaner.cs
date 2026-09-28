@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Domain.Results;
@@ -14,8 +16,14 @@ using YelcoBot.CodeSweep.Infrastructure.Roslyn.Abstractions;
 
 namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Engine
 {
+    /// <summary>
+    /// Limpia documentos C#/VB en paralelo y en background sobre una foto inmutable de la solución,
+    /// y aplica todos los cambios en un único TryApplyChanges.
+    /// </summary>
     public class RoslynCodeCleaner : ICodeCleaner
     {
+        private const int GeneratedHeaderSampleLength = 1024;
+
         private readonly IWorkspaceAccessor _workspaceAccessor;
         private readonly DocumentSweeper _documentSweeper;
         private readonly GeneratedCodeDetector _generatedCodeDetector;
@@ -40,78 +48,112 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Engine
             SweepSummary summary = new SweepSummary();
 
             Solution? solution = _workspaceAccessor.CurrentSolution;
-            if (solution == null)
+            List<DocumentId> targetDocumentIds = solution == null ? new List<DocumentId>() : GetTargetDocumentIds(solution, selection);
+
+            if (solution == null || targetDocumentIds.Count == 0)
             {
-                stopwatch.Stop();
                 summary.Duration = stopwatch.Elapsed;
                 return summary;
             }
 
-            List<DocumentId> targetDocumentIds = GetTargetDocumentIds(solution, selection);
-            if (!targetDocumentIds.Any())
-            {
-                stopwatch.Stop();
-                summary.Duration = stopwatch.Elapsed;
-                return summary;
-            }
-
-            Solution currentSolution = solution;
+            ConcurrentBag<(DocumentId Id, SourceText Text)> changedDocuments = new();
+            ConcurrentBag<SweepFailure> failures = new();
             int total = targetDocumentIds.Count;
-            int current = 0;
+            int started = 0;
+            int processed = 0;
 
-            foreach (DocumentId docId in targetDocumentIds)
+            using (SemaphoreSlim throttler = new SemaphoreSlim(Environment.ProcessorCount))
             {
-                if (cancellationToken.IsCancellationRequested)
+                IEnumerable<Task> tasks = targetDocumentIds.Select(documentId => Task.Run(async () =>
                 {
-                    summary.IsCancelled = true;
-                    break;
-                }
+                    await throttler.WaitAsync(cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        Document? document = solution.GetDocument(documentId);
+                        if (document?.FilePath == null)
+                            return;
 
-                Document? doc = currentSolution.GetDocument(docId);
-                if (doc == null || string.IsNullOrWhiteSpace(doc.FilePath))
-                {
-                    continue;
-                }
+                        progress?.Report(new SweepProgress(Interlocked.Increment(ref started), total, document.FilePath));
 
-                current++;
-                progress?.Report(new SweepProgress(current, total, doc.FilePath!));
+                        try
+                        {
+                            SourceText originalText = await document.GetTextAsync(cancellationToken).ConfigureAwait(false);
+                            if (options.IgnoreGeneratedCode && IsGenerated(document.FilePath, originalText))
+                                return;
+
+                            Interlocked.Increment(ref processed);
+
+                            Document cleanedDocument = await _documentSweeper.SweepAsync(document, options, cancellationToken).ConfigureAwait(false);
+                            SourceText cleanedText = await cleanedDocument.GetTextAsync(cancellationToken).ConfigureAwait(false);
+
+                            if (!originalText.ContentEquals(cleanedText))
+                            {
+                                changedDocuments.Add((documentId, cleanedText));
+                            }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw;
+                        }
+                        catch (Exception ex)
+                        {
+                            failures.Add(new SweepFailure(document.FilePath, ex.Message));
+                        }
+                    }
+                    finally
+                    {
+                        throttler.Release();
+                    }
+                }, cancellationToken));
 
                 try
                 {
-                    if (options.IgnoreGeneratedCode)
-                    {
-                        Microsoft.CodeAnalysis.Text.SourceText text = await doc.GetTextAsync(cancellationToken);
-                        if (_generatedCodeDetector.IsGeneratedCode(doc.FilePath!, text.ToString()))
-                        {
-                            continue;
-                        }
-                    }
-
-                    summary.ProcessedFilesCount++;
-                    Microsoft.CodeAnalysis.Text.SourceText originalText = await doc.GetTextAsync(cancellationToken);
-                    Document cleanedDoc = await _documentSweeper.SweepAsync(doc, options, cancellationToken);
-                    Microsoft.CodeAnalysis.Text.SourceText cleanedText = await cleanedDoc.GetTextAsync(cancellationToken);
-
-                    if (!originalText.ContentEquals(cleanedText))
-                    {
-                        currentSolution = cleanedDoc.Project.Solution;
-                        summary.ChangedFilesCount++;
-                    }
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch (OperationCanceledException)
                 {
-                    summary.Failures.Add(new SweepFailure(doc.FilePath!, ex.Message));
+                    // Se reporta abajo como cancelado.
                 }
             }
 
-            if (summary.ChangedFilesCount > 0 && !summary.IsCancelled)
+            summary.ProcessedFilesCount = processed;
+            summary.Failures.AddRange(failures);
+
+            if (cancellationToken.IsCancellationRequested)
             {
-                await _workspaceAccessor.TryApplyChangesAsync(currentSolution, cancellationToken);
+                summary.IsCancelled = true;
+                summary.Duration = stopwatch.Elapsed;
+                return summary;
             }
 
-            stopwatch.Stop();
+            if (!changedDocuments.IsEmpty)
+            {
+                Solution newSolution = solution;
+                foreach ((DocumentId id, SourceText text) in changedDocuments)
+                {
+                    newSolution = newSolution.WithDocumentText(id, text);
+                }
+
+                if (await _workspaceAccessor.TryApplyChangesAsync(newSolution, cancellationToken))
+                {
+                    summary.ChangedFilesCount = changedDocuments.Count;
+                }
+                else
+                {
+                    summary.Failures.Add(new SweepFailure(
+                        "(workspace)",
+                        "Visual Studio rejected the changes because the solution changed during the cleanup. Run it again."));
+                }
+            }
+
             summary.Duration = stopwatch.Elapsed;
             return summary;
+        }
+
+        private bool IsGenerated(string filePath, SourceText text)
+        {
+            string header = text.ToString(new TextSpan(0, Math.Min(GeneratedHeaderSampleLength, text.Length)));
+            return _generatedCodeDetector.IsGeneratedCode(filePath, header);
         }
 
         private List<DocumentId> GetTargetDocumentIds(Solution solution, DocumentSelection selection)
@@ -128,21 +170,28 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Engine
                     break;
 
                 case DocumentSelectionType.OpenDocuments:
-                    IReadOnlyList<DocumentId> openIds = _workspaceAccessor.GetOpenDocumentIds();
-                    result.AddRange(openIds);
+                    result.AddRange(_workspaceAccessor.GetOpenDocumentIds());
                     break;
 
                 case DocumentSelectionType.ActiveDocument:
-                case DocumentSelectionType.SpecificFile:
-                    if (!string.IsNullOrEmpty(selection.FilePath))
+                case DocumentSelectionType.Files:
+                    foreach (string filePath in selection.FilePaths)
                     {
-                        IEnumerable<DocumentId> documentIds = solution.GetDocumentIdsWithFilePath(selection.FilePath);
-                        result.AddRange(documentIds);
+                        // Un archivo enlazado (multi-target, shared project) tiene varios DocumentId: basta con uno.
+                        DocumentId? documentId = solution.GetDocumentIdsWithFilePath(filePath).FirstOrDefault();
+                        if (documentId != null)
+                        {
+                            result.Add(documentId);
+                        }
                     }
                     break;
             }
 
-            return result;
+            // Mismo archivo en varios proyectos → procesarlo una sola vez.
+            return result
+                .GroupBy(id => solution.GetDocument(id)?.FilePath ?? id.Id.ToString(), StringComparer.OrdinalIgnoreCase)
+                .Select(g => g.First())
+                .ToList();
         }
     }
 }

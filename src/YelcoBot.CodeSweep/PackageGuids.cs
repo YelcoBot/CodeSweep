@@ -1,6 +1,6 @@
 using System;
 
-namespace YelcoBot.CodeSweep.Vsix
+namespace YelcoBot.CodeSweep
 {
     internal static class PackageGuids
     {

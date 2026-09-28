@@ -4,7 +4,7 @@
     <Project Path="src/YelcoBot.CodeSweep.Application/YelcoBot.CodeSweep.Application.csproj" />
     <Project Path="src/YelcoBot.CodeSweep.Infrastructure.Roslyn/YelcoBot.CodeSweep.Infrastructure.Roslyn.csproj" />
     <Project Path="src/YelcoBot.CodeSweep.Infrastructure.VisualStudio/YelcoBot.CodeSweep.Infrastructure.VisualStudio.csproj" />
-    <Project Path="src/YelcoBot.CodeSweep.Vsix/YelcoBot.CodeSweep.Vsix.csproj" />
+    <Project Path="src/YelcoBot.CodeSweep/YelcoBot.CodeSweep.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/YelcoBot.CodeSweep.Domain.Tests/YelcoBot.CodeSweep.Domain.Tests.csproj" />

@@ -16,6 +16,8 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
                 EnableRemoveUnusedLocalVariables = general.EnableRemoveUnusedLocalVariables,
                 EnableRemoveConsecutiveBlankLines = general.EnableRemoveConsecutiveBlankLines,
                 EnableFormatDocument = general.EnableFormatDocument,
+                FormatEditorFiles = general.FormatEditorFiles,
+                EditorFileExtensions = general.EditorFileExtensions,
                 CleanupOnSave = general.CleanupOnSave,
                 IgnoreGeneratedCode = general.IgnoreGeneratedCode
             };
@@ -29,6 +31,8 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
             general.EnableRemoveUnusedLocalVariables = options.EnableRemoveUnusedLocalVariables;
             general.EnableRemoveConsecutiveBlankLines = options.EnableRemoveConsecutiveBlankLines;
             general.EnableFormatDocument = options.EnableFormatDocument;
+            general.FormatEditorFiles = options.FormatEditorFiles;
+            general.EditorFileExtensions = options.EditorFileExtensions;
             general.CleanupOnSave = options.CleanupOnSave;
             general.IgnoreGeneratedCode = options.IgnoreGeneratedCode;
 

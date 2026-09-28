@@ -9,7 +9,7 @@ using YelcoBot.CodeSweep.Infrastructure.Roslyn;
 using YelcoBot.CodeSweep.Infrastructure.VisualStudio;
 using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Events;
 
-namespace YelcoBot.CodeSweep.Vsix
+namespace YelcoBot.CodeSweep
 {
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("CodeSweep", "Clean Architecture + Roslyn automated code cleanup", "1.0.0")]
@@ -37,7 +37,10 @@ namespace YelcoBot.CodeSweep.Vsix
 
             // Register save listener
             SaveEventListener? saveListener = ServiceProvider.GetService<SaveEventListener>();
-            saveListener?.Register();
+            if (saveListener != null)
+            {
+                await saveListener.RegisterAsync();
+            }
         }
     }
 }

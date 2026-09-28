@@ -35,4 +35,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: CodeSweep-VSIX
-        path: src/YelcoBot.CodeSweep.Vsix/bin/Release/*.vsix
+        path: src/YelcoBot.CodeSweep/bin/Release/*.vsix

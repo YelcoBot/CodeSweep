@@ -15,6 +15,13 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio
         {
             services.AddSingleton<IWorkspaceAccessor, VsWorkspaceAccessor>();
             services.AddSingleton<IEditorContext, VsEditorContext>();
+            services.AddSingleton<IDocumentProvider, VsDocumentProvider>();
+
+            services.AddSingleton<IEditorFormatStrategy, OpenDocumentFormatStrategy>();
+            services.AddSingleton<IEditorFormatStrategy, InvisibleEditorFormatStrategy>();
+            services.AddSingleton<IEditorFormatStrategy, WindowFormatStrategy>();
+            services.AddSingleton<IEditorFormatter, VsEditorFormatter>();
+
             services.AddSingleton<IUserInteraction, VsUserInteraction>();
             services.AddSingleton<ISettingsStore, VsSettingsStore>();
             services.AddSingleton<SaveEventListener>();

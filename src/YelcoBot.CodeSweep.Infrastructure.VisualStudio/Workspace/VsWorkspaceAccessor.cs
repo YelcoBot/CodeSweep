@@ -41,13 +41,15 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Workspace
             return openDocIds;
         }
 
-        public Task<bool> TryApplyChangesAsync(RoslynSolution newSolution, CancellationToken cancellationToken = default)
+        public async Task<bool> TryApplyChangesAsync(RoslynSolution newSolution, CancellationToken cancellationToken = default)
         {
             VisualStudioWorkspace? workspace = Workspace;
             if (workspace == null)
-                return Task.FromResult(false);
+                return false;
 
-            return Task.FromResult(workspace.TryApplyChanges(newSolution));
+            // VisualStudioWorkspace.TryApplyChanges debe ejecutarse en el hilo de UI.
+            await Microsoft.VisualStudio.Shell.ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            return workspace.TryApplyChanges(newSolution);
         }
     }
 }

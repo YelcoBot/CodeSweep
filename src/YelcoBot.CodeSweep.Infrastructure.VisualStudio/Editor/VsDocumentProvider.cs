@@ -1,0 +1,102 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Community.VisualStudio.Toolkit;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using YelcoBot.CodeSweep.Application.Abstractions;
+using YelcoBot.CodeSweep.Domain.Selection;
+
+namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
+{
+    public class VsDocumentProvider : IDocumentProvider
+    {
+        private readonly IEditorContext _editorContext;
+
+        public VsDocumentProvider(IEditorContext editorContext)
+        {
+            _editorContext = editorContext;
+        }
+
+        public async Task<IReadOnlyList<string>> GetFilePathsAsync(DocumentSelection selection, CancellationToken cancellationToken = default)
+        {
+            switch (selection.Type)
+            {
+                case DocumentSelectionType.Files:
+                    return selection.FilePaths;
+
+                case DocumentSelectionType.ActiveDocument:
+                    string? activePath = await _editorContext.GetActiveDocumentPathAsync();
+                    return string.IsNullOrWhiteSpace(activePath) ? Array.Empty<string>() : new[] { activePath! };
+
+                case DocumentSelectionType.OpenDocuments:
+                    return await GetOpenDocumentPathsAsync(cancellationToken);
+
+                case DocumentSelectionType.Solution:
+                    return await GetSolutionFilePathsAsync(cancellationToken);
+
+                default:
+                    return Array.Empty<string>();
+            }
+        }
+
+        private static async Task<IReadOnlyList<string>> GetOpenDocumentPathsAsync(CancellationToken cancellationToken)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            IVsUIShell shell = await VS.GetRequiredServiceAsync<SVsUIShell, IVsUIShell>();
+            List<string> paths = new List<string>();
+
+            if (ErrorHandler.Failed(shell.GetDocumentWindowEnum(out IEnumWindowFrames frames)) || frames == null)
+                return paths;
+
+            IVsWindowFrame[] buffer = new IVsWindowFrame[1];
+            while (frames.Next(1, buffer, out uint fetched) == VSConstants.S_OK && fetched == 1)
+            {
+                if (ErrorHandler.Succeeded(buffer[0].GetProperty((int)__VSFPROPID.VSFPROPID_pszMkDocument, out object moniker))
+                    && moniker is string path
+                    && Path.IsPathRooted(path)
+                    && File.Exists(path))
+                {
+                    paths.Add(path);
+                }
+            }
+
+            return paths;
+        }
+
+        private static async Task<IReadOnlyList<string>> GetSolutionFilePathsAsync(CancellationToken cancellationToken)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            List<string> paths = new List<string>();
+            foreach (Project project in await VS.Solutions.GetAllProjectsAsync())
+            {
+                CollectPhysicalFiles(project, paths);
+            }
+
+            return paths.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
+        private static void CollectPhysicalFiles(SolutionItem item, List<string> paths)
+        {
+            foreach (SolutionItem? child in item.Children)
+            {
+                if (child == null)
+                    continue;
+
+                if (child.Type == SolutionItemType.PhysicalFile && !string.IsNullOrWhiteSpace(child.FullPath))
+                {
+                    paths.Add(child.FullPath!);
+                }
+
+                // Los archivos pueden tener hijos (ej. Default.aspx → Default.aspx.cs / .designer.cs).
+                CollectPhysicalFiles(child, paths);
+            }
+        }
+    }
+}

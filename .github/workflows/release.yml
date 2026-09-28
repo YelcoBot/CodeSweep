@@ -33,6 +33,6 @@ jobs:
     - name: Publish to GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-        files: src/YelcoBot.CodeSweep.Vsix/bin/Release/*.vsix
+        files: src/YelcoBot.CodeSweep/bin/Release/*.vsix
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

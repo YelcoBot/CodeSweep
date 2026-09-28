@@ -8,6 +8,7 @@ namespace YelcoBot.CodeSweep.Domain.Services
         private static readonly string[] GeneratedExtensions =
         {
             ".g.cs",
+            ".g.i.cs",
             ".designer.cs",
             ".generated.cs",
             ".AssemblyAttributes.cs",
@@ -20,6 +21,9 @@ namespace YelcoBot.CodeSweep.Domain.Services
                 return false;
 
             string lowerPath = filePath.ToLowerInvariant();
+            if (lowerPath.Contains(@"\obj\") || lowerPath.Contains("/obj/"))
+                return true;
+
             foreach (string ext in GeneratedExtensions)
             {
                 if (lowerPath.EndsWith(ext, StringComparison.OrdinalIgnoreCase))
