@@ -1,4 +1,4 @@
-name: '🚀 CodeSweep · $(Build.SourceBranchName) · $(Build.Reason) · $(Build.BuildNumber)'
+name: '🚀 CodeSweep · $(Build.BuildId)'
 
 trigger:
   branches:
@@ -23,8 +23,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  buildConfiguration: 'Release'
-  buildPlatform: 'Any CPU'
+  - group: CodeSweep
 
 stages:
   # Pull Request: build + tests
