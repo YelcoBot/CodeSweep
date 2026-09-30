@@ -1,0 +1,54 @@
+# CodeSweep - Azure Pipelines
+# Equivalente a .github/workflows (continuous-integration + continuous-deployment)
+# usando las plantillas centralizadas de YelcoBotCompany/azure-devops-core.
+
+trigger:
+  branches:
+    include:
+      - main
+      - dev
+
+pr:
+  branches:
+    include:
+      - main
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: YelcoBotCompany/azure-devops-core
+      ref: refs/heads/main
+      endpoint: YelcoBotCompany # Service connection de GitHub en Azure DevOps
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  buildPlatform: 'Any CPU'
+
+stages:
+  # Pull Request: build + tests
+  - ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+    - template: main.yml@templates
+      parameters:
+        service: code-analysis
+        language: netframework
+        command: test
+
+  # Push: empaqueta y despliega el VSIX
+  - ${{ else }}:
+    - template: main.yml@templates
+      parameters:
+        service: visual-studio-marketplace
+        language: netframework
+        command: deploy
+        projects:
+          - name: CodeSweep
+            type: VSIX
+            projectPattern: '**\YelcoBot.CodeSweep.csproj'
+            outputPath: ''
+        artifacts:
+          - name: CodeSweep
+            path: ''
