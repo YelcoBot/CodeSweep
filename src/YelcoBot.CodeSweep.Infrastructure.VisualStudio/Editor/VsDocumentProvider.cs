@@ -39,6 +39,9 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                 case DocumentSelectionType.Solution:
                     return await GetSolutionFilePathsAsync(cancellationToken);
 
+                case DocumentSelectionType.SolutionExplorerSelection:
+                    return await GetSelectedItemsFilePathsAsync(cancellationToken);
+
                 default:
                     return Array.Empty<string>();
             }
@@ -77,6 +80,28 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
             foreach (Project project in await VS.Solutions.GetAllProjectsAsync())
             {
                 CollectPhysicalFiles(project, paths);
+            }
+
+            return paths.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+        }
+
+        /// <summary>
+        /// Lo seleccionado en el Explorador de soluciones: solución, carpetas de solución, proyectos,
+        /// carpetas o archivos (también selección múltiple). Todo se recorre de forma recursiva.
+        /// </summary>
+        private static async Task<IReadOnlyList<string>> GetSelectedItemsFilePathsAsync(CancellationToken cancellationToken)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            List<string> paths = new List<string>();
+            foreach (SolutionItem item in await VS.Solutions.GetActiveItemsAsync())
+            {
+                if (item.Type == SolutionItemType.PhysicalFile && !string.IsNullOrWhiteSpace(item.FullPath))
+                {
+                    paths.Add(item.FullPath!);
+                }
+
+                CollectPhysicalFiles(item, paths);
             }
 
             return paths.Distinct(StringComparer.OrdinalIgnoreCase).ToList();

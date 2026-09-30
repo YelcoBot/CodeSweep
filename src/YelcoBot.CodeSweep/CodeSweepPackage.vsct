@@ -9,6 +9,11 @@
       <Group guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
       </Group>
+
+      <!-- Clic derecho en el Explorador de soluciones (ver CommandPlacements para el resto de nodos) -->
+      <Group guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNNODE"/>
+      </Group>
     </Groups>
 
     <Buttons>
@@ -39,8 +44,52 @@
           <ButtonText>Automatic Cleanup On Save</ButtonText>
         </Strings>
       </Button>
+
+      <Button guid="guidCodeSweepPackageCmdSet" id="CleanupSelectedItemsCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup"/>
+        <Strings>
+          <ButtonText>CodeSweep: Cleanup Selected Code</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
   </Commands>
+
+  <!-- El mismo grupo en todos los nodos del Explorador de soluciones (igual que CodeMaid) -->
+  <CommandPlacements>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNFOLDER"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_FOLDERNODE"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_XPROJ_SLNPROJ"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_XPROJ_SLNITEM"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_XPROJ_PROJITEM"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_XPROJ_MULTIPROJ"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_XPROJ_MULTIITEM"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_XPROJ_MULTIFOLDER"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_XPROJ_MULTIPROJFLDR"/>
+    </CommandPlacement>
+  </CommandPlacements>
 
   <Symbols>
     <GuidSymbol name="guidCodeSweepPackage" value="{a2f2b3c4-1111-4222-3333-444455556666}" />
@@ -51,6 +100,8 @@
       <IDSymbol name="CleanupOpenDocumentsCommandId" value="0x0200" />
       <IDSymbol name="CleanupSolutionCommandId" value="0x0300" />
       <IDSymbol name="ToggleCleanupOnSaveCommandId" value="0x0400" />
+      <IDSymbol name="SolutionExplorerGroup" value="0x1030" />
+      <IDSymbol name="CleanupSelectedItemsCommandId" value="0x0500" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

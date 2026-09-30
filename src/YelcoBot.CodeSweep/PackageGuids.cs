@@ -18,5 +18,7 @@ namespace YelcoBot.CodeSweep
         public const int CleanupOpenDocumentsCommandId = 0x0200;
         public const int CleanupSolutionCommandId = 0x0300;
         public const int ToggleCleanupOnSaveCommandId = 0x0400;
+        public const int SolutionExplorerGroup = 0x1030;
+        public const int CleanupSelectedItemsCommandId = 0x0500;
     }
 }

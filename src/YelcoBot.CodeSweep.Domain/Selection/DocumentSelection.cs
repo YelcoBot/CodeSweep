@@ -9,6 +9,7 @@ namespace YelcoBot.CodeSweep.Domain.Selection
         ActiveDocument,
         OpenDocuments,
         Solution,
+        SolutionExplorerSelection,
         Files
     }
 
@@ -26,6 +27,7 @@ namespace YelcoBot.CodeSweep.Domain.Selection
         public static DocumentSelection ActiveDocument() => new(DocumentSelectionType.ActiveDocument);
         public static DocumentSelection OpenDocuments() => new(DocumentSelectionType.OpenDocuments);
         public static DocumentSelection Solution() => new(DocumentSelectionType.Solution);
+        public static DocumentSelection SolutionExplorerSelection() => new(DocumentSelectionType.SolutionExplorerSelection);
         public static DocumentSelection File(string filePath) => new(DocumentSelectionType.Files, new[] { filePath });
         public static DocumentSelection Files(IEnumerable<string> filePaths) => new(DocumentSelectionType.Files, filePaths.ToList());
     }

@@ -18,6 +18,7 @@ namespace YelcoBot.CodeSweep.Application
             services.AddTransient<UseCases.CleanupActiveDocumentUseCase>();
             services.AddTransient<UseCases.CleanupOpenDocumentsUseCase>();
             services.AddTransient<UseCases.CleanupSolutionUseCase>();
+            services.AddTransient<UseCases.CleanupSelectedItemsUseCase>();
             services.AddTransient<UseCases.CleanupOnSaveUseCase>();
             services.AddTransient<UseCases.ToggleCleanupOnSaveUseCase>();
 
