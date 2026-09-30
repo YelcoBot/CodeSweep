@@ -1,0 +1,42 @@
+workflow: GitHubFlow/v1
+
+mode: ContinuousDelivery
+
+branches:
+  main:
+    regex: ^main$
+    mode: ContinuousDeployment
+    increment: Minor
+    is-main-branch: true
+    label: ''
+
+  develop:
+    regex: ^dev(elop)?(ment)?$
+    increment: Patch
+    label: dev
+
+  qc:
+    regex: ^qc$
+    increment: Patch
+    label: qc
+
+  release:
+    regex: ^release$
+    mode: ContinuousDelivery
+    increment: Patch
+    label: uat
+
+  bugfix:
+    regex: ^bugfix-stage$
+    increment: Patch
+    label: bfix
+
+  hotfix:
+    regex: ^hotfix-stage$
+    increment: Patch
+    label: hfix
+
+major-version-bump-message: '\+semver:\s?(breaking|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+no-bump-message: '\+semver:\s?(none|skip)'
