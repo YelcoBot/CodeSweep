@@ -37,6 +37,14 @@
     <VSCTCompile Include="CodeSweepPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
+    <!-- Textos del paquete (inglés / español): títulos de Tools > Options ("@Clave;{guid}" en CodeSweep.registration.json) -->
+    <EmbeddedResource Update="VSPackage.resx">
+      <MergeWithCTO>true</MergeWithCTO>
+      <LogicalName>VSPackage.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="VSPackage.es.resx">
+      <LogicalName>VSPackage.es.resources</LogicalName>
+    </EmbeddedResource>
     <!-- Tools > Options moderno (Unified Settings) -->
     <Content Include="CodeSweep.registration.json">
       <IncludeInVSIX>true</IncludeInVSIX>

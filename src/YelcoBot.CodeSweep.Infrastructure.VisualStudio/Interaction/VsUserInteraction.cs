@@ -3,7 +3,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Results;
 
@@ -17,33 +20,52 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Interaction
             return await VS.MessageBox.ShowConfirmAsync(title, message);
         }
 
+        public async Task<UserChoice> AskYesNoCancelAsync(string title, string message)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+            VSConstants.MessageBoxResult result = await VS.MessageBox.ShowAsync(
+                title,
+                message,
+                OLEMSGICON.OLEMSGICON_QUERY,
+                OLEMSGBUTTON.OLEMSGBUTTON_YESNOCANCEL,
+                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_THIRD);
+
+            switch (result)
+            {
+                case VSConstants.MessageBoxResult.IDYES: return UserChoice.Yes;
+                case VSConstants.MessageBoxResult.IDNO: return UserChoice.No;
+                default: return UserChoice.Cancel;
+            }
+        }
+
         public async Task ShowSummaryAsync(SweepSummary summary)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
             if (summary.IsCancelled)
             {
-                await VS.StatusBar.ShowMessageAsync("CodeSweep operation was cancelled.");
+                await VS.StatusBar.ShowMessageAsync(Strings.SummaryCancelled);
                 return;
             }
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Processed: {summary.ProcessedFilesCount} file(s)");
-            sb.AppendLine($"Changed: {summary.ChangedFilesCount} file(s)");
-            sb.AppendLine($"Duration: {summary.Duration.TotalSeconds:F2} seconds");
+            sb.AppendLine(Strings.Format(Strings.SummaryProcessed, summary.ProcessedFilesCount));
+            sb.AppendLine(Strings.Format(Strings.SummaryChanged, summary.ChangedFilesCount));
+            sb.AppendLine(Strings.Format(Strings.SummaryDuration, summary.Duration.TotalSeconds));
 
             if (summary.Failures.Count > 0)
             {
                 sb.AppendLine();
-                sb.AppendLine($"Failures: {summary.Failures.Count}");
+                sb.AppendLine(Strings.Format(Strings.SummaryFailures, summary.Failures.Count));
                 foreach (SweepFailure fail in summary.Failures)
                 {
                     sb.AppendLine($" - {fail.FilePath}: {fail.ErrorMessage}");
                 }
             }
 
-            await VS.MessageBox.ShowAsync("CodeSweep Summary", sb.ToString());
-            await VS.StatusBar.ShowMessageAsync($"CodeSweep finished: {summary.ChangedFilesCount} files cleaned.");
+            await VS.MessageBox.ShowAsync(Strings.SummaryTitle, sb.ToString());
+            await VS.StatusBar.ShowMessageAsync(Strings.Format(Strings.SummaryStatusBar, summary.ChangedFilesCount));
         }
 
         public async Task RunWithProgressAsync(string title, Func<IProgress<SweepProgress>, CancellationToken, Task> action)

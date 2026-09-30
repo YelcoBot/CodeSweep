@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Application.Services;
 using YelcoBot.CodeSweep.Domain.Options;
@@ -27,8 +28,8 @@ namespace YelcoBot.CodeSweep.Application.UseCases
         public async Task ExecuteAsync(CancellationToken cancellationToken = default)
         {
             bool confirmed = await _userInteraction.ConfirmAsync(
-                "Cleanup Entire Solution",
-                "Are you sure you want to run CodeSweep on all documents in the solution?");
+                Strings.SolutionConfirmTitle,
+                Strings.SolutionConfirmMessage);
 
             if (!confirmed)
             {
@@ -39,7 +40,7 @@ namespace YelcoBot.CodeSweep.Application.UseCases
             DocumentSelection selection = DocumentSelection.Solution();
 
             SweepSummary summary = new SweepSummary();
-            await _userInteraction.RunWithProgressAsync("Cleaning Solution...", async (progress, ct) =>
+            await _userInteraction.RunWithProgressAsync(Strings.ProgressSolution, async (progress, ct) =>
             {
                 summary = await _orchestrator.ExecuteAsync(selection, options, progress, ct);
             });

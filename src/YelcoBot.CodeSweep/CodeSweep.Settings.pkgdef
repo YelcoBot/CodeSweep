@@ -3,4 +3,4 @@
 [$RootKey$\SettingsManifests\{a2f2b3c4-1111-4222-3333-444455556666}]
 @="YelcoBot.CodeSweep.CodeSweepPackage"
 "ManifestPath"="$PackageFolder$\CodeSweep.registration.json"
-"CacheTag"=qword:00000002
+"CacheTag"=qword:00000003

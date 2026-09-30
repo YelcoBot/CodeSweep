@@ -9,6 +9,7 @@ using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Results;
 
@@ -34,7 +35,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 
             if (solutionExplorer == null)
             {
-                failures.Add(new SweepFailure("(designer)", "Solution Explorer is not available."));
+                failures.Add(new SweepFailure("(designer)", Strings.DesignerNoSolutionExplorer));
                 return failures;
             }
 
@@ -45,7 +46,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                 PhysicalFile? file = await PhysicalFile.FromFileAsync(filePath);
                 if (file == null)
                 {
-                    failures.Add(new SweepFailure(filePath, "Designer not regenerated: the file is not part of the solution."));
+                    failures.Add(new SweepFailure(filePath, Strings.DesignerNotInSolution));
                     continue;
                 }
 
@@ -74,7 +75,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                     Command command = dte.Commands.Item(ConvertToWebApplicationCommand);
                     if (!command.IsAvailable)
                     {
-                        AddFailures(failures, project, "Designer not regenerated: 'Convert to Web Application' is not available (only Web Application projects).");
+                        AddFailures(failures, project, Strings.DesignerCommandNotAvailable);
                         continue;
                     }
 
@@ -82,7 +83,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                 }
                 catch (Exception ex)
                 {
-                    AddFailures(failures, project, "Designer not regenerated: " + ex.Message);
+                    AddFailures(failures, project, Strings.Format(Strings.DesignerFailed, ex.Message));
                 }
             }
 

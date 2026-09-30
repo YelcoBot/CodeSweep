@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>  <data name="CommandCleanupActiveDocument" xml:space="preserve"><value>Limpiar documento activo</value></data>
+  <data name="CommandCleanupOpenCode" xml:space="preserve"><value>Limpiar código abierto</value></data>
+  <data name="CommandCleanupAllCode" xml:space="preserve"><value>Limpiar todo el código...</value></data>
+  <data name="CommandCleanupOnSave" xml:space="preserve"><value>Limpieza automática al guardar</value></data>
+  <data name="CommandCleanupSelectedCode" xml:space="preserve"><value>Limpiar código seleccionado</value></data>
+  <data name="ProgressActiveDocument" xml:space="preserve"><value>Limpiando documento activo...</value></data>
+  <data name="ProgressOpenDocuments" xml:space="preserve"><value>Limpiando documentos abiertos...</value></data>
+  <data name="ProgressSelectedItems" xml:space="preserve"><value>Limpiando elementos seleccionados...</value></data>
+  <data name="ProgressSolution" xml:space="preserve"><value>Limpiando solución...</value></data>
+  <data name="CommonContinue" xml:space="preserve"><value>¿Continuar?</value></data>
+  <data name="SolutionConfirmTitle" xml:space="preserve"><value>Limpiar toda la solución</value></data>
+  <data name="SolutionConfirmMessage" xml:space="preserve"><value>¿Seguro que quieres ejecutar CodeSweep en todos los documentos de la solución?</value></data>
+  <data name="SelectedItemsTitle" xml:space="preserve"><value>CodeSweep: Limpiar código seleccionado</value></data>
+  <data name="SelectedItemsIncludesFilesAndContainers" xml:space="preserve"><value>Tu selección incluye archivos y también estos contenedores:</value></data>
+  <data name="SelectedItemsIncludesContainers" xml:space="preserve"><value>Tu selección incluye estos contenedores:</value></data>
+  <data name="SelectedItemsOptionYes" xml:space="preserve"><value>Sí: limpiar todo, incluidos los contenedores.</value></data>
+  <data name="SelectedItemsOptionNo" xml:space="preserve"><value>No: limpiar solo los archivos seleccionados ({0} archivo(s)).</value></data>
+  <data name="SelectedItemsOptionCancel" xml:space="preserve"><value>Cancelar: no hacer nada.</value></data>
+  <data name="SelectedItemsContainerLine" xml:space="preserve"><value>  • {0}  {1}  —  {2} archivo(s)</value></data>
+  <data name="SelectedItemsMore" xml:space="preserve"><value>  …y {0} más</value></data>
+  <data name="SelectedItemsContainersTotal" xml:space="preserve"><value>Los contenedores incluyen {0} archivo(s) para limpiar.</value></data>
+  <data name="KindSolution" xml:space="preserve"><value>Solución</value></data>
+  <data name="KindSolutionFolder" xml:space="preserve"><value>Carpeta de solución</value></data>
+  <data name="KindProject" xml:space="preserve"><value>Proyecto</value></data>
+  <data name="KindFolder" xml:space="preserve"><value>Carpeta</value></data>
+  <data name="SummaryTitle" xml:space="preserve"><value>Resumen de CodeSweep</value></data>
+  <data name="SummaryCancelled" xml:space="preserve"><value>La operación de CodeSweep se canceló.</value></data>
+  <data name="SummaryProcessed" xml:space="preserve"><value>Procesados: {0} archivo(s)</value></data>
+  <data name="SummaryChanged" xml:space="preserve"><value>Modificados: {0} archivo(s)</value></data>
+  <data name="SummaryDuration" xml:space="preserve"><value>Duración: {0:F2} segundos</value></data>
+  <data name="SummaryFailures" xml:space="preserve"><value>Errores: {0}</value></data>
+  <data name="SummaryStatusBar" xml:space="preserve"><value>CodeSweep terminó: {0} archivo(s) limpiados.</value></data>
+  <data name="FailureWorkspaceChanged" xml:space="preserve"><value>Visual Studio rechazó los cambios porque la solución cambió durante la limpieza. Vuelve a ejecutarla.</value></data>
+  <data name="DesignerNoSolutionExplorer" xml:space="preserve"><value>El Explorador de soluciones no está disponible.</value></data>
+  <data name="DesignerNotInSolution" xml:space="preserve"><value>No se regeneró el designer: el archivo no forma parte de la solución.</value></data>
+  <data name="DesignerCommandNotAvailable" xml:space="preserve"><value>No se regeneró el designer: &apos;Convert to Web Application&apos; no está disponible (solo proyectos Web Application).</value></data>
+  <data name="DesignerFailed" xml:space="preserve"><value>No se regeneró el designer: {0}</value></data>
+</root>

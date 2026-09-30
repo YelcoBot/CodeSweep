@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Application.Services;
 using YelcoBot.CodeSweep.Domain.Options;
@@ -45,15 +46,25 @@ namespace YelcoBot.CodeSweep.Application.UseCases
             SweepOptions options = await _settingsStore.GetOptionsAsync();
 
             SolutionExplorerSelectionInfo selectionInfo = await _documentProvider.DescribeSolutionExplorerSelectionAsync(cancellationToken);
-            if (selectionInfo.HasContainers && !await ConfirmContainersAsync(selectionInfo, options))
+
+            // Sin contenedores: lo seleccionado. Con contenedores: Sí = completo, No = solo archivos sueltos, Cancelar = nada.
+            DocumentSelection selection = DocumentSelection.SolutionExplorerSelection();
+            if (selectionInfo.HasContainers)
             {
-                return;
+                UserChoice choice = await AskAboutContainersAsync(selectionInfo, options);
+                if (choice == UserChoice.Cancel)
+                {
+                    return;
+                }
+
+                if (choice == UserChoice.No)
+                {
+                    selection = DocumentSelection.Files(selectionInfo.SelectedFilePaths);
+                }
             }
 
-            DocumentSelection selection = DocumentSelection.SolutionExplorerSelection();
-
             SweepSummary summary = new SweepSummary();
-            await _userInteraction.RunWithProgressAsync("Cleaning Selected Items...", async (progress, ct) =>
+            await _userInteraction.RunWithProgressAsync(Strings.ProgressSelectedItems, async (progress, ct) =>
             {
                 summary = await _orchestrator.ExecuteAsync(selection, options, progress, ct);
             });
@@ -61,7 +72,26 @@ namespace YelcoBot.CodeSweep.Application.UseCases
             await _userInteraction.ShowSummaryAsync(summary);
         }
 
-        private Task<bool> ConfirmContainersAsync(SolutionExplorerSelectionInfo selectionInfo, SweepOptions options)
+        private async Task<UserChoice> AskAboutContainersAsync(SolutionExplorerSelectionInfo selectionInfo, SweepOptions options)
+        {
+            string title = Strings.SelectedItemsTitle;
+            string message = BuildContainersMessage(selectionInfo, options);
+
+            // Solo contenedores: no hay "solo archivos" posible → Sí / No (No = cancelar).
+            if (selectionInfo.SelectedFileCount == 0)
+            {
+                return await _userInteraction.ConfirmAsync(title, message + Strings.CommonContinue) ? UserChoice.Yes : UserChoice.Cancel;
+            }
+
+            int selectedFiles = selectionInfo.SelectedFilePaths.Count(p => _documentRouter.Route(p, options) != CleanupEngine.Skip);
+            return await _userInteraction.AskYesNoCancelAsync(title,
+                message +
+                Strings.SelectedItemsOptionYes + "\n" +
+                Strings.Format(Strings.SelectedItemsOptionNo, selectedFiles) + "\n" +
+                Strings.SelectedItemsOptionCancel);
+        }
+
+        private string BuildContainersMessage(SolutionExplorerSelectionInfo selectionInfo, SweepOptions options)
         {
             // Solo cuenta lo que CodeSweep realmente procesaría según File Types.
             List<(SelectedContainer Container, int Files)> containers = selectionInfo.Containers
@@ -72,27 +102,25 @@ namespace YelcoBot.CodeSweep.Application.UseCases
 
             StringBuilder message = new StringBuilder();
             message.AppendLine(selectionInfo.SelectedFileCount > 0
-                ? "Your selection includes files and also these containers:"
-                : "Your selection includes these containers:");
+                ? Strings.SelectedItemsIncludesFilesAndContainers
+                : Strings.SelectedItemsIncludesContainers);
             message.AppendLine();
 
             foreach ((SelectedContainer container, int files) in containers.Take(MaxContainersInMessage))
             {
-                message.AppendLine($"  • {container.Kind}  {container.Name}  —  {files} file(s)");
+                message.AppendLine(Strings.Format(Strings.SelectedItemsContainerLine, container.Kind, container.Name, files));
             }
 
             if (containers.Count > MaxContainersInMessage)
             {
-                message.AppendLine($"  …and {containers.Count - MaxContainersInMessage} more");
+                message.AppendLine(Strings.Format(Strings.SelectedItemsMore, containers.Count - MaxContainersInMessage));
             }
 
             message.AppendLine();
-            message.AppendLine(selectionInfo.SelectedFileCount > 0
-                ? $"All their files will be cleaned ({totalFiles} file(s)), not only the selected ones."
-                : $"All their files will be cleaned ({totalFiles} file(s)).");
-            message.Append("Continue?");
+            message.AppendLine(Strings.Format(Strings.SelectedItemsContainersTotal, totalFiles));
+            message.AppendLine();
 
-            return _userInteraction.ConfirmAsync("CodeSweep: Cleanup Selected Code", message.ToString());
+            return message.ToString();
         }
     }
 }

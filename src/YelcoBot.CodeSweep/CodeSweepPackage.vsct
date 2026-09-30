@@ -66,6 +66,7 @@
     <Buttons>
       <Button guid="guidCodeSweepPackageCmdSet" id="CleanupActiveDocumentCommandId" priority="0x0100" type="Button">
         <Parent guid="guidCodeSweepPackageCmdSet" id="ToolsMenuGroup"/>
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>Cleanup Active Document</ButtonText>
         </Strings>
@@ -73,6 +74,7 @@
 
       <Button guid="guidCodeSweepPackageCmdSet" id="CleanupOpenDocumentsCommandId" priority="0x0200" type="Button">
         <Parent guid="guidCodeSweepPackageCmdSet" id="ToolsMenuGroup"/>
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>Cleanup Open Code</ButtonText>
         </Strings>
@@ -80,6 +82,7 @@
 
       <Button guid="guidCodeSweepPackageCmdSet" id="CleanupSolutionCommandId" priority="0x0300" type="Button">
         <Parent guid="guidCodeSweepPackageCmdSet" id="ToolsMenuGroup"/>
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>Cleanup All Code...</ButtonText>
         </Strings>
@@ -87,6 +90,7 @@
 
       <Button guid="guidCodeSweepPackageCmdSet" id="ToggleCleanupOnSaveCommandId" priority="0x0400" type="Button">
         <Parent guid="guidCodeSweepPackageCmdSet" id="ToolsMenuGroup"/>
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>Automatic Cleanup On Save</ButtonText>
         </Strings>
@@ -94,6 +98,7 @@
 
       <Button guid="guidCodeSweepPackageCmdSet" id="CleanupSelectedItemsCommandId" priority="0x0100" type="Button">
         <Parent guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerMenuGroup"/>
+        <CommandFlag>TextChanges</CommandFlag>
         <Strings>
           <ButtonText>Cleanup Selected Code</ButtonText>
         </Strings>

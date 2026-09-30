@@ -8,6 +8,7 @@ using Community.VisualStudio.Toolkit;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Selection;
 
@@ -87,7 +88,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 
         /// <summary>
         /// Lo seleccionado en el Explorador de soluciones: solución, carpetas de solución, proyectos,
-        /// carpetas o archivos (también selección múltiple). Todo se recorre de forma recursiva.
+        /// carpetas o archivos (también selección múltiple). Se recorre de forma recursiva.
         /// </summary>
         private static async Task<IReadOnlyList<string>> GetSelectedItemsFilePathsAsync(CancellationToken cancellationToken)
         {
@@ -111,14 +112,20 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            int selectedFiles = 0;
+            List<string> selectedFiles = new List<string>();
             List<SelectedContainer> containers = new List<SelectedContainer>();
 
             foreach (SolutionItem item in await VS.Solutions.GetActiveItemsAsync())
             {
                 if (item.Type == SolutionItemType.PhysicalFile)
                 {
-                    selectedFiles++;
+                    // El archivo y sus hijos (Default.aspx → .aspx.cs / .designer.cs).
+                    if (!string.IsNullOrWhiteSpace(item.FullPath))
+                    {
+                        selectedFiles.Add(item.FullPath!);
+                    }
+
+                    CollectPhysicalFiles(item, selectedFiles);
                     continue;
                 }
 
@@ -127,18 +134,18 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                 containers.Add(new SelectedContainer(GetKindName(item.Type), item.Text, paths.Distinct(StringComparer.OrdinalIgnoreCase).ToList()));
             }
 
-            return new SolutionExplorerSelectionInfo(selectedFiles, containers);
+            return new SolutionExplorerSelectionInfo(selectedFiles.Distinct(StringComparer.OrdinalIgnoreCase).ToList(), containers);
         }
 
         private static string GetKindName(SolutionItemType type)
         {
             switch (type)
             {
-                case SolutionItemType.Solution: return "Solution";
-                case SolutionItemType.SolutionFolder: return "Solution folder";
-                case SolutionItemType.Project: return "Project";
+                case SolutionItemType.Solution: return Strings.KindSolution;
+                case SolutionItemType.SolutionFolder: return Strings.KindSolutionFolder;
+                case SolutionItemType.Project: return Strings.KindProject;
                 case SolutionItemType.PhysicalFolder:
-                case SolutionItemType.VirtualFolder: return "Folder";
+                case SolutionItemType.VirtualFolder: return Strings.KindFolder;
                 default: return type.ToString();
             }
         }

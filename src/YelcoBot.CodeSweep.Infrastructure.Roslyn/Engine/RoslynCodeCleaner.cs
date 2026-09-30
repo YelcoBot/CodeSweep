@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Domain.Results;
@@ -142,7 +143,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Engine
                 {
                     summary.Failures.Add(new SweepFailure(
                         "(workspace)",
-                        "Visual Studio rejected the changes because the solution changed during the cleanup. Run it again."));
+                        Strings.FailureWorkspaceChanged));
                 }
             }
 

@@ -2,6 +2,7 @@ using System;
 using Community.VisualStudio.Toolkit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.Shell;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.UseCases;
 using Task = System.Threading.Tasks.Task;
 
@@ -17,6 +18,11 @@ namespace YelcoBot.CodeSweep.Commands
             {
                 await useCase.ExecuteAsync();
             }
+        }
+
+        protected override void BeforeQueryStatus(EventArgs e)
+        {
+            Command.Text = Strings.CommandCleanupActiveDocument;
         }
     }
 }

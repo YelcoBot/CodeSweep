@@ -8,8 +8,8 @@
     // =============================================
     "codeSweep.general.cleanupOnSave": {
       "type": "boolean",
-      "title": "Automatic cleanup on save",
-      "description": "Clean each document right before it is saved.",
+      "title": "@Setting_CleanupOnSave_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_CleanupOnSave_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": false,
       "order": 0,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.General.CleanupOnSave" } } }
@@ -20,40 +20,40 @@
     // =============================================
     "codeSweep.rules.removeUnusedLocalVariables": {
       "type": "boolean",
-      "title": "Remove unused local variables",
-      "description": "Removes locals reported as CS0168 / CS0219. Skipped when the file has compile errors.",
+      "title": "@Setting_RemoveUnusedLocalVariables_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveUnusedLocalVariables_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 0,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.RemoveUnusedLocalVariables" } } }
     },
     "codeSweep.rules.removeUnusedUsings": {
       "type": "boolean",
-      "title": "Remove unused usings",
-      "description": "Removes using directives reported as CS8019. Skipped when the file has compile errors.",
+      "title": "@Setting_RemoveUnusedUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveUnusedUsings_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 1,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.RemoveUnusedUsings" } } }
     },
     "codeSweep.rules.sortUsings": {
       "type": "boolean",
-      "title": "Sort usings",
-      "description": "global → normal → static → alias; System.* first; then alphabetical.",
+      "title": "@Setting_SortUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_SortUsings_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 2,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.SortUsings" } } }
     },
     "codeSweep.rules.removeConsecutiveBlankLines": {
       "type": "boolean",
-      "title": "Remove consecutive blank lines",
-      "description": "Keeps at most one blank line in a row. Never touches strings or disabled code.",
+      "title": "@Setting_RemoveConsecutiveBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveConsecutiveBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 3,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.RemoveConsecutiveBlankLines" } } }
     },
     "codeSweep.rules.formatDocument": {
       "type": "boolean",
-      "title": "Format document",
-      "description": "Roslyn formatting; respects your .editorconfig.",
+      "title": "@Setting_FormatDocument_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_FormatDocument_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 4,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.FormatDocument" } } }
@@ -65,7 +65,7 @@
     "codeSweep.fileTypes.includeCSharp": {
       "type": "boolean",
       "title": "C# (.cs)",
-      "description": "Cleaned with Roslyn, in the background and in parallel.",
+      "description": "@Setting_IncludeCSharp_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 0,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeCSharp" } } }
@@ -73,7 +73,7 @@
     "codeSweep.fileTypes.includeVisualBasic": {
       "type": "boolean",
       "title": "Visual Basic (.vb)",
-      "description": "Cleaned with Roslyn (formatting only).",
+      "description": "@Setting_IncludeVisualBasic_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 1,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeVisualBasic" } } }
@@ -81,7 +81,7 @@
     "codeSweep.fileTypes.includeWebForms": {
       "type": "boolean",
       "title": "Web Forms (.aspx, .ascx, .master, .asax)",
-      "description": "Formatted with the Visual Studio editor.",
+      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 2,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeWebForms" } } }
@@ -89,7 +89,7 @@
     "codeSweep.fileTypes.includeRazor": {
       "type": "boolean",
       "title": "Razor (.cshtml, .vbhtml, .razor)",
-      "description": "Formatted with the Visual Studio editor.",
+      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 3,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeRazor" } } }
@@ -97,7 +97,7 @@
     "codeSweep.fileTypes.includeHtml": {
       "type": "boolean",
       "title": "HTML (.html, .htm)",
-      "description": "Formatted with the Visual Studio editor.",
+      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 4,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeHtml" } } }
@@ -105,7 +105,7 @@
     "codeSweep.fileTypes.includeXmlConfig": {
       "type": "boolean",
       "title": "XML / Config (.xml, .config, .webinfo)",
-      "description": "Formatted with the Visual Studio editor.",
+      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 5,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeXmlConfig" } } }
@@ -113,15 +113,15 @@
     "codeSweep.fileTypes.includeXaml": {
       "type": "boolean",
       "title": "XAML (.xaml)",
-      "description": "Formatted with the Visual Studio editor.",
+      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 6,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeXaml" } } }
     },
     "codeSweep.fileTypes.includeStyles": {
       "type": "boolean",
-      "title": "Styles (.css, .less, .scss)",
-      "description": "Formatted with the Visual Studio editor.",
+      "title": "@Setting_IncludeStyles_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 7,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeStyles" } } }
@@ -129,7 +129,7 @@
     "codeSweep.fileTypes.includeScripts": {
       "type": "boolean",
       "title": "Scripts (.js, .ts)",
-      "description": "Formatted with the Visual Studio editor.",
+      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 8,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeScripts" } } }
@@ -137,47 +137,47 @@
     "codeSweep.fileTypes.includeJson": {
       "type": "boolean",
       "title": "JSON (.json)",
-      "description": "Formatted with the Visual Studio editor.",
+      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 9,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeJson" } } }
     },
     "codeSweep.fileTypes.additionalFileExtensions": {
       "type": "string",
-      "title": "Additional file extensions",
-      "description": "Extensions not covered by the groups above, formatted with the Visual Studio editor. Separate with ';' (e.g. .skin;.sitemap).",
+      "title": "@Setting_AdditionalFileExtensions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_AdditionalFileExtensions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": "",
       "order": 10,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.AdditionalFileExtensions" } } }
     },
     "codeSweep.fileTypes.ignoreGeneratedCode": {
       "type": "boolean",
-      "title": "Exclude generated code",
-      "description": "Skips *.designer.cs, *.g.cs, files under obj\\ and files marked <auto-generated>.",
+      "title": "@Setting_IgnoreGeneratedCode_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_IgnoreGeneratedCode_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 11,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IgnoreGeneratedCode" } } }
     },
     "codeSweep.fileTypes.excludeT4GeneratedCode": {
       "type": "boolean",
-      "title": "Exclude T4 generated code",
-      "description": "Skips files that have a .tt template with the same name.",
+      "title": "@Setting_ExcludeT4GeneratedCode_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_ExcludeT4GeneratedCode_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
       "order": 12,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.ExcludeT4GeneratedCode" } } }
     },
     "codeSweep.fileTypes.excludePatterns": {
       "type": "string",
-      "title": "Exclude paths (regular expressions)",
-      "description": "Files whose full path matches any expression are skipped. Separate with ';'.",
+      "title": "@Setting_ExcludePatterns_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_ExcludePatterns_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": "\\.Designer\\.cs$;\\.Designer\\.vb$;\\.resx$;\\.min\\.css$;\\.min\\.js$",
       "order": 13,
       "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.ExcludePatterns" } } }
     },
     "codeSweep.fileTypes.regenerateWebFormsDesigner": {
       "type": "boolean",
-      "title": "Regenerate Web Forms designer after formatting",
-      "description": "After formatting .aspx/.ascx/.master files, regenerates their .designer.cs with 'Convert to Web Application' (Web Application projects only). Usually not needed: formatting does not change controls.",
+      "title": "@Setting_RegenerateWebFormsDesigner_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RegenerateWebFormsDesigner_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": false,
       "order": 14,
       "enableWhen": "${config:codeSweep.fileTypes.includeWebForms}=='true'",
@@ -194,11 +194,11 @@
       "order": 0
     },
     "codeSweep.rules": {
-      "title": "Cleanup Rules",
+      "title": "@Category_Rules;{a2f2b3c4-1111-4222-3333-444455556666}",
       "order": 1
     },
     "codeSweep.fileTypes": {
-      "title": "File Types",
+      "title": "@Category_FileTypes;{a2f2b3c4-1111-4222-3333-444455556666}",
       "order": 2
     }
   }

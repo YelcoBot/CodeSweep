@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>  <data name="Category_Rules" xml:space="preserve"><value>Cleanup Rules</value></data>
+  <data name="Category_FileTypes" xml:space="preserve"><value>File Types</value></data>
+  <data name="Setting_CleanupOnSave_Title" xml:space="preserve"><value>Automatic cleanup on save</value></data>
+  <data name="Setting_CleanupOnSave_Description" xml:space="preserve"><value>Clean each document right before it is saved.</value></data>
+  <data name="Setting_RemoveUnusedLocalVariables_Title" xml:space="preserve"><value>Remove unused local variables</value></data>
+  <data name="Setting_RemoveUnusedLocalVariables_Description" xml:space="preserve"><value>Removes locals reported as CS0168 / CS0219. Skipped when the file has compile errors.</value></data>
+  <data name="Setting_RemoveUnusedUsings_Title" xml:space="preserve"><value>Remove unused usings</value></data>
+  <data name="Setting_RemoveUnusedUsings_Description" xml:space="preserve"><value>Removes using directives reported as CS8019. Skipped when the file has compile errors.</value></data>
+  <data name="Setting_SortUsings_Title" xml:space="preserve"><value>Sort usings</value></data>
+  <data name="Setting_SortUsings_Description" xml:space="preserve"><value>global → normal → static → alias; System.* first; then alphabetical.</value></data>
+  <data name="Setting_RemoveConsecutiveBlankLines_Title" xml:space="preserve"><value>Remove consecutive blank lines</value></data>
+  <data name="Setting_RemoveConsecutiveBlankLines_Description" xml:space="preserve"><value>Keeps at most one blank line in a row. Never touches strings or disabled code.</value></data>
+  <data name="Setting_FormatDocument_Title" xml:space="preserve"><value>Format document</value></data>
+  <data name="Setting_FormatDocument_Description" xml:space="preserve"><value>Roslyn formatting; respects your .editorconfig.</value></data>
+  <data name="Setting_IncludeCSharp_Description" xml:space="preserve"><value>Cleaned with Roslyn, in the background and in parallel.</value></data>
+  <data name="Setting_IncludeVisualBasic_Description" xml:space="preserve"><value>Cleaned with Roslyn (formatting only).</value></data>
+  <data name="Setting_EditorFormatted_Description" xml:space="preserve"><value>Formatted with the Visual Studio editor.</value></data>
+  <data name="Setting_IncludeStyles_Title" xml:space="preserve"><value>Styles (.css, .less, .scss)</value></data>
+  <data name="Setting_AdditionalFileExtensions_Title" xml:space="preserve"><value>Additional file extensions</value></data>
+  <data name="Setting_AdditionalFileExtensions_Description" xml:space="preserve"><value>Extensions not covered by the groups above, formatted with the Visual Studio editor. Separate with &apos;;&apos; (e.g. .skin;.sitemap).</value></data>
+  <data name="Setting_IgnoreGeneratedCode_Title" xml:space="preserve"><value>Exclude generated code</value></data>
+  <data name="Setting_IgnoreGeneratedCode_Description" xml:space="preserve"><value>Skips *.designer.cs, *.g.cs, files under obj\ and files marked &lt;auto-generated&gt;.</value></data>
+  <data name="Setting_ExcludeT4GeneratedCode_Title" xml:space="preserve"><value>Exclude T4 generated code</value></data>
+  <data name="Setting_ExcludeT4GeneratedCode_Description" xml:space="preserve"><value>Skips files that have a .tt template with the same name.</value></data>
+  <data name="Setting_ExcludePatterns_Title" xml:space="preserve"><value>Exclude paths (regular expressions)</value></data>
+  <data name="Setting_ExcludePatterns_Description" xml:space="preserve"><value>Files whose full path matches any expression are skipped. Separate with &apos;;&apos;.</value></data>
+  <data name="Setting_RegenerateWebFormsDesigner_Title" xml:space="preserve"><value>Regenerate Web Forms designer after formatting</value></data>
+  <data name="Setting_RegenerateWebFormsDesigner_Description" xml:space="preserve"><value>After formatting .aspx/.ascx/.master files, regenerates their .designer.cs with &apos;Convert to Web Application&apos; (Web Application projects only). Usually not needed: formatting does not change controls.</value></data>
+</root>

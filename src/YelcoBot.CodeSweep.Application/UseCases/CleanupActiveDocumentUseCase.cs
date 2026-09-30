@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Application.Services;
 using YelcoBot.CodeSweep.Domain.Options;
@@ -39,7 +40,7 @@ namespace YelcoBot.CodeSweep.Application.UseCases
             DocumentSelection selection = DocumentSelection.File(activePath!);
 
             SweepSummary summary = new SweepSummary();
-            await _userInteraction.RunWithProgressAsync("Cleaning Active Document...", async (progress, ct) =>
+            await _userInteraction.RunWithProgressAsync(Strings.ProgressActiveDocument, async (progress, ct) =>
             {
                 summary = await _orchestrator.ExecuteAsync(selection, options, progress, ct);
             });

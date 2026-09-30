@@ -20,15 +20,18 @@ namespace YelcoBot.CodeSweep.Domain.Selection
     /// <summary>Qué hay en la selección del Explorador de soluciones: archivos sueltos y contenedores.</summary>
     public sealed class SolutionExplorerSelectionInfo
     {
-        public int SelectedFileCount { get; }
+        /// <summary>Archivos seleccionados directamente (incluye sus hijos, ej. Default.aspx → .aspx.cs / .designer.cs).</summary>
+        public IReadOnlyList<string> SelectedFilePaths { get; }
         public IReadOnlyList<SelectedContainer> Containers { get; }
+
+        public int SelectedFileCount => SelectedFilePaths.Count;
 
         /// <summary>Hay al menos un contenedor (solución, carpeta de solución, proyecto o carpeta): se pide confirmación.</summary>
         public bool HasContainers => Containers.Count > 0;
 
-        public SolutionExplorerSelectionInfo(int selectedFileCount, IReadOnlyList<SelectedContainer> containers)
+        public SolutionExplorerSelectionInfo(IReadOnlyList<string> selectedFilePaths, IReadOnlyList<SelectedContainer> containers)
         {
-            SelectedFileCount = selectedFileCount;
+            SelectedFilePaths = selectedFilePaths;
             Containers = containers;
         }
     }
