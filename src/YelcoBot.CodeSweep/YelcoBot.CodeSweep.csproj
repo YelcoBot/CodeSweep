@@ -52,6 +52,16 @@
     <Content Include="CodeSweep.Settings.pkgdef">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <!-- Imágenes de la extensión (generadas desde assets\codesweep-emblem.svg): Icon 128x128 y PreviewImage 200x200 del manifiesto -->
+    <Content Include="Resources\Icon.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\PreviewImage.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\CodeSweep.ico">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
 
   <!--
