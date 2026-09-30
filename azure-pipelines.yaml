@@ -46,6 +46,7 @@ stages:
             type: VSIX
             projectPattern: '**\YelcoBot.CodeSweep.csproj'
             outputPath: ''
+            vsixFile: 'YelcoBot.CodeSweep.vsix'
         artifacts:
           - name: CodeSweep
             path: ''
