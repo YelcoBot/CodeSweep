@@ -20,7 +20,7 @@ resources:
       endpoint: YelcoBotCompany # Service connection de GitHub en Azure DevOps
 
 pool:
-  vmImage: 'windows-2025'
+  name: SelfHosted
 
 variables:
   - group: CodeSweep
