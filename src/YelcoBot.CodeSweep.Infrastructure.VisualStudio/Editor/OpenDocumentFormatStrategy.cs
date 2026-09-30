@@ -32,7 +32,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                 return EditorFormatOutcome.NotHandled;
 
             IVsEditorAdaptersFactoryService adapters = await VS.GetMefServiceAsync<IVsEditorAdaptersFactoryService>();
-            return FormatDocumentCommand.Execute(view, adapters);
+            return await FormatDocumentCommand.ExecuteAsync(view, adapters, FormatDocumentCommand.RealEditorTimeout, cancellationToken);
         }
     }
 }

@@ -60,7 +60,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                 if (view == null)
                     return MarkUnsupported(extension);
 
-                EditorFormatOutcome outcome = FormatDocumentCommand.Execute(view, adapters);
+                EditorFormatOutcome outcome = await FormatDocumentCommand.ExecuteAsync(view, adapters, FormatDocumentCommand.InvisibleEditorTimeout, cancellationToken);
                 if (outcome == EditorFormatOutcome.NotHandled)
                     return MarkUnsupported(extension);
 
