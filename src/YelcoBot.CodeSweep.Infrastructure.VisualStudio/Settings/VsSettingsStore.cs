@@ -1,25 +1,35 @@
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.Settings;
-using Microsoft.VisualStudio.Shell;
+using Newtonsoft.Json.Linq;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Options;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
 {
     /// <summary>
-    /// Lee/escribe las opciones en el SettingsManager de VS.
-    /// La página moderna de Tools → Options (Unified Settings, CodeSweep.registration.json) guarda en estas mismas claves
-    /// gracias a "migration": { "pass": { "store": "SettingsManager" } }.
+    /// Opciones de CodeSweep según la versión de VS:
+    /// - VS 2026+: settings.json (Unified Settings, Tools → Options moderno). Clave ausente = default.
+    /// - VS 2022: página clásica de Tools → Options (ClassicOptions).
     /// </summary>
     public class VsSettingsStore : ISettingsStore
     {
+        private readonly UnifiedSettingsFile _file = new UnifiedSettingsFile();
+
         public async Task<SweepOptions> GetOptionsAsync()
         {
-            ISettingsManager settings = await GetSettingsManagerAsync();
+            if (!VsVersion.HasUnifiedSettings)
+            {
+                ClassicOptions classic = await ClassicOptions.GetLiveInstanceAsync();
+                return classic.ToSweepOptions();
+            }
+
+            JObject settings = await _file.ReadAsync();
             SweepOptions defaults = new SweepOptions();
 
-            bool Bool(string key, bool fallback) => settings.GetValueOrDefault(key, fallback);
-            string Text(string key, string fallback) => settings.GetValueOrDefault(key, fallback) ?? fallback;
+            bool Bool(string key, bool fallback) =>
+                settings[key] is JValue { Type: JTokenType.Boolean } value ? (bool)value : fallback;
+
+            string Text(string key, string fallback) =>
+                settings[key] is JValue { Type: JTokenType.String } value ? (string?)value ?? fallback : fallback;
 
             return new SweepOptions
             {
@@ -52,14 +62,16 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
 
         public async Task SaveOptionsAsync(SweepOptions options)
         {
-            // Hoy solo se modifica desde código el "cleanup on save" (botón del menú); el resto se edita en Tools → Options.
-            ISettingsManager settings = await GetSettingsManagerAsync();
-            await settings.SetValueAsync(SettingKeys.CleanupOnSave, options.CleanupOnSave, isMachineLocal: false);
-        }
+            // Desde código solo se cambia "cleanup on save" (botón del menú); el resto se edita en Tools → Options.
+            if (!VsVersion.HasUnifiedSettings)
+            {
+                ClassicOptions classic = await ClassicOptions.GetLiveInstanceAsync();
+                classic.CleanupOnSave = options.CleanupOnSave;
+                await classic.SaveAsync();
+                return;
+            }
 
-        private static async Task<ISettingsManager> GetSettingsManagerAsync()
-        {
-            return (ISettingsManager)await AsyncServiceProvider.GlobalProvider.GetServiceAsync(typeof(Microsoft.Internal.VisualStudio.Shell.Interop.SVsSettingsPersistenceManager));
+            await _file.WriteValueAsync(SettingKeys.CleanupOnSave, new JValue(options.CleanupOnSave));
         }
     }
 }

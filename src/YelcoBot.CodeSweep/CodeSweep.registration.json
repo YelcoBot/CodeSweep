@@ -1,5 +1,5 @@
 // CodeSweep - Tools > Options (Unified Settings, interfaz moderna de VS 2026).
-// Cada "path" de "migration" es la clave en el SettingsManager de VS que lee VsSettingsStore (SettingKeys.cs).
+// VS guarda lo que cambia el usuario en settings.json con estas mismas claves; VsSettingsStore las lee (SettingKeys.cs).
 // Al cambiar este archivo, subir "CacheTag" en CodeSweep.Settings.pkgdef para que VS lo vuelva a leer.
 {
   "properties": {
@@ -11,8 +11,7 @@
       "title": "@Setting_CleanupOnSave_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_CleanupOnSave_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": false,
-      "order": 0,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.General.CleanupOnSave" } } }
+      "order": 0
     },
 
     // =============================================
@@ -23,40 +22,35 @@
       "title": "@Setting_RemoveUnusedLocalVariables_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_RemoveUnusedLocalVariables_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 0,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.RemoveUnusedLocalVariables" } } }
+      "order": 0
     },
     "codeSweep.rules.removeUnusedUsings": {
       "type": "boolean",
       "title": "@Setting_RemoveUnusedUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_RemoveUnusedUsings_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 1,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.RemoveUnusedUsings" } } }
+      "order": 1
     },
     "codeSweep.rules.sortUsings": {
       "type": "boolean",
       "title": "@Setting_SortUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_SortUsings_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 2,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.SortUsings" } } }
+      "order": 2
     },
     "codeSweep.rules.removeConsecutiveBlankLines": {
       "type": "boolean",
       "title": "@Setting_RemoveConsecutiveBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_RemoveConsecutiveBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 3,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.RemoveConsecutiveBlankLines" } } }
+      "order": 3
     },
     "codeSweep.rules.formatDocument": {
       "type": "boolean",
       "title": "@Setting_FormatDocument_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_FormatDocument_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 4,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.Rules.FormatDocument" } } }
+      "order": 4
     },
 
     // =============================================
@@ -67,112 +61,98 @@
       "title": "C# (.cs)",
       "description": "@Setting_IncludeCSharp_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 0,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeCSharp" } } }
+      "order": 0
     },
     "codeSweep.fileTypes.includeVisualBasic": {
       "type": "boolean",
       "title": "Visual Basic (.vb)",
       "description": "@Setting_IncludeVisualBasic_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 1,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeVisualBasic" } } }
+      "order": 1
     },
     "codeSweep.fileTypes.includeWebForms": {
       "type": "boolean",
       "title": "Web Forms (.aspx, .ascx, .master, .asax)",
       "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 2,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeWebForms" } } }
+      "order": 2
     },
     "codeSweep.fileTypes.includeRazor": {
       "type": "boolean",
       "title": "Razor (.cshtml, .vbhtml, .razor)",
       "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 3,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeRazor" } } }
+      "order": 3
     },
     "codeSweep.fileTypes.includeHtml": {
       "type": "boolean",
       "title": "HTML (.html, .htm)",
       "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 4,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeHtml" } } }
+      "order": 4
     },
     "codeSweep.fileTypes.includeXmlConfig": {
       "type": "boolean",
       "title": "XML / Config (.xml, .config, .webinfo)",
       "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 5,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeXmlConfig" } } }
+      "order": 5
     },
     "codeSweep.fileTypes.includeXaml": {
       "type": "boolean",
       "title": "XAML (.xaml)",
       "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 6,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeXaml" } } }
+      "order": 6
     },
     "codeSweep.fileTypes.includeStyles": {
       "type": "boolean",
       "title": "@Setting_IncludeStyles_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 7,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeStyles" } } }
+      "order": 7
     },
     "codeSweep.fileTypes.includeScripts": {
       "type": "boolean",
       "title": "Scripts (.js, .ts)",
       "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 8,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeScripts" } } }
+      "order": 8
     },
     "codeSweep.fileTypes.includeJson": {
       "type": "boolean",
       "title": "JSON (.json)",
       "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 9,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IncludeJson" } } }
+      "order": 9
     },
     "codeSweep.fileTypes.additionalFileExtensions": {
       "type": "string",
       "title": "@Setting_AdditionalFileExtensions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_AdditionalFileExtensions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": "",
-      "order": 10,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.AdditionalFileExtensions" } } }
+      "order": 10
     },
     "codeSweep.fileTypes.ignoreGeneratedCode": {
       "type": "boolean",
       "title": "@Setting_IgnoreGeneratedCode_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_IgnoreGeneratedCode_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 11,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.IgnoreGeneratedCode" } } }
+      "order": 11
     },
     "codeSweep.fileTypes.excludeT4GeneratedCode": {
       "type": "boolean",
       "title": "@Setting_ExcludeT4GeneratedCode_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_ExcludeT4GeneratedCode_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
-      "order": 12,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.ExcludeT4GeneratedCode" } } }
+      "order": 12
     },
     "codeSweep.fileTypes.excludePatterns": {
       "type": "string",
       "title": "@Setting_ExcludePatterns_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_ExcludePatterns_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": "\\.Designer\\.cs$;\\.Designer\\.vb$;\\.resx$;\\.min\\.css$;\\.min\\.js$",
-      "order": 13,
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.ExcludePatterns" } } }
+      "order": 13
     },
     "codeSweep.fileTypes.regenerateWebFormsDesigner": {
       "type": "boolean",
@@ -180,8 +160,7 @@
       "description": "@Setting_RegenerateWebFormsDesigner_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": false,
       "order": 14,
-      "enableWhen": "${config:codeSweep.fileTypes.includeWebForms}=='true'",
-      "migration": { "pass": { "input": { "store": "SettingsManager", "path": "CodeSweep.FileTypes.RegenerateWebFormsDesigner" } } }
+      "enableWhen": "${config:codeSweep.fileTypes.includeWebForms}=='true'"
     }
   },
 
@@ -191,6 +170,7 @@
     },
     "codeSweep.general": {
       "title": "General",
+      "legacyOptionPageId": "c7d4e2a1-5b3f-4e8a-9c6d-2f1a0b3e4d5c",
       "order": 0
     },
     "codeSweep.rules": {

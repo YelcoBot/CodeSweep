@@ -18,6 +18,8 @@ namespace YelcoBot.CodeSweep
     [ProvideBindingPath] // VS busca las DLLs de la extensión (Application, Roslyn, DI…) en su carpeta de instalación.
     [InstalledProductRegistration("CodeSweep", "Clean Architecture + Roslyn automated code cleanup", "1.0.0")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    // Tools → Options clásico (VS 2022). En VS 2026 lo reemplaza la página moderna (legacyOptionPageId en el registration.json).
+    [ProvideOptionPage(typeof(Options.ClassicOptionsPage), "CodeSweep", "General", 0, 0, true)]
     // Cargar al abrir una solución: textos del menú en el idioma de VS y "cleanup on save" activo sin usar antes un comando.
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExistsAndFullyLoaded_string, PackageAutoLoadFlags.BackgroundLoad)]
     [Guid(PackageGuids.guidCodeSweepPackageString)]
