@@ -13,18 +13,23 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 {
     /// <summary>
     /// Estrategia 3: abrir en el editor real → formatear → guardar → cerrar.
-    /// SOLO para Web Forms con "Regenerate Web Forms designer" activo: al guardar en el editor real VS regenera el designer.
-    /// Nunca se usa como respaldo para otros archivos (no abre ventanas).
+    /// Automático SOLO para Web Forms con "Regenerate Web Forms designer" activo (al guardar en el editor real VS regenera el designer).
+    /// Para el resto, solo si el usuario lo acepta cuando el editor invisible no pudo (ver VsEditorFormatter).
     /// </summary>
     public class WindowFormatStrategy : IEditorFormatStrategy
     {
         public int Order => 3;
 
-        public async Task<EditorFormatOutcome> TryFormatAsync(string filePath, SweepOptions options, CancellationToken cancellationToken)
+        public Task<EditorFormatOutcome> TryFormatAsync(string filePath, SweepOptions options, CancellationToken cancellationToken)
         {
-            if (!EditorFormatRules.UsesRealEditor(filePath, options))
-                return EditorFormatOutcome.NotHandled;
+            return EditorFormatRules.UsesRealEditor(filePath, options)
+                ? FormatInEditorAsync(filePath, cancellationToken)
+                : Task.FromResult(EditorFormatOutcome.NotHandled);
+        }
 
+        /// <summary>Formatea en el editor real sin importar el tipo de archivo (el usuario lo pidió).</summary>
+        public async Task<EditorFormatOutcome> FormatInEditorAsync(string filePath, CancellationToken cancellationToken)
+        {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             // Nunca cerrar un documento que el usuario ya tenía abierto.

@@ -42,4 +42,8 @@
   <data name="DesignerFailed" xml:space="preserve"><value>No se regeneró el designer: {0}</value></data>
   <data name="EditorCannotFormatInBackground" xml:space="preserve"><value>No se formateó: el editor de Visual Studio para archivos {0} no permite formatear sin abrir una ventana.</value></data>
   <data name="LogCleanupOnSave" xml:space="preserve"><value>Limpieza al guardar: {0}</value></data>
+  <data name="EditorAskTitle" xml:space="preserve"><value>CodeSweep: ¿Formatear con el editor?</value></data>
+  <data name="EditorAskHeader" xml:space="preserve"><value>{0} archivo(s) no se pudieron formatear en segundo plano (sin abrirlos):</value></data>
+  <data name="EditorAskQuestion" xml:space="preserve"><value>¿Formatearlos con el editor de Visual Studio? Cada archivo se abrirá, formateará, guardará y cerrará.</value></data>
+  <data name="EditorCannotFormat" xml:space="preserve"><value>No se formateó: el editor de Visual Studio no pudo formatear este archivo.</value></data>
 </root>

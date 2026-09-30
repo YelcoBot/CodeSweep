@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="YelcoBot.CodeSweep.100" Version="1.0.10" Language="en-US" Publisher="YelcoBot" />
+    <Identity Id="YelcoBot.CodeSweep.100" Version="1.0.11" Language="en-US" Publisher="YelcoBot" />
     <DisplayName>CodeSweep</DisplayName>
     <Description xml:space="preserve">Clean Architecture + Roslyn automated code cleanup tool for Visual Studio.</Description>
     <MoreInfoUrl>https://github.com/YelcoBotCompany/CodeSweep</MoreInfoUrl>

@@ -42,4 +42,8 @@
   <data name="DesignerFailed" xml:space="preserve"><value>Designer not regenerated: {0}</value></data>
   <data name="EditorCannotFormatInBackground" xml:space="preserve"><value>Not formatted: the Visual Studio editor for {0} files cannot format without opening a window.</value></data>
   <data name="LogCleanupOnSave" xml:space="preserve"><value>Cleanup on save: {0}</value></data>
+  <data name="EditorAskTitle" xml:space="preserve"><value>CodeSweep: Format with the editor?</value></data>
+  <data name="EditorAskHeader" xml:space="preserve"><value>{0} file(s) could not be formatted in the background (without opening them):</value></data>
+  <data name="EditorAskQuestion" xml:space="preserve"><value>Format them with the Visual Studio editor? Each file will be opened, formatted, saved and closed.</value></data>
+  <data name="EditorCannotFormat" xml:space="preserve"><value>Not formatted: the Visual Studio editor could not format this file.</value></data>
 </root>

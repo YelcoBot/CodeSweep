@@ -56,6 +56,9 @@ namespace YelcoBot.CodeSweep.Application.Localization
         public static string DesignerNoSolutionExplorer => Get(nameof(DesignerNoSolutionExplorer));
         public static string DesignerNotInSolution => Get(nameof(DesignerNotInSolution));
         public static string DesignerCommandNotAvailable => Get(nameof(DesignerCommandNotAvailable));
+        public static string EditorAskTitle => Get(nameof(EditorAskTitle));
+        public static string EditorAskQuestion => Get(nameof(EditorAskQuestion));
+        public static string EditorCannotFormat => Get(nameof(EditorCannotFormat));
 
         // Con formato ({0}, {1}…): usar Format(nameof(...), args)
         public const string SelectedItemsOptionNo = nameof(SelectedItemsOptionNo);
@@ -70,5 +73,6 @@ namespace YelcoBot.CodeSweep.Application.Localization
         public const string DesignerFailed = nameof(DesignerFailed);
         public const string EditorCannotFormatInBackground = nameof(EditorCannotFormatInBackground);
         public const string LogCleanupOnSave = nameof(LogCleanupOnSave);
+        public const string EditorAskHeader = nameof(EditorAskHeader);
     }
 }
