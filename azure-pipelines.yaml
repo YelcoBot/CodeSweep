@@ -1,6 +1,4 @@
-# CodeSweep - Azure Pipelines
-# Equivalente a .github/workflows (continuous-integration + continuous-deployment)
-# usando las plantillas centralizadas de YelcoBotCompany/azure-devops-core.
+name: '🚀 CodeSweep · $(Build.SourceBranchName) · $(Build.Reason) · $(Build.BuildNumber)'
 
 trigger:
   branches:
