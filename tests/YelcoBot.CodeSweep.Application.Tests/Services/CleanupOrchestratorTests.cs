@@ -28,7 +28,7 @@ namespace YelcoBot.CodeSweep.Application.Tests.Services
 
         public CleanupOrchestratorTests()
         {
-            _sut = new CleanupOrchestrator(_documentProvider, new DocumentRouter(new GeneratedCodeDetector()), _codeCleaner, _editorFormatter, new SweepActivity());
+            _sut = new CleanupOrchestrator(_documentProvider, new DocumentRouter(new GeneratedCodeDetector()), _codeCleaner, _editorFormatter, Substitute.For<IWebFormsDesignerGenerator>(), new SweepActivity());
 
             _codeCleaner.CleanAsync(Arg.Do<DocumentSelection>(s => _roslynSelection = s), Arg.Any<SweepOptions>(), Arg.Any<IProgress<SweepProgress>>(), Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult(new SweepSummary { ProcessedFilesCount = 2, ChangedFilesCount = 1 }));

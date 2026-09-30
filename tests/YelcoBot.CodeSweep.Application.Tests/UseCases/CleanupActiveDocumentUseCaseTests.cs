@@ -36,6 +36,7 @@ namespace YelcoBot.CodeSweep.Application.Tests.UseCases
                 new DocumentRouter(new GeneratedCodeDetector()),
                 _codeCleaner,
                 _editorFormatter,
+                Substitute.For<IWebFormsDesignerGenerator>(),
                 new SweepActivity());
 
             _sut = new CleanupActiveDocumentUseCase(orchestrator, _editorContext, _settingsStore, _userInteraction);

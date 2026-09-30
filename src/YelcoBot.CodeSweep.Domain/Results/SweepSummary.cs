@@ -10,6 +10,7 @@ namespace YelcoBot.CodeSweep.Domain.Results
         public TimeSpan Duration { get; set; }
         public bool IsCancelled { get; set; }
         public List<SweepFailure> Failures { get; } = new();
+        public List<string> ChangedFilePaths { get; } = new();
 
         public static SweepSummary Cancelled() => new() { IsCancelled = true };
 
@@ -20,6 +21,7 @@ namespace YelcoBot.CodeSweep.Domain.Results
             Duration += other.Duration;
             IsCancelled |= other.IsCancelled;
             Failures.AddRange(other.Failures);
+            ChangedFilePaths.AddRange(other.ChangedFilePaths);
         }
     }
 }

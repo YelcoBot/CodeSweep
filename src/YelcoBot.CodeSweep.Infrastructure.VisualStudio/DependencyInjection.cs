@@ -21,6 +21,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio
             services.AddSingleton<IEditorFormatStrategy, InvisibleEditorFormatStrategy>();
             services.AddSingleton<IEditorFormatStrategy, WindowFormatStrategy>();
             services.AddSingleton<IEditorFormatter, VsEditorFormatter>();
+            services.AddSingleton<IWebFormsDesignerGenerator, VsWebFormsDesignerGenerator>();
 
             services.AddSingleton<IUserInteraction, VsUserInteraction>();
             services.AddSingleton<ISettingsStore, VsSettingsStore>();

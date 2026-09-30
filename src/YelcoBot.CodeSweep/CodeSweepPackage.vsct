@@ -4,58 +4,118 @@
   <Extern href="stdidcmd.h"/>
   <Extern href="vsshlids.h"/>
 
+  <!--
+    Tres submenús "CodeSweep":
+      1. Herramientas → CodeSweep → (los 4 comandos)
+      2. Explorador de soluciones (clic derecho) → CodeSweep → Cleanup Selected Code
+      3. Pestaña del documento y editor de código (clic derecho) → CodeSweep → Cleanup Active Document / Cleanup Open Code
+  -->
   <Commands package="guidCodeSweepPackage">
+    <Menus>
+      <Menu guid="guidCodeSweepPackageCmdSet" id="ToolsMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup"/>
+        <Strings>
+          <ButtonText>CodeSweep</ButtonText>
+          <CommandName>CodeSweep</CommandName>
+        </Strings>
+      </Menu>
+
+      <Menu guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup"/>
+        <Strings>
+          <ButtonText>CodeSweep</ButtonText>
+          <CommandName>CodeSweep</CommandName>
+        </Strings>
+      </Menu>
+
+      <Menu guid="guidCodeSweepPackageCmdSet" id="DocumentMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="DocumentContextGroup"/>
+        <Strings>
+          <ButtonText>CodeSweep</ButtonText>
+          <CommandName>CodeSweep</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
+
     <Groups>
+      <!-- Herramientas: grupo que contiene el submenú, y grupo dentro del submenú -->
       <Group guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
       </Group>
+      <Group guid="guidCodeSweepPackageCmdSet" id="ToolsMenuGroup" priority="0x0100">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="ToolsMenu"/>
+      </Group>
 
-      <!-- Clic derecho en el Explorador de soluciones (ver CommandPlacements para el resto de nodos) -->
+      <!-- Explorador de soluciones (ver CommandPlacements para el resto de nodos) -->
       <Group guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNNODE"/>
+      </Group>
+      <Group guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerMenuGroup" priority="0x0100">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerMenu"/>
+      </Group>
+
+      <!-- Pestaña del documento (sirve para cualquier tipo de archivo) + editor de código -->
+      <Group guid="guidCodeSweepPackageCmdSet" id="DocumentContextGroup" priority="0x0100">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_EZDOCWINTAB"/>
+      </Group>
+      <Group guid="guidCodeSweepPackageCmdSet" id="DocumentMenuGroup" priority="0x0100">
+        <Parent guid="guidCodeSweepPackageCmdSet" id="DocumentMenu"/>
       </Group>
     </Groups>
 
     <Buttons>
       <Button guid="guidCodeSweepPackageCmdSet" id="CleanupActiveDocumentCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup"/>
+        <Parent guid="guidCodeSweepPackageCmdSet" id="ToolsMenuGroup"/>
         <Strings>
           <ButtonText>Cleanup Active Document</ButtonText>
         </Strings>
       </Button>
 
       <Button guid="guidCodeSweepPackageCmdSet" id="CleanupOpenDocumentsCommandId" priority="0x0200" type="Button">
-        <Parent guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup"/>
+        <Parent guid="guidCodeSweepPackageCmdSet" id="ToolsMenuGroup"/>
         <Strings>
           <ButtonText>Cleanup Open Code</ButtonText>
         </Strings>
       </Button>
 
       <Button guid="guidCodeSweepPackageCmdSet" id="CleanupSolutionCommandId" priority="0x0300" type="Button">
-        <Parent guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup"/>
+        <Parent guid="guidCodeSweepPackageCmdSet" id="ToolsMenuGroup"/>
         <Strings>
           <ButtonText>Cleanup All Code...</ButtonText>
         </Strings>
       </Button>
 
       <Button guid="guidCodeSweepPackageCmdSet" id="ToggleCleanupOnSaveCommandId" priority="0x0400" type="Button">
-        <Parent guid="guidCodeSweepPackageCmdSet" id="MyMenuGroup"/>
+        <Parent guid="guidCodeSweepPackageCmdSet" id="ToolsMenuGroup"/>
         <Strings>
           <ButtonText>Automatic Cleanup On Save</ButtonText>
         </Strings>
       </Button>
 
       <Button guid="guidCodeSweepPackageCmdSet" id="CleanupSelectedItemsCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup"/>
+        <Parent guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerMenuGroup"/>
         <Strings>
-          <ButtonText>CodeSweep: Cleanup Selected Code</ButtonText>
+          <ButtonText>Cleanup Selected Code</ButtonText>
         </Strings>
       </Button>
     </Buttons>
   </Commands>
 
-  <!-- El mismo grupo en todos los nodos del Explorador de soluciones (igual que CodeMaid) -->
   <CommandPlacements>
+    <!-- Pestaña/editor → CodeSweep: los mismos comandos del menú Herramientas -->
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="CleanupActiveDocumentCommandId" priority="0x0100">
+      <Parent guid="guidCodeSweepPackageCmdSet" id="DocumentMenuGroup"/>
+    </CommandPlacement>
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="CleanupOpenDocumentsCommandId" priority="0x0200">
+      <Parent guid="guidCodeSweepPackageCmdSet" id="DocumentMenuGroup"/>
+    </CommandPlacement>
+
+    <!-- El submenú del documento también en el clic derecho del editor de código -->
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="DocumentContextGroup" priority="0x0100">
+      <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+    </CommandPlacement>
+
+    <!-- El submenú del Explorador de soluciones en todos sus nodos (igual que CodeMaid) -->
     <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
       <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNFOLDER"/>
     </CommandPlacement>
@@ -95,12 +155,24 @@
     <GuidSymbol name="guidCodeSweepPackage" value="{a2f2b3c4-1111-4222-3333-444455556666}" />
 
     <GuidSymbol name="guidCodeSweepPackageCmdSet" value="{b3f3c4d5-2222-4333-4444-555566667777}">
+      <!-- Grupos -->
       <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="ToolsMenuGroup" value="0x1021" />
+      <IDSymbol name="SolutionExplorerGroup" value="0x1030" />
+      <IDSymbol name="SolutionExplorerMenuGroup" value="0x1031" />
+      <IDSymbol name="DocumentContextGroup" value="0x1040" />
+      <IDSymbol name="DocumentMenuGroup" value="0x1041" />
+
+      <!-- Submenús -->
+      <IDSymbol name="ToolsMenu" value="0x2000" />
+      <IDSymbol name="SolutionExplorerMenu" value="0x2001" />
+      <IDSymbol name="DocumentMenu" value="0x2002" />
+
+      <!-- Comandos -->
       <IDSymbol name="CleanupActiveDocumentCommandId" value="0x0100" />
       <IDSymbol name="CleanupOpenDocumentsCommandId" value="0x0200" />
       <IDSymbol name="CleanupSolutionCommandId" value="0x0300" />
       <IDSymbol name="ToggleCleanupOnSaveCommandId" value="0x0400" />
-      <IDSymbol name="SolutionExplorerGroup" value="0x1030" />
       <IDSymbol name="CleanupSelectedItemsCommandId" value="0x0500" />
     </GuidSymbol>
   </Symbols>

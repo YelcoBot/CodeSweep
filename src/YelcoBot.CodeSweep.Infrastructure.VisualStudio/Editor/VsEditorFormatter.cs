@@ -55,6 +55,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                     if (outcome == EditorFormatOutcome.Changed)
                     {
                         summary.ChangedFilesCount++;
+                        summary.ChangedFilePaths.Add(filePath);
                     }
                 }
                 catch (Exception ex)

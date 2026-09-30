@@ -37,6 +37,13 @@
     <VSCTCompile Include="CodeSweepPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
+    <!-- Tools > Options moderno (Unified Settings) -->
+    <Content Include="CodeSweep.registration.json">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="CodeSweep.Settings.pkgdef">
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
   </ItemGroup>
 
   <!--

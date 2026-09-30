@@ -107,6 +107,42 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
             return paths.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         }
 
+        public async Task<SolutionExplorerSelectionInfo> DescribeSolutionExplorerSelectionAsync(CancellationToken cancellationToken = default)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            int selectedFiles = 0;
+            List<SelectedContainer> containers = new List<SelectedContainer>();
+
+            foreach (SolutionItem item in await VS.Solutions.GetActiveItemsAsync())
+            {
+                if (item.Type == SolutionItemType.PhysicalFile)
+                {
+                    selectedFiles++;
+                    continue;
+                }
+
+                List<string> paths = new List<string>();
+                CollectPhysicalFiles(item, paths);
+                containers.Add(new SelectedContainer(GetKindName(item.Type), item.Text, paths.Distinct(StringComparer.OrdinalIgnoreCase).ToList()));
+            }
+
+            return new SolutionExplorerSelectionInfo(selectedFiles, containers);
+        }
+
+        private static string GetKindName(SolutionItemType type)
+        {
+            switch (type)
+            {
+                case SolutionItemType.Solution: return "Solution";
+                case SolutionItemType.SolutionFolder: return "Solution folder";
+                case SolutionItemType.Project: return "Project";
+                case SolutionItemType.PhysicalFolder:
+                case SolutionItemType.VirtualFolder: return "Folder";
+                default: return type.ToString();
+            }
+        }
+
         private static void CollectPhysicalFiles(SolutionItem item, List<string> paths)
         {
             foreach (SolutionItem? child in item.Children)

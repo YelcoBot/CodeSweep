@@ -55,7 +55,7 @@ namespace YelcoBot.CodeSweep.Domain.Tests.Routing
         [Fact]
         public void Route_ShouldUseConfiguredEditorExtensions()
         {
-            SweepOptions options = new SweepOptions { EditorFileExtensions = "aspx; .razor" };
+            SweepOptions options = new SweepOptions { IncludeWebForms = false, IncludeRazor = false, IncludeHtml = false, AdditionalFileExtensions = "aspx; .razor" };
 
             _router.Route(@"C:\Repo\Default.aspx", options).Should().Be(CleanupEngine.Editor);
             _router.Route(@"C:\Repo\Index.razor", options).Should().Be(CleanupEngine.Editor);

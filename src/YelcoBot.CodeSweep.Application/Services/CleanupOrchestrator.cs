@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace YelcoBot.CodeSweep.Application.Services
         private readonly DocumentRouter _documentRouter;
         private readonly ICodeCleaner _codeCleaner;
         private readonly IEditorFormatter _editorFormatter;
+        private readonly IWebFormsDesignerGenerator _webFormsDesignerGenerator;
         private readonly SweepActivity _activity;
 
         public CleanupOrchestrator(
@@ -24,12 +26,14 @@ namespace YelcoBot.CodeSweep.Application.Services
             DocumentRouter documentRouter,
             ICodeCleaner codeCleaner,
             IEditorFormatter editorFormatter,
+            IWebFormsDesignerGenerator webFormsDesignerGenerator,
             SweepActivity activity)
         {
             _documentProvider = documentProvider;
             _documentRouter = documentRouter;
             _codeCleaner = codeCleaner;
             _editorFormatter = editorFormatter;
+            _webFormsDesignerGenerator = webFormsDesignerGenerator;
             _activity = activity;
         }
 
@@ -83,7 +87,29 @@ namespace YelcoBot.CodeSweep.Application.Services
                 summary.Merge(editorSummary);
             }
 
+            // Fase 3 (opcional): regenerar los .designer.cs de los Web Forms que cambiaron, una sola vez al final.
+            if (options.RegenerateWebFormsDesigner && !summary.IsCancelled && !cancellationToken.IsCancellationRequested)
+            {
+                List<string> changedWebForms = summary.ChangedFilePaths
+                    .Where(p => WebFormsDesignerExtensions.Contains(Path.GetExtension(p)))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                if (changedWebForms.Count > 0)
+                {
+                    summary.Failures.AddRange(await _webFormsDesignerGenerator.RegenerateAsync(changedWebForms, cancellationToken));
+                }
+            }
+
             return summary;
         }
+
+        /// <summary>Tipos Web Forms que tienen .designer.cs (.asax no tiene).</summary>
+        private static readonly HashSet<string> WebFormsDesignerExtensions = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ".aspx",
+            ".ascx",
+            ".master"
+        };
     }
 }
