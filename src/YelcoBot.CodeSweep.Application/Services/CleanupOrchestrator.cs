@@ -91,7 +91,7 @@ namespace YelcoBot.CodeSweep.Application.Services
             if (options.RegenerateWebFormsDesigner && !summary.IsCancelled && !cancellationToken.IsCancellationRequested)
             {
                 List<string> changedWebForms = summary.ChangedFilePaths
-                    .Where(p => WebFormsDesignerExtensions.Contains(Path.GetExtension(p)))
+                    .Where(p => FileTypeGroups.WebFormsWithDesigner.Contains(Path.GetExtension(p)))
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .ToList();
 
@@ -103,13 +103,5 @@ namespace YelcoBot.CodeSweep.Application.Services
 
             return summary;
         }
-
-        /// <summary>Tipos Web Forms que tienen .designer.cs (.asax no tiene).</summary>
-        private static readonly HashSet<string> WebFormsDesignerExtensions = new(StringComparer.OrdinalIgnoreCase)
-        {
-            ".aspx",
-            ".ascx",
-            ".master"
-        };
     }
 }

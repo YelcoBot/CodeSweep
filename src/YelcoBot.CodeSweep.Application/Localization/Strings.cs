@@ -68,5 +68,7 @@ namespace YelcoBot.CodeSweep.Application.Localization
         public const string SummaryFailures = nameof(SummaryFailures);
         public const string SummaryStatusBar = nameof(SummaryStatusBar);
         public const string DesignerFailed = nameof(DesignerFailed);
+        public const string EditorCannotFormatInBackground = nameof(EditorCannotFormatInBackground);
+        public const string LogCleanupOnSave = nameof(LogCleanupOnSave);
     }
 }

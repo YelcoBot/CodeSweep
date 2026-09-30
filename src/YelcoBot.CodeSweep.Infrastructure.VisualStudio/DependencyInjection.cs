@@ -24,6 +24,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio
             services.AddSingleton<IWebFormsDesignerGenerator, VsWebFormsDesignerGenerator>();
 
             services.AddSingleton<IUserInteraction, VsUserInteraction>();
+            services.AddSingleton<ISweepLog, VsOutputLog>();
             services.AddSingleton<ISettingsStore, VsSettingsStore>();
             services.AddSingleton<SaveEventListener>();
 

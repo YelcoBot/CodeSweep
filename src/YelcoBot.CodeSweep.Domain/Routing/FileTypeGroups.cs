@@ -10,6 +10,9 @@ namespace YelcoBot.CodeSweep.Domain.Routing
     public static class FileTypeGroups
     {
         public static readonly string[] WebForms = { ".aspx", ".ascx", ".master", ".asax" };
+
+        /// <summary>Web Forms que tienen .designer.cs (.asax no tiene).</summary>
+        public static readonly HashSet<string> WebFormsWithDesigner = new(StringComparer.OrdinalIgnoreCase) { ".aspx", ".ascx", ".master" };
         public static readonly string[] Razor = { ".cshtml", ".vbhtml", ".razor" };
         public static readonly string[] Html = { ".html", ".htm" };
         public static readonly string[] XmlConfig = { ".xml", ".config", ".webinfo" };

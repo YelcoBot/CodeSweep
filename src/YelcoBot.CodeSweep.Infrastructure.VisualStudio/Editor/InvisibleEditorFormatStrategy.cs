@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
+using YelcoBot.CodeSweep.Domain.Options;
 
 using OleServiceProvider = Microsoft.VisualStudio.OLE.Interop.IServiceProvider;
 
@@ -18,8 +19,9 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 {
     /// <summary>
     /// Estrategia 2: documento cerrado → cargarlo con IVsInvisibleEditorManager (sin ventana),
-    /// crear una vista oculta, formatear, guardar y liberar.
-    /// Si para una extensión no funciona, se recuerda y se deja pasar a la estrategia de respaldo.
+    /// crear una vista oculta, formatear, guardar y liberar. Es la vía para todos los archivos del editor,
+    /// excepto los Web Forms que deben pasar por el editor real (ver EditorFormatRules).
+    /// Si para una extensión no funciona, se recuerda para no reintentar (y se informa en el resumen; no se abren ventanas).
     /// </summary>
     public class InvisibleEditorFormatStrategy : IEditorFormatStrategy
     {
@@ -27,8 +29,11 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 
         public int Order => 2;
 
-        public async Task<EditorFormatOutcome> TryFormatAsync(string filePath, CancellationToken cancellationToken)
+        public async Task<EditorFormatOutcome> TryFormatAsync(string filePath, SweepOptions options, CancellationToken cancellationToken)
         {
+            if (EditorFormatRules.UsesRealEditor(filePath, options))
+                return EditorFormatOutcome.NotHandled;
+
             string extension = Path.GetExtension(filePath);
             if (_unsupportedExtensions.ContainsKey(extension))
                 return EditorFormatOutcome.NotHandled;

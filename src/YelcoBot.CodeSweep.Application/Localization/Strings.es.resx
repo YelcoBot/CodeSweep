@@ -40,4 +40,6 @@
   <data name="DesignerNotInSolution" xml:space="preserve"><value>No se regeneró el designer: el archivo no forma parte de la solución.</value></data>
   <data name="DesignerCommandNotAvailable" xml:space="preserve"><value>No se regeneró el designer: &apos;Convert to Web Application&apos; no está disponible (solo proyectos Web Application).</value></data>
   <data name="DesignerFailed" xml:space="preserve"><value>No se regeneró el designer: {0}</value></data>
+  <data name="EditorCannotFormatInBackground" xml:space="preserve"><value>No se formateó: el editor de Visual Studio para archivos {0} no permite formatear sin abrir una ventana.</value></data>
+  <data name="LogCleanupOnSave" xml:space="preserve"><value>Limpieza al guardar: {0}</value></data>
 </root>

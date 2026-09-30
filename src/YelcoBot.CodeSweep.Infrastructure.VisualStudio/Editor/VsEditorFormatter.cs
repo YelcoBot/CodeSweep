@@ -1,26 +1,32 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell;
 using YelcoBot.CodeSweep.Application.Abstractions;
+using YelcoBot.CodeSweep.Application.Localization;
+using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Domain.Results;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 {
     /// <summary>
     /// Formatea archivos que Roslyn no soporta (aspx, razor, html, xml…) con el editor de VS.
-    /// Secuencial en el hilo de UI; para cada archivo prueba las estrategias en orden.
+    /// Secuencial en el hilo de UI; para cada archivo prueba las estrategias en orden:
+    /// documento ya abierto → editor invisible → editor real (solo Web Forms con regeneración del designer).
     /// </summary>
     public class VsEditorFormatter : IEditorFormatter
     {
         private readonly IReadOnlyList<IEditorFormatStrategy> _strategies;
+        private readonly ISettingsStore _settingsStore;
 
-        public VsEditorFormatter(IEnumerable<IEditorFormatStrategy> strategies)
+        public VsEditorFormatter(IEnumerable<IEditorFormatStrategy> strategies, ISettingsStore settingsStore)
         {
             _strategies = strategies.OrderBy(s => s.Order).ToList();
+            _settingsStore = settingsStore;
         }
 
         public async Task<SweepSummary> FormatAsync(
@@ -30,6 +36,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             SweepSummary summary = new SweepSummary();
+            SweepOptions options = await _settingsStore.GetOptionsAsync();
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
@@ -46,8 +53,13 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 
                 try
                 {
-                    EditorFormatOutcome outcome = await FormatFileAsync(filePath, cancellationToken);
-                    if (outcome != EditorFormatOutcome.NotHandled)
+                    EditorFormatOutcome outcome = await FormatFileAsync(filePath, options, cancellationToken);
+                    if (outcome == EditorFormatOutcome.NotHandled)
+                    {
+                        // Ninguna estrategia pudo sin abrir una ventana: se informa, no se abre nada.
+                        summary.Failures.Add(new SweepFailure(filePath, Strings.Format(Strings.EditorCannotFormatInBackground, Path.GetExtension(filePath))));
+                    }
+                    else
                     {
                         summary.ProcessedFilesCount++;
                     }
@@ -72,11 +84,11 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
             return summary;
         }
 
-        private async Task<EditorFormatOutcome> FormatFileAsync(string filePath, CancellationToken cancellationToken)
+        private async Task<EditorFormatOutcome> FormatFileAsync(string filePath, SweepOptions options, CancellationToken cancellationToken)
         {
             foreach (IEditorFormatStrategy strategy in _strategies)
             {
-                EditorFormatOutcome outcome = await strategy.TryFormatAsync(filePath, cancellationToken);
+                EditorFormatOutcome outcome = await strategy.TryFormatAsync(filePath, options, cancellationToken);
                 if (outcome != EditorFormatOutcome.NotHandled)
                     return outcome;
             }

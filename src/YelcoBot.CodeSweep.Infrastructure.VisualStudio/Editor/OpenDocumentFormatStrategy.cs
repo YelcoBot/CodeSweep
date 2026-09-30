@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
+using YelcoBot.CodeSweep.Domain.Options;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 {
@@ -16,7 +17,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
     {
         public int Order => 1;
 
-        public async Task<EditorFormatOutcome> TryFormatAsync(string filePath, CancellationToken cancellationToken)
+        public async Task<EditorFormatOutcome> TryFormatAsync(string filePath, SweepOptions options, CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 

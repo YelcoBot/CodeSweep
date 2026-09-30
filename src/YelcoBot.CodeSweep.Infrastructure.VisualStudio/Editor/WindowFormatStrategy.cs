@@ -7,18 +7,24 @@ using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TextManager.Interop;
+using YelcoBot.CodeSweep.Domain.Options;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 {
     /// <summary>
-    /// Estrategia 3 (respaldo): abrir en ventana → formatear → guardar → cerrar. Lenta pero siempre funciona.
+    /// Estrategia 3: abrir en el editor real → formatear → guardar → cerrar.
+    /// SOLO para Web Forms con "Regenerate Web Forms designer" activo: al guardar en el editor real VS regenera el designer.
+    /// Nunca se usa como respaldo para otros archivos (no abre ventanas).
     /// </summary>
     public class WindowFormatStrategy : IEditorFormatStrategy
     {
         public int Order => 3;
 
-        public async Task<EditorFormatOutcome> TryFormatAsync(string filePath, CancellationToken cancellationToken)
+        public async Task<EditorFormatOutcome> TryFormatAsync(string filePath, SweepOptions options, CancellationToken cancellationToken)
         {
+            if (!EditorFormatRules.UsesRealEditor(filePath, options))
+                return EditorFormatOutcome.NotHandled;
+
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
             // Nunca cerrar un documento que el usuario ya tenía abierto.
