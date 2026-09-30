@@ -58,8 +58,8 @@
 
   <!-- Publicación al Marketplace (no se empaquetan en el VSIX) -->
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\publishManifest.json" />
-    <None Include="Properties\PublishProfiles\overview.md" />
+    <None Include="Marketplace\publishManifest.json" TargetPath="publishManifest.json" CopyToOutputDirectory="PreserveNewest" IncludeInVSIX="false" />
+    <None Include="Marketplace\overview.md" TargetPath="overview.md" CopyToOutputDirectory="PreserveNewest" IncludeInVSIX="false" />
     <None Include="Properties\PublishProfiles\Publish-Marketplace.ps1" />
   </ItemGroup>
 

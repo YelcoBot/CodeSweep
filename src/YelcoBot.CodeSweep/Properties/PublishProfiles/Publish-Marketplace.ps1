@@ -26,7 +26,7 @@ if ([string]::IsNullOrWhiteSpace($Token)) {
 $profileDir  = $PSScriptRoot
 $projectDir  = Resolve-Path (Join-Path $profileDir '..\..')
 $projectFile = Join-Path $projectDir 'YelcoBot.CodeSweep.csproj'
-$manifest    = Join-Path $profileDir 'publishManifest.json'
+$manifest    = Join-Path $projectDir 'Marketplace\publishManifest.json'
 
 # Visual Studio más reciente con el workload de extensiones.
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
