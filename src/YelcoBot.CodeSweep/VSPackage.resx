@@ -14,7 +14,7 @@
   <data name="Setting_SortUsings_Title" xml:space="preserve"><value>Sort usings</value></data>
   <data name="Setting_SortUsings_Description" xml:space="preserve"><value>global → normal → static → alias; System.* first; then alphabetical.</value></data>
   <data name="Setting_RemoveConsecutiveBlankLines_Title" xml:space="preserve"><value>Remove consecutive blank lines</value></data>
-  <data name="Setting_RemoveConsecutiveBlankLines_Description" xml:space="preserve"><value>Keeps at most one blank line in a row. Never touches strings or disabled code.</value></data>
+  <data name="Setting_RemoveConsecutiveBlankLines_Description" xml:space="preserve"><value>Keeps at most one blank line in a row, in C# and in files formatted with the editor (except .js/.ts). Never touches strings, disabled code, &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; or CDATA.</value></data>
   <data name="Setting_FormatDocument_Title" xml:space="preserve"><value>Format document</value></data>
   <data name="Setting_FormatDocument_Description" xml:space="preserve"><value>Roslyn formatting; respects your .editorconfig.</value></data>
   <data name="Setting_IncludeCSharp_Description" xml:space="preserve"><value>Cleaned with Roslyn, in the background and in parallel.</value></data>

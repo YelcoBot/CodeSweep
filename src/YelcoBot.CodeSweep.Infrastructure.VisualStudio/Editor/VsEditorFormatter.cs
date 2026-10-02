@@ -87,7 +87,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 
             if (notFormatted.Count > 0 && !summary.IsCancelled)
             {
-                await HandleNotFormattedAsync(notFormatted, summary, progress, cancellationToken);
+                await HandleNotFormattedAsync(notFormatted, options, summary, progress, cancellationToken);
             }
 
             stopwatch.Stop();
@@ -99,7 +99,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
         /// Un solo mensaje con los archivos que no se pudieron formatear sin abrir el editor.
         /// Sí → abrir, formatear, guardar y cerrar cada uno. No → quedan en el resumen como no formateados.
         /// </summary>
-        private async Task HandleNotFormattedAsync(List<string> files, SweepSummary summary, IProgress<SweepProgress>? progress, CancellationToken cancellationToken)
+        private async Task HandleNotFormattedAsync(List<string> files, SweepOptions options, SweepSummary summary, IProgress<SweepProgress>? progress, CancellationToken cancellationToken)
         {
             bool useEditor = await _userInteraction.ConfirmAsync(Strings.EditorAskTitle, BuildAskMessage(files));
 
@@ -125,7 +125,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 
                 try
                 {
-                    EditorFormatOutcome outcome = await _windowStrategy.FormatInEditorAsync(filePath, cancellationToken);
+                    EditorFormatOutcome outcome = await _windowStrategy.FormatInEditorAsync(filePath, options, cancellationToken);
                     if (outcome == EditorFormatOutcome.NotHandled)
                     {
                         summary.Failures.Add(new SweepFailure(filePath, Strings.EditorCannotFormat));

@@ -14,7 +14,7 @@
   <data name="Setting_SortUsings_Title" xml:space="preserve"><value>Ordenar usings</value></data>
   <data name="Setting_SortUsings_Description" xml:space="preserve"><value>global → normales → static → alias; System.* primero; luego alfabético.</value></data>
   <data name="Setting_RemoveConsecutiveBlankLines_Title" xml:space="preserve"><value>Quitar líneas en blanco consecutivas</value></data>
-  <data name="Setting_RemoveConsecutiveBlankLines_Description" xml:space="preserve"><value>Deja como máximo una línea en blanco seguida. Nunca modifica strings ni código deshabilitado.</value></data>
+  <data name="Setting_RemoveConsecutiveBlankLines_Description" xml:space="preserve"><value>Deja como máximo una línea en blanco seguida, en C# y en los archivos formateados con el editor (excepto .js/.ts). Nunca modifica strings, código deshabilitado, &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; ni CDATA.</value></data>
   <data name="Setting_FormatDocument_Title" xml:space="preserve"><value>Formatear documento</value></data>
   <data name="Setting_FormatDocument_Description" xml:space="preserve"><value>Formato de Roslyn; respeta tu .editorconfig.</value></data>
   <data name="Setting_IncludeCSharp_Description" xml:space="preserve"><value>Se limpia con Roslyn, en segundo plano y en paralelo.</value></data>

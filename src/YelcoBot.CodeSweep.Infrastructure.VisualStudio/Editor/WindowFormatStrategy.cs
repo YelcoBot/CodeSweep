@@ -23,12 +23,12 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
         public Task<EditorFormatOutcome> TryFormatAsync(string filePath, SweepOptions options, CancellationToken cancellationToken)
         {
             return EditorFormatRules.UsesRealEditor(filePath, options)
-                ? FormatInEditorAsync(filePath, cancellationToken)
+                ? FormatInEditorAsync(filePath, options, cancellationToken)
                 : Task.FromResult(EditorFormatOutcome.NotHandled);
         }
 
         /// <summary>Formatea en el editor real sin importar el tipo de archivo (el usuario lo pidió).</summary>
-        public async Task<EditorFormatOutcome> FormatInEditorAsync(string filePath, CancellationToken cancellationToken)
+        public async Task<EditorFormatOutcome> FormatInEditorAsync(string filePath, SweepOptions options, CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
@@ -57,7 +57,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                     return EditorFormatOutcome.NotHandled;
 
                 IVsEditorAdaptersFactoryService adapters = await VS.GetMefServiceAsync<IVsEditorAdaptersFactoryService>();
-                return await FormatDocumentCommand.ExecuteAsync(view, adapters, FormatDocumentCommand.RealEditorTimeout, cancellationToken);
+                return await FormatDocumentCommand.ExecuteAsync(view, adapters, filePath, options.EnableRemoveConsecutiveBlankLines, FormatDocumentCommand.RealEditorTimeout, cancellationToken);
             }
             finally
             {

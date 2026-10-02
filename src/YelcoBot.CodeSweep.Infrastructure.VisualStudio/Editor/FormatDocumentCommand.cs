@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +11,7 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.TextManager.Interop;
+using YelcoBot.CodeSweep.Domain.Services;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 {
@@ -25,9 +29,15 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 
         private static readonly TimeSpan PollInterval = TimeSpan.FromMilliseconds(100);
 
+        /// <param name="collapseBlankLines">
+        /// Tras formatear, dejar como máximo una línea en blanco seguida (opción "Remove consecutive blank lines"),
+        /// en el mismo buffer y antes de que se guarde.
+        /// </param>
         public static async Task<EditorFormatOutcome> ExecuteAsync(
             IVsTextView view,
             IVsEditorAdaptersFactoryService adapters,
+            string filePath,
+            bool collapseBlankLines,
             TimeSpan timeout,
             CancellationToken cancellationToken)
         {
@@ -47,9 +57,35 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
             if (ErrorHandler.Failed(hr))
                 return EditorFormatOutcome.NotHandled;
 
+            if (collapseBlankLines && BlankLineCollapser.Supports(Path.GetExtension(filePath)))
+            {
+                CollapseBlankLines(buffer);
+            }
+
             return buffer.CurrentSnapshot.Version.VersionNumber != versionBefore
                 ? EditorFormatOutcome.Changed
                 : EditorFormatOutcome.Unchanged;
+        }
+
+        /// <summary>Borra las líneas en blanco sobrantes en una sola edición (un solo paso de deshacer).</summary>
+        private static void CollapseBlankLines(ITextBuffer buffer)
+        {
+            ITextSnapshot snapshot = buffer.CurrentSnapshot;
+            List<string> lines = snapshot.Lines.Select(l => l.GetText()).ToList();
+
+            IReadOnlyList<int> toRemove = BlankLineCollapser.FindLinesToRemove(lines);
+            if (toRemove.Count == 0)
+                return;
+
+            using (ITextEdit edit = buffer.CreateEdit())
+            {
+                foreach (int lineNumber in toRemove)
+                {
+                    edit.Delete(snapshot.GetLineFromLineNumber(lineNumber).ExtentIncludingLineBreak);
+                }
+
+                edit.Apply();
+            }
         }
 
         /// <summary>

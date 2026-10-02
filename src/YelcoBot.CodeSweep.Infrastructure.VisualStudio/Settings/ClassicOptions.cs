@@ -31,7 +31,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         [DefaultValue(true)]
         public bool SortUsings { get; set; } = true;
 
-        [Category(Rules), DisplayName("Remove consecutive blank lines"), Description("Keeps at most one blank line in a row.")]
+        [Category(Rules), DisplayName("Remove consecutive blank lines"), Description("Keeps at most one blank line in a row, in C# and in files formatted with the editor (except .js/.ts).")]
         [DefaultValue(true)]
         public bool RemoveConsecutiveBlankLines { get; set; } = true;
 
