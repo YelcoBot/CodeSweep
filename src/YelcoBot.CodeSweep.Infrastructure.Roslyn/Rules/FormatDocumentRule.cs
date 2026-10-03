@@ -14,7 +14,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules
 
         public bool IsEnabled(SweepOptions options) => options.EnableFormatDocument;
 
-        public async Task<Document> ApplyAsync(Document document, CancellationToken cancellationToken = default)
+        public async Task<Document> ApplyAsync(Document document, SweepOptions options, CancellationToken cancellationToken = default)
         {
             return await Formatter.FormatAsync(document, cancellationToken: cancellationToken);
         }

@@ -27,7 +27,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Engine
                 if (cancellationToken.IsCancellationRequested)
                     break;
 
-                currentDoc = await rule.ApplyAsync(currentDoc, cancellationToken);
+                currentDoc = await rule.ApplyAsync(currentDoc, options, cancellationToken);
             }
 
             return currentDoc;

@@ -21,6 +21,12 @@ namespace YelcoBot.CodeSweep.Domain.Routing
         public static readonly string[] Scripts = { ".js", ".ts" };
         public static readonly string[] Json = { ".json" };
 
+        /// <summary>Markup (reglas C.2): Web Forms, Razor, HTML, XML / Config y XAML.</summary>
+        public static readonly HashSet<string> Markup = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ".aspx", ".ascx", ".master", ".asax", ".cshtml", ".vbhtml", ".razor", ".html", ".htm", ".xml", ".config", ".webinfo", ".xaml"
+        };
+
         /// <summary>Extensiones de los grupos activos + las adicionales configuradas.</summary>
         public static HashSet<string> GetEditorExtensions(SweepOptions options)
         {

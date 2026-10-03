@@ -13,7 +13,12 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn
             services.AddSingleton<ISweepRule, RemoveUnusedLocalVariablesRule>();
             services.AddSingleton<ISweepRule, RemoveUnusedUsingsRule>();
             services.AddSingleton<ISweepRule, SortUsingsRule>();
-            services.AddSingleton<ISweepRule, RemoveConsecutiveBlankLinesRule>();
+            services.AddSingleton<ISweepRule, ReorganizeMembersRule>();
+            services.AddSingleton<ISweepRule, UniformAccessorsRule>();
+            services.AddSingleton<ISweepRule, RegionsRule>();
+            services.AddSingleton<ISweepRule, BlankLineLayoutRule>();
+            services.AddSingleton<ISweepRule, CommentsRule>();
+            services.AddSingleton<ISweepRule, WhitespaceRule>();
             services.AddSingleton<ISweepRule, FormatDocumentRule>();
 
             services.AddSingleton<DocumentSweeper>();

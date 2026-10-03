@@ -28,6 +28,9 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
             bool Bool(string key, bool fallback) =>
                 settings[key] is JValue { Type: JTokenType.Boolean } value ? (bool)value : fallback;
 
+            int Int(string key, int fallback) =>
+                settings[key] is JValue { Type: JTokenType.Integer } value ? (int)value : fallback;
+
             string Text(string key, string fallback) =>
                 settings[key] is JValue { Type: JTokenType.String } value ? (string?)value ?? fallback : fallback;
 
@@ -38,8 +41,37 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
                 EnableRemoveUnusedLocalVariables = Bool(SettingKeys.RemoveUnusedLocalVariables, defaults.EnableRemoveUnusedLocalVariables),
                 EnableRemoveUnusedUsings = Bool(SettingKeys.RemoveUnusedUsings, defaults.EnableRemoveUnusedUsings),
                 EnableSortUsings = Bool(SettingKeys.SortUsings, defaults.EnableSortUsings),
-                EnableRemoveConsecutiveBlankLines = Bool(SettingKeys.RemoveConsecutiveBlankLines, defaults.EnableRemoveConsecutiveBlankLines),
                 EnableFormatDocument = Bool(SettingKeys.FormatDocument, defaults.EnableFormatDocument),
+
+                EnableRemoveConsecutiveBlankLines = Bool(SettingKeys.RemoveConsecutiveBlankLines, defaults.EnableRemoveConsecutiveBlankLines),
+                MaxConsecutiveBlankLines = Int(SettingKeys.MaxConsecutiveBlankLines, defaults.MaxConsecutiveBlankLines),
+                EnableRemoveLeadingBlankLines = Bool(SettingKeys.RemoveLeadingBlankLines, defaults.EnableRemoveLeadingBlankLines),
+                EnableRemoveTrailingBlankLines = Bool(SettingKeys.RemoveTrailingBlankLines, defaults.EnableRemoveTrailingBlankLines),
+                EnableTrimTrailingWhitespace = Bool(SettingKeys.TrimTrailingWhitespace, defaults.EnableTrimTrailingWhitespace),
+                EnableSingleFinalNewline = Bool(SettingKeys.SingleFinalNewline, defaults.EnableSingleFinalNewline),
+
+                EnableRemoveBlankLinesAfterOpenBlock = Bool(SettingKeys.RemoveBlankLinesAfterOpenBlock, defaults.EnableRemoveBlankLinesAfterOpenBlock),
+                EnableRemoveBlankLinesBeforeCloseBlock = Bool(SettingKeys.RemoveBlankLinesBeforeCloseBlock, defaults.EnableRemoveBlankLinesBeforeCloseBlock),
+                EnableRemoveBlankLinesAfterAttributes = Bool(SettingKeys.RemoveBlankLinesAfterAttributes, defaults.EnableRemoveBlankLinesAfterAttributes),
+                EnableRemoveBlankLinesBetweenChainedCalls = Bool(SettingKeys.RemoveBlankLinesBetweenChainedCalls, defaults.EnableRemoveBlankLinesBetweenChainedCalls),
+                EnableBlankLineBetweenMembers = Bool(SettingKeys.BlankLineBetweenMembers, defaults.EnableBlankLineBetweenMembers),
+                BlankLineBetweenMemberKinds = Text(SettingKeys.BlankLineBetweenMemberKinds, defaults.BlankLineBetweenMemberKinds),
+                EnableBlankLineAroundRegions = Bool(SettingKeys.BlankLineAroundRegions, defaults.EnableBlankLineAroundRegions),
+                EnableBlankLineBeforeCase = Bool(SettingKeys.BlankLineBeforeCase, defaults.EnableBlankLineBeforeCase),
+                EnableBlankLineBeforeSingleLineComments = Bool(SettingKeys.BlankLineBeforeSingleLineComments, defaults.EnableBlankLineBeforeSingleLineComments),
+                EnableBlankLineAfterUsings = Bool(SettingKeys.BlankLineAfterUsings, defaults.EnableBlankLineAfterUsings),
+                EnableRemoveAllRegions = Bool(SettingKeys.RemoveAllRegions, defaults.EnableRemoveAllRegions),
+                EnableUpdateEndRegionText = Bool(SettingKeys.UpdateEndRegionText, defaults.EnableUpdateEndRegionText),
+                EnableRemoveEmptyRegions = Bool(SettingKeys.RemoveEmptyRegions, defaults.EnableRemoveEmptyRegions),
+                EnableReorganizeMembers = Bool(SettingKeys.ReorganizeMembers, defaults.EnableReorganizeMembers),
+                MemberKindOrder = Text(SettingKeys.MemberKindOrder, defaults.MemberKindOrder),
+                AccessOrder = Text(SettingKeys.AccessOrder, defaults.AccessOrder),
+                EnableUniformAccessors = Bool(SettingKeys.UniformAccessors, defaults.EnableUniformAccessors),
+                EnableWrapComments = Bool(SettingKeys.WrapComments, defaults.EnableWrapComments),
+                CommentWrapColumn = Int(SettingKeys.CommentWrapColumn, defaults.CommentWrapColumn),
+                EnableSpaceAfterCommentPrefix = Bool(SettingKeys.SpaceAfterCommentPrefix, defaults.EnableSpaceAfterCommentPrefix),
+                EnableRemoveBlankLinesInsideTags = Bool(SettingKeys.RemoveBlankLinesInsideTags, defaults.EnableRemoveBlankLinesInsideTags),
+                EnableRemoveEmptyComments = Bool(SettingKeys.RemoveEmptyComments, defaults.EnableRemoveEmptyComments),
 
                 IncludeCSharp = Bool(SettingKeys.IncludeCSharp, defaults.IncludeCSharp),
                 IncludeVisualBasic = Bool(SettingKeys.IncludeVisualBasic, defaults.IncludeVisualBasic),

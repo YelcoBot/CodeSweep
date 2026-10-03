@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Xunit;
+using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules;
 
 namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Tests.Rules
@@ -47,7 +48,7 @@ namespace TestNamespace
                 Document document = workspace.AddDocument(project.Id, "TestDoc.cs", SourceText.From(code));
 
                 RemoveUnusedUsingsRule rule = new RemoveUnusedUsingsRule();
-                Document updatedDoc = await rule.ApplyAsync(document);
+                Document updatedDoc = await rule.ApplyAsync(document, new SweepOptions());
                 string updatedText = (await updatedDoc.GetTextAsync()).ToString();
 
                 updatedText.Should().Contain("using System;");

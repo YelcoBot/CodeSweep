@@ -8,6 +8,9 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
     {
         private const string General = "codeSweep.general.";
         private const string Rules = "codeSweep.rules.";
+        private const string Whitespace = "codeSweep.whitespace.";
+        private const string CSharpVb = "codeSweep.csharpVb.";
+        private const string Markup = "codeSweep.markup.";
         private const string FileTypes = "codeSweep.fileTypes.";
 
         public const string CleanupOnSave = General + "cleanupOnSave";
@@ -15,8 +18,37 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         public const string RemoveUnusedLocalVariables = Rules + "removeUnusedLocalVariables";
         public const string RemoveUnusedUsings = Rules + "removeUnusedUsings";
         public const string SortUsings = Rules + "sortUsings";
-        public const string RemoveConsecutiveBlankLines = Rules + "removeConsecutiveBlankLines";
         public const string FormatDocument = Rules + "formatDocument";
+
+        public const string RemoveConsecutiveBlankLines = Whitespace + "removeConsecutiveBlankLines";
+        public const string MaxConsecutiveBlankLines = Whitespace + "maxConsecutiveBlankLines";
+        public const string RemoveLeadingBlankLines = Whitespace + "removeLeadingBlankLines";
+        public const string RemoveTrailingBlankLines = Whitespace + "removeTrailingBlankLines";
+        public const string TrimTrailingWhitespace = Whitespace + "trimTrailingWhitespace";
+        public const string SingleFinalNewline = Whitespace + "singleFinalNewline";
+
+        public const string RemoveBlankLinesAfterOpenBlock = CSharpVb + "removeBlankLinesAfterOpenBlock";
+        public const string RemoveBlankLinesBeforeCloseBlock = CSharpVb + "removeBlankLinesBeforeCloseBlock";
+        public const string RemoveBlankLinesAfterAttributes = CSharpVb + "removeBlankLinesAfterAttributes";
+        public const string RemoveBlankLinesBetweenChainedCalls = CSharpVb + "removeBlankLinesBetweenChainedCalls";
+        public const string BlankLineBetweenMembers = CSharpVb + "blankLineBetweenMembers";
+        public const string BlankLineBetweenMemberKinds = CSharpVb + "blankLineBetweenMemberKinds";
+        public const string BlankLineAroundRegions = CSharpVb + "blankLineAroundRegions";
+        public const string BlankLineBeforeCase = CSharpVb + "blankLineBeforeCase";
+        public const string BlankLineBeforeSingleLineComments = CSharpVb + "blankLineBeforeSingleLineComments";
+        public const string BlankLineAfterUsings = CSharpVb + "blankLineAfterUsings";
+        public const string RemoveAllRegions = CSharpVb + "removeAllRegions";
+        public const string UpdateEndRegionText = CSharpVb + "updateEndRegionText";
+        public const string RemoveEmptyRegions = CSharpVb + "removeEmptyRegions";
+        public const string ReorganizeMembers = CSharpVb + "reorganizeMembers";
+        public const string MemberKindOrder = CSharpVb + "memberKindOrder";
+        public const string AccessOrder = CSharpVb + "accessOrder";
+        public const string UniformAccessors = CSharpVb + "uniformAccessors";
+        public const string WrapComments = CSharpVb + "wrapComments";
+        public const string CommentWrapColumn = CSharpVb + "commentWrapColumn";
+        public const string SpaceAfterCommentPrefix = CSharpVb + "spaceAfterCommentPrefix";
+        public const string RemoveBlankLinesInsideTags = Markup + "removeBlankLinesInsideTags";
+        public const string RemoveEmptyComments = Markup + "removeEmptyComments";
 
         public const string IncludeCSharp = FileTypes + "includeCSharp";
         public const string IncludeVisualBasic = FileTypes + "includeVisualBasic";

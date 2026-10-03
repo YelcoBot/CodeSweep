@@ -15,7 +15,7 @@
     },
 
     // =============================================
-    // Cleanup Rules (C#)
+    // Roslyn (C# y VB)
     // =============================================
     "codeSweep.rules.removeUnusedLocalVariables": {
       "type": "boolean",
@@ -38,19 +38,226 @@
       "default": true,
       "order": 2
     },
-    "codeSweep.rules.removeConsecutiveBlankLines": {
-      "type": "boolean",
-      "title": "@Setting_RemoveConsecutiveBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveConsecutiveBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 3
-    },
     "codeSweep.rules.formatDocument": {
       "type": "boolean",
       "title": "@Setting_FormatDocument_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
       "description": "@Setting_FormatDocument_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
       "default": true,
+      "order": 3
+    },
+
+    // =============================================
+    // Whitespace (todos los archivos, en las tres vías)
+    // =============================================
+    "codeSweep.whitespace.removeConsecutiveBlankLines": {
+      "type": "boolean",
+      "title": "@Setting_RemoveConsecutiveBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveConsecutiveBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 0
+    },
+    "codeSweep.whitespace.maxConsecutiveBlankLines": {
+      "type": "integer",
+      "title": "@Setting_MaxConsecutiveBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_MaxConsecutiveBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": 1,
+      "minimum": 0,
+      "maximum": 10,
+      "order": 1,
+      "enableWhen": "${config:codeSweep.whitespace.removeConsecutiveBlankLines}=='true'"
+    },
+    "codeSweep.whitespace.removeLeadingBlankLines": {
+      "type": "boolean",
+      "title": "@Setting_RemoveLeadingBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveLeadingBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 2
+    },
+    "codeSweep.whitespace.removeTrailingBlankLines": {
+      "type": "boolean",
+      "title": "@Setting_RemoveTrailingBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveTrailingBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 3
+    },
+    "codeSweep.whitespace.trimTrailingWhitespace": {
+      "type": "boolean",
+      "title": "@Setting_TrimTrailingWhitespace_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_TrimTrailingWhitespace_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
       "order": 4
+    },
+    "codeSweep.whitespace.singleFinalNewline": {
+      "type": "boolean",
+      "title": "@Setting_SingleFinalNewline_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_SingleFinalNewline_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 5
+    },
+
+    // =============================================
+    // C# y VB
+    // =============================================
+    "codeSweep.csharpVb.removeBlankLinesAfterOpenBlock": {
+      "type": "boolean",
+      "title": "@Setting_RemoveBlankLinesAfterOpenBlock_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveBlankLinesAfterOpenBlock_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 0
+    },
+    "codeSweep.csharpVb.removeBlankLinesBeforeCloseBlock": {
+      "type": "boolean",
+      "title": "@Setting_RemoveBlankLinesBeforeCloseBlock_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveBlankLinesBeforeCloseBlock_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 1
+    },
+    "codeSweep.csharpVb.removeBlankLinesAfterAttributes": {
+      "type": "boolean",
+      "title": "@Setting_RemoveBlankLinesAfterAttributes_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveBlankLinesAfterAttributes_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 2
+    },
+    "codeSweep.csharpVb.removeBlankLinesBetweenChainedCalls": {
+      "type": "boolean",
+      "title": "@Setting_RemoveBlankLinesBetweenChainedCalls_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveBlankLinesBetweenChainedCalls_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 3
+    },
+    "codeSweep.csharpVb.blankLineBetweenMembers": {
+      "type": "boolean",
+      "title": "@Setting_BlankLineBetweenMembers_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_BlankLineBetweenMembers_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 4
+    },
+    "codeSweep.csharpVb.blankLineBetweenMemberKinds": {
+      "type": "string",
+      "title": "@Setting_BlankLineBetweenMemberKinds_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_BlankLineBetweenMemberKinds_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": "Methods;Properties;Constructors;Types;Enums;Events",
+      "order": 5,
+      "enableWhen": "${config:codeSweep.csharpVb.blankLineBetweenMembers}=='true'"
+    },
+    "codeSweep.csharpVb.blankLineAroundRegions": {
+      "type": "boolean",
+      "title": "@Setting_BlankLineAroundRegions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_BlankLineAroundRegions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": false,
+      "order": 6
+    },
+    "codeSweep.csharpVb.blankLineBeforeCase": {
+      "type": "boolean",
+      "title": "@Setting_BlankLineBeforeCase_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_BlankLineBeforeCase_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": false,
+      "order": 7
+    },
+    "codeSweep.csharpVb.blankLineBeforeSingleLineComments": {
+      "type": "boolean",
+      "title": "@Setting_BlankLineBeforeSingleLineComments_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_BlankLineBeforeSingleLineComments_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 8
+    },
+    "codeSweep.csharpVb.blankLineAfterUsings": {
+      "type": "boolean",
+      "title": "@Setting_BlankLineAfterUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 9
+    },
+    "codeSweep.csharpVb.removeAllRegions": {
+      "type": "boolean",
+      "title": "@Setting_RemoveAllRegions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveAllRegions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": false,
+      "order": 10
+    },
+    "codeSweep.csharpVb.updateEndRegionText": {
+      "type": "boolean",
+      "title": "@Setting_UpdateEndRegionText_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_UpdateEndRegionText_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": false,
+      "order": 11
+    },
+    "codeSweep.csharpVb.removeEmptyRegions": {
+      "type": "boolean",
+      "title": "@Setting_RemoveEmptyRegions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 12
+    },
+    "codeSweep.csharpVb.reorganizeMembers": {
+      "type": "boolean",
+      "title": "@Setting_ReorganizeMembers_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_ReorganizeMembers_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": false,
+      "order": 13
+    },
+    "codeSweep.csharpVb.memberKindOrder": {
+      "type": "string",
+      "title": "@Setting_MemberKindOrder_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_MemberKindOrder_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": "Fields;Constructors;Properties;Events;Methods;Enums;Types",
+      "order": 14,
+      "enableWhen": "${config:codeSweep.csharpVb.reorganizeMembers}=='true'"
+    },
+    "codeSweep.csharpVb.accessOrder": {
+      "type": "string",
+      "title": "@Setting_AccessOrder_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_AccessOrder_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": "public;internal;protected internal;protected;private protected;private",
+      "order": 15,
+      "enableWhen": "${config:codeSweep.csharpVb.reorganizeMembers}=='true'"
+    },
+    "codeSweep.csharpVb.uniformAccessors": {
+      "type": "boolean",
+      "title": "@Setting_UniformAccessors_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_UniformAccessors_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": false,
+      "order": 16
+    },
+    "codeSweep.csharpVb.wrapComments": {
+      "type": "boolean",
+      "title": "@Setting_WrapComments_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_WrapComments_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": false,
+      "order": 17
+    },
+    "codeSweep.csharpVb.commentWrapColumn": {
+      "type": "integer",
+      "title": "@Setting_CommentWrapColumn_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_CommentWrapColumn_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": 120,
+      "minimum": 40,
+      "maximum": 400,
+      "order": 18,
+      "enableWhen": "${config:codeSweep.csharpVb.wrapComments}=='true'"
+    },
+    "codeSweep.csharpVb.spaceAfterCommentPrefix": {
+      "type": "boolean",
+      "title": "@Setting_SpaceAfterCommentPrefix_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_SpaceAfterCommentPrefix_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": false,
+      "order": 19
+    },
+
+    // =============================================
+    // Markup (Web Forms, Razor, HTML, XML / Config, XAML)
+    // =============================================
+    "codeSweep.markup.removeBlankLinesInsideTags": {
+      "type": "boolean",
+      "title": "@Setting_RemoveBlankLinesInsideTags_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "description": "@Setting_RemoveBlankLinesInsideTags_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 0
+    },
+    "codeSweep.markup.removeEmptyComments": {
+      "type": "boolean",
+      "title": "@Setting_RemoveEmptyComments_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "default": true,
+      "order": 1
     },
 
     // =============================================
@@ -177,9 +384,21 @@
       "title": "@Category_Rules;{a2f2b3c4-1111-4222-3333-444455556666}",
       "order": 1
     },
+    "codeSweep.whitespace": {
+      "title": "@Category_Whitespace;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "order": 2
+    },
+    "codeSweep.csharpVb": {
+      "title": "@Category_CSharpVb;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "order": 3
+    },
+    "codeSweep.markup": {
+      "title": "@Category_Markup;{a2f2b3c4-1111-4222-3333-444455556666}",
+      "order": 4
+    },
     "codeSweep.fileTypes": {
       "title": "@Category_FileTypes;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "order": 2
+      "order": 5
     }
   }
 }

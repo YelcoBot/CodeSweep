@@ -57,7 +57,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                     return EditorFormatOutcome.NotHandled;
 
                 IVsEditorAdaptersFactoryService adapters = await VS.GetMefServiceAsync<IVsEditorAdaptersFactoryService>();
-                return await FormatDocumentCommand.ExecuteAsync(view, adapters, filePath, options.EnableRemoveConsecutiveBlankLines, FormatDocumentCommand.RealEditorTimeout, cancellationToken);
+                return await FormatDocumentCommand.ExecuteAsync(view, adapters, filePath, options, FormatDocumentCommand.RealEditorTimeout, cancellationToken);
             }
             finally
             {

@@ -3,22 +3,35 @@
   <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>  <data name="Category_Rules" xml:space="preserve"><value>Cleanup Rules</value></data>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>  <data name="Category_Rules" xml:space="preserve"><value>Roslyn (C# and VB)</value></data>
+  <data name="Category_Whitespace" xml:space="preserve"><value>Whitespace (all files)</value></data>
+  <data name="Category_CSharpVb" xml:space="preserve"><value>C# and VB</value></data>
+  <data name="Category_Markup" xml:space="preserve"><value>Markup (Web Forms, Razor, HTML, XML, XAML)</value></data>
   <data name="Category_FileTypes" xml:space="preserve"><value>File Types</value></data>
   <data name="Setting_CleanupOnSave_Title" xml:space="preserve"><value>Automatic cleanup on save</value></data>
   <data name="Setting_CleanupOnSave_Description" xml:space="preserve"><value>Clean each document right before it is saved.</value></data>
   <data name="Setting_RemoveUnusedLocalVariables_Title" xml:space="preserve"><value>Remove unused local variables</value></data>
-  <data name="Setting_RemoveUnusedLocalVariables_Description" xml:space="preserve"><value>Removes locals reported as CS0168 / CS0219. Skipped when the file has compile errors.</value></data>
-  <data name="Setting_RemoveUnusedUsings_Title" xml:space="preserve"><value>Remove unused usings</value></data>
-  <data name="Setting_RemoveUnusedUsings_Description" xml:space="preserve"><value>Removes using directives reported as CS8019. Skipped when the file has compile errors.</value></data>
-  <data name="Setting_SortUsings_Title" xml:space="preserve"><value>Sort usings</value></data>
-  <data name="Setting_SortUsings_Description" xml:space="preserve"><value>global → normal → static → alias; System.* first; then alphabetical.</value></data>
-  <data name="Setting_RemoveConsecutiveBlankLines_Title" xml:space="preserve"><value>Remove consecutive blank lines</value></data>
-  <data name="Setting_RemoveConsecutiveBlankLines_Description" xml:space="preserve"><value>Keeps at most one blank line in a row, in C# and in files formatted with the editor (except .js/.ts). Never touches strings, disabled code, &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; or CDATA.</value></data>
+  <data name="Setting_RemoveUnusedLocalVariables_Description" xml:space="preserve"><value>C#: CS0168 / CS0219. VB: BC42024 / BC42099. Only when the value has no side effects. Skipped when the file has compile errors.</value></data>
+  <data name="Setting_RemoveUnusedUsings_Title" xml:space="preserve"><value>Remove unused usings / Imports</value></data>
+  <data name="Setting_RemoveUnusedUsings_Description" xml:space="preserve"><value>C#: CS8019. VB: BC50000 / BC50001. Skipped when the file has compile errors.</value></data>
+  <data name="Setting_SortUsings_Title" xml:space="preserve"><value>Sort usings / Imports</value></data>
+  <data name="Setting_SortUsings_Description" xml:space="preserve"><value>System.* first, then alphabetical. C#: global → normal → static → alias. VB: normal → alias → XML.</value></data>
   <data name="Setting_FormatDocument_Title" xml:space="preserve"><value>Format document</value></data>
   <data name="Setting_FormatDocument_Description" xml:space="preserve"><value>Roslyn formatting; respects your .editorconfig.</value></data>
+  <data name="Setting_RemoveConsecutiveBlankLines_Title" xml:space="preserve"><value>Remove consecutive blank lines</value></data>
+  <data name="Setting_RemoveConsecutiveBlankLines_Description" xml:space="preserve"><value>Keeps at most the configured number of blank lines in a row. Applies to every file type. Never touches strings, template strings, disabled code, &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; or CDATA.</value></data>
+  <data name="Setting_MaxConsecutiveBlankLines_Title" xml:space="preserve"><value>Maximum consecutive blank lines</value></data>
+  <data name="Setting_MaxConsecutiveBlankLines_Description" xml:space="preserve"><value>Blank lines allowed in a row (0 removes them all).</value></data>
+  <data name="Setting_RemoveLeadingBlankLines_Title" xml:space="preserve"><value>Remove blank lines at the start of the file</value></data>
+  <data name="Setting_RemoveLeadingBlankLines_Description" xml:space="preserve"><value>Applies to every file type.</value></data>
+  <data name="Setting_RemoveTrailingBlankLines_Title" xml:space="preserve"><value>Remove blank lines at the end of the file</value></data>
+  <data name="Setting_RemoveTrailingBlankLines_Description" xml:space="preserve"><value>Applies to every file type.</value></data>
+  <data name="Setting_TrimTrailingWhitespace_Title" xml:space="preserve"><value>Remove trailing whitespace</value></data>
+  <data name="Setting_TrimTrailingWhitespace_Description" xml:space="preserve"><value>Applies to every file type. Never touches strings, template strings, disabled code, &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; or CDATA.</value></data>
+  <data name="Setting_SingleFinalNewline_Title" xml:space="preserve"><value>Exactly one newline at the end of the file</value></data>
+  <data name="Setting_SingleFinalNewline_Description" xml:space="preserve"><value>Adds it when missing and removes extra ones. Applies to every file type.</value></data>
   <data name="Setting_IncludeCSharp_Description" xml:space="preserve"><value>Cleaned with Roslyn, in the background and in parallel.</value></data>
-  <data name="Setting_IncludeVisualBasic_Description" xml:space="preserve"><value>Cleaned with Roslyn (formatting only).</value></data>
+  <data name="Setting_IncludeVisualBasic_Description" xml:space="preserve"><value>Cleaned with Roslyn, in the background and in parallel.</value></data>
   <data name="Setting_EditorFormatted_Description" xml:space="preserve"><value>Formatted with the Visual Studio editor.</value></data>
   <data name="Setting_IncludeStyles_Title" xml:space="preserve"><value>Styles (.css, .less, .scss)</value></data>
   <data name="Setting_AdditionalFileExtensions_Title" xml:space="preserve"><value>Additional file extensions</value></data>
@@ -31,4 +44,45 @@
   <data name="Setting_ExcludePatterns_Description" xml:space="preserve"><value>Files whose full path matches any expression are skipped. Separate with &apos;;&apos;.</value></data>
   <data name="Setting_RegenerateWebFormsDesigner_Title" xml:space="preserve"><value>Regenerate Web Forms designer after formatting</value></data>
   <data name="Setting_RegenerateWebFormsDesigner_Description" xml:space="preserve"><value>After formatting .aspx/.ascx/.master files, regenerates their .designer.cs with &apos;Convert to Web Application&apos; (Web Application projects only). Usually not needed: formatting does not change controls.</value></data>
+  <data name="Setting_RemoveBlankLinesAfterOpenBlock_Title" xml:space="preserve"><value>Remove blank lines after opening a block</value></data>
+  <data name="Setting_RemoveBlankLinesAfterOpenBlock_Description" xml:space="preserve"><value>After &apos;{&apos; in C#; after Sub, If, For, Class… in VB.</value></data>
+  <data name="Setting_RemoveBlankLinesBeforeCloseBlock_Title" xml:space="preserve"><value>Remove blank lines before closing a block</value></data>
+  <data name="Setting_RemoveBlankLinesBeforeCloseBlock_Description" xml:space="preserve"><value>Before &apos;}&apos; in C#; before End, Next, Loop, Else, Catch… in VB.</value></data>
+  <data name="Setting_RemoveBlankLinesAfterAttributes_Title" xml:space="preserve"><value>Remove blank lines after attributes</value></data>
+  <data name="Setting_RemoveBlankLinesAfterAttributes_Description" xml:space="preserve"><value>[HttpPost] / &lt;WebMethod()&gt; stays right above its member.</value></data>
+  <data name="Setting_RemoveBlankLinesBetweenChainedCalls_Title" xml:space="preserve"><value>Remove blank lines between chained calls</value></data>
+  <data name="Setting_RemoveBlankLinesBetweenChainedCalls_Description" xml:space="preserve"><value>Lines that start with &apos;.Method()&apos; in C#.</value></data>
+  <data name="Setting_BlankLineBetweenMembers_Title" xml:space="preserve"><value>Blank line between members</value></data>
+  <data name="Setting_BlankLineBetweenMembers_Description" xml:space="preserve"><value>Adds one when missing, for the member types below.</value></data>
+  <data name="Setting_BlankLineBetweenMemberKinds_Title" xml:space="preserve"><value>Member types separated by a blank line</value></data>
+  <data name="Setting_BlankLineBetweenMemberKinds_Description" xml:space="preserve"><value>Separate with &apos;;&apos;. Available: Fields, Constructors, Properties, Methods, Events, Enums, Types.</value></data>
+  <data name="Setting_BlankLineAroundRegions_Title" xml:space="preserve"><value>Blank line around regions</value></data>
+  <data name="Setting_BlankLineAroundRegions_Description" xml:space="preserve"><value>Before and after #region / #endregion (#Region / #End Region).</value></data>
+  <data name="Setting_BlankLineBeforeCase_Title" xml:space="preserve"><value>Blank line before each case</value></data>
+  <data name="Setting_BlankLineBeforeCase_Description" xml:space="preserve"><value>Every case / Case except the first one.</value></data>
+  <data name="Setting_BlankLineBeforeSingleLineComments_Title" xml:space="preserve"><value>Blank line before single-line comments</value></data>
+  <data name="Setting_BlankLineBeforeSingleLineComments_Description" xml:space="preserve"><value>Not after opening a block, another comment, a directive or a case label.</value></data>
+  <data name="Setting_BlankLineAfterUsings_Title" xml:space="preserve"><value>Blank line after usings / Imports</value></data>
+  <data name="Setting_RemoveAllRegions_Title" xml:space="preserve"><value>Remove all regions</value></data>
+  <data name="Setting_RemoveAllRegions_Description" xml:space="preserve"><value>Removes #region / #endregion and keeps their content.</value></data>
+  <data name="Setting_UpdateEndRegionText_Title" xml:space="preserve"><value>Add the region name to #endregion</value></data>
+  <data name="Setting_UpdateEndRegionText_Description" xml:space="preserve"><value>C#: #endregion Name. VB: #End Region &apos; Name.</value></data>
+  <data name="Setting_RemoveEmptyRegions_Title" xml:space="preserve"><value>Remove empty regions</value></data>
+  <data name="Setting_ReorganizeMembers_Title" xml:space="preserve"><value>Reorganize members by type and access</value></data>
+  <data name="Setting_ReorganizeMembers_Description" xml:space="preserve"><value>Fields keep their relative order. Structs, [StructLayout] types and types with directives between members are not touched.</value></data>
+  <data name="Setting_MemberKindOrder_Title" xml:space="preserve"><value>Member type order</value></data>
+  <data name="Setting_MemberKindOrder_Description" xml:space="preserve"><value>Separate with &apos;;&apos;. Missing types go last.</value></data>
+  <data name="Setting_AccessOrder_Title" xml:space="preserve"><value>Access order</value></data>
+  <data name="Setting_AccessOrder_Description" xml:space="preserve"><value>Separate with &apos;;&apos;. VB: Friend = internal.</value></data>
+  <data name="Setting_UniformAccessors_Title" xml:space="preserve"><value>Accessors all single-line or all multi-line</value></data>
+  <data name="Setting_UniformAccessors_Description" xml:space="preserve"><value>C# only. Single-line when every accessor has at most one statement.</value></data>
+  <data name="Setting_WrapComments_Title" xml:space="preserve"><value>Wrap comments at line width</value></data>
+  <data name="Setting_WrapComments_Description" xml:space="preserve"><value>Splits single-line comments longer than the width. Never joins lines.</value></data>
+  <data name="Setting_CommentWrapColumn_Title" xml:space="preserve"><value>Line width</value></data>
+  <data name="Setting_CommentWrapColumn_Description" xml:space="preserve"><value>Columns (a tab counts as 4).</value></data>
+  <data name="Setting_SpaceAfterCommentPrefix_Title" xml:space="preserve"><value>Space after // and &apos;</value></data>
+  <data name="Setting_SpaceAfterCommentPrefix_Description" xml:space="preserve"><value>//Text → // Text.</value></data>
+  <data name="Setting_RemoveBlankLinesInsideTags_Title" xml:space="preserve"><value>Remove blank lines right inside a tag</value></data>
+  <data name="Setting_RemoveBlankLinesInsideTags_Description" xml:space="preserve"><value>After &lt;div&gt; and before &lt;/div&gt;. Never inside &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; or CDATA.</value></data>
+  <data name="Setting_RemoveEmptyComments_Title" xml:space="preserve"><value>Remove empty comments &lt;!-- --&gt;</value></data>
 </root>

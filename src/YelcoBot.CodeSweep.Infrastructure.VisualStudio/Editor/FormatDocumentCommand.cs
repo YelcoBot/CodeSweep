@@ -11,7 +11,9 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.TextManager.Interop;
-using YelcoBot.CodeSweep.Domain.Services;
+using YelcoBot.CodeSweep.Domain.Options;
+using YelcoBot.CodeSweep.Domain.Services.Whitespace;
+using TextEdit = YelcoBot.CodeSweep.Domain.Services.Whitespace.TextEdit;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 {
@@ -29,15 +31,15 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 
         private static readonly TimeSpan PollInterval = TimeSpan.FromMilliseconds(100);
 
-        /// <param name="collapseBlankLines">
-        /// Tras formatear, dejar como máximo una línea en blanco seguida (opción "Remove consecutive blank lines"),
+        /// <param name="options">
+        /// Tras formatear se aplican las reglas universales activas (líneas en blanco, espacios finales, salto final),
         /// en el mismo buffer y antes de que se guarde.
         /// </param>
         public static async Task<EditorFormatOutcome> ExecuteAsync(
             IVsTextView view,
             IVsEditorAdaptersFactoryService adapters,
             string filePath,
-            bool collapseBlankLines,
+            SweepOptions options,
             TimeSpan timeout,
             CancellationToken cancellationToken)
         {
@@ -57,9 +59,16 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
             if (ErrorHandler.Failed(hr))
                 return EditorFormatOutcome.NotHandled;
 
-            if (collapseBlankLines && BlankLineCollapser.Supports(Path.GetExtension(filePath)))
+            string extension = Path.GetExtension(filePath);
+
+            if (MarkupCleaner.Supports(extension) && MarkupCleaner.IsAnyEnabled(options))
             {
-                CollapseBlankLines(buffer);
+                ApplyEdits(buffer, extension, (lines, guard) => MarkupCleaner.FindEdits(lines, guard, options));
+            }
+
+            if (WhitespaceCleaner.IsAnyEnabled(options))
+            {
+                ApplyEdits(buffer, extension, (lines, guard) => WhitespaceCleaner.FindEdits(lines, guard, options));
             }
 
             return buffer.CurrentSnapshot.Version.VersionNumber != versionBefore
@@ -67,21 +76,27 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                 : EditorFormatOutcome.Unchanged;
         }
 
-        /// <summary>Borra las líneas en blanco sobrantes en una sola edición (un solo paso de deshacer).</summary>
-        private static void CollapseBlankLines(ITextBuffer buffer)
+        /// <summary>Aplica un grupo de reglas en una sola edición (un solo paso de deshacer).</summary>
+        private static void ApplyEdits(
+            ITextBuffer buffer,
+            string extension,
+            Func<IReadOnlyList<TextLineInfo>, ITextGuard, IReadOnlyList<TextEdit>> findEdits)
         {
             ITextSnapshot snapshot = buffer.CurrentSnapshot;
-            List<string> lines = snapshot.Lines.Select(l => l.GetText()).ToList();
+            List<TextLineInfo> lines = snapshot.Lines
+                .Select(l => new TextLineInfo(l.Start.Position, l.GetText(), l.GetLineBreakText()))
+                .ToList();
 
-            IReadOnlyList<int> toRemove = BlankLineCollapser.FindLinesToRemove(lines);
-            if (toRemove.Count == 0)
+            EditorTextGuard guard = EditorTextGuard.Create(extension, lines.Select(l => l.Text).ToList());
+            IReadOnlyList<TextEdit> edits = findEdits(lines, guard);
+            if (edits.Count == 0)
                 return;
 
             using (ITextEdit edit = buffer.CreateEdit())
             {
-                foreach (int lineNumber in toRemove)
+                foreach (TextEdit change in edits)
                 {
-                    edit.Delete(snapshot.GetLineFromLineNumber(lineNumber).ExtentIncludingLineBreak);
+                    edit.Replace(new Span(change.Start, change.Length), change.NewText);
                 }
 
                 edit.Apply();

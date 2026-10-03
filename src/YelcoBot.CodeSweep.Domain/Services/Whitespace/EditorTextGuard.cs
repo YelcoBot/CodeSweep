@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace YelcoBot.CodeSweep.Domain.Services
+namespace YelcoBot.CodeSweep.Domain.Services.Whitespace
 {
     /// <summary>
-    /// Decide qué líneas en blanco sobran en archivos que no son C# (aspx, html, xml, css…):
-    /// deja como máximo <see cref="MaxConsecutiveBlankLines"/> seguidas.
-    /// No toca bloques donde los saltos de línea son contenido: &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; y CDATA.
+    /// Protección para los archivos que formatea el editor de VS (aspx, html, xml, css, js…), por línea:
+    /// - JS/TS: líneas dentro de template strings (`…`) o strings con continuación de línea.
+    /// - Resto: bloques donde los saltos de línea son contenido: &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; y CDATA.
     /// </summary>
-    public static class BlankLineCollapser
+    public sealed class EditorTextGuard : ITextGuard
     {
-        public const int MaxConsecutiveBlankLines = 1;
-
-        /// <summary>JS/TS: los template strings (`…`) pueden tener líneas en blanco que son texto. No se tocan.</summary>
-        private static readonly HashSet<string> UnsafeExtensions = new(StringComparer.OrdinalIgnoreCase) { ".js", ".ts" };
+        private static readonly HashSet<string> ScriptExtensions = new(StringComparer.OrdinalIgnoreCase)
+        {
+            ".js", ".ts", ".jsx", ".tsx", ".mjs", ".cjs"
+        };
 
         private static readonly (Regex Open, Regex Close)[] ProtectedBlocks =
         {
@@ -24,13 +24,28 @@ namespace YelcoBot.CodeSweep.Domain.Services
             (new Regex(@"<!\[CDATA\[", RegexOptions.IgnoreCase), new Regex(@"\]\]>", RegexOptions.IgnoreCase))
         };
 
-        public static bool Supports(string extension) => !UnsafeExtensions.Contains(extension ?? string.Empty);
+        private readonly bool[] _protectedLines;
 
-        /// <summary>Índices (0-based) de las líneas en blanco a eliminar, de menor a mayor.</summary>
-        public static IReadOnlyList<int> FindLinesToRemove(IReadOnlyList<string> lines)
+        private EditorTextGuard(bool[] protectedLines)
         {
-            List<int> toRemove = new List<int>();
-            int blankRun = 0;
+            _protectedLines = protectedLines;
+        }
+
+        public static EditorTextGuard Create(string extension, IReadOnlyList<string> lines)
+        {
+            return new EditorTextGuard(ScriptExtensions.Contains(extension ?? string.Empty)
+                ? ScriptScanner.FindProtectedLines(lines)
+                : FindProtectedBlockLines(lines));
+        }
+
+        public bool CanRemoveLine(int lineIndex) => !_protectedLines[lineIndex];
+
+        public bool CanTrimLineEnd(int lineIndex) => !_protectedLines[lineIndex];
+
+        /// <summary>Desde la línea que abre el bloque hasta la que lo cierra, ambas incluidas.</summary>
+        private static bool[] FindProtectedBlockLines(IReadOnlyList<string> lines)
+        {
+            bool[] result = new bool[lines.Count];
             int protectedBlock = -1;
 
             for (int i = 0; i < lines.Count; i++)
@@ -39,7 +54,7 @@ namespace YelcoBot.CodeSweep.Domain.Services
 
                 if (protectedBlock >= 0)
                 {
-                    blankRun = 0;
+                    result[i] = true;
                     if (ProtectedBlocks[protectedBlock].Close.IsMatch(line))
                     {
                         protectedBlock = -1;
@@ -48,22 +63,11 @@ namespace YelcoBot.CodeSweep.Domain.Services
                     continue;
                 }
 
-                if (string.IsNullOrWhiteSpace(line))
-                {
-                    blankRun++;
-                    if (blankRun > MaxConsecutiveBlankLines)
-                    {
-                        toRemove.Add(i);
-                    }
-
-                    continue;
-                }
-
-                blankRun = 0;
                 protectedBlock = FindOpenedBlock(line);
+                result[i] = protectedBlock >= 0;
             }
 
-            return toRemove;
+            return result;
         }
 
         /// <summary>Bloque protegido que se abre en esta línea y no se cierra en ella (-1 si ninguno).</summary>

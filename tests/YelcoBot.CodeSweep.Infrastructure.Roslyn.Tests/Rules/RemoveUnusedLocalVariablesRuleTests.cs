@@ -47,7 +47,7 @@ namespace TestNamespace
                 RemoveUnusedLocalVariablesRule rule = new RemoveUnusedLocalVariablesRule();
                 SweepOptions options = new SweepOptions();
 
-                Document updatedDoc = await rule.ApplyAsync(document);
+                Document updatedDoc = await rule.ApplyAsync(document, new SweepOptions());
                 string updatedText = (await updatedDoc.GetTextAsync()).ToString();
 
                 updatedText.Should().NotContain("int unusedVar = 10;");

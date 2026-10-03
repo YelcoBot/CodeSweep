@@ -10,6 +10,6 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Abstractions
         string Id { get; }
         int Order { get; }
         bool IsEnabled(SweepOptions options);
-        Task<Document> ApplyAsync(Document document, CancellationToken cancellationToken = default);
+        Task<Document> ApplyAsync(Document document, SweepOptions options, CancellationToken cancellationToken = default);
     }
 }
