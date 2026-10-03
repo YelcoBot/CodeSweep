@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Domain.Results;
 using YelcoBot.CodeSweep.Domain.Selection;

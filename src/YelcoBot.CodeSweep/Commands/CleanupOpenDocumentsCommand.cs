@@ -1,4 +1,3 @@
-using System;
 using Community.VisualStudio.Toolkit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.Shell;

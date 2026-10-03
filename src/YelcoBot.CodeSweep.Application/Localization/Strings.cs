@@ -22,42 +22,67 @@ namespace YelcoBot.CodeSweep.Application.Localization
 
         // Menús
         public static string CommandCleanupActiveDocument => Get(nameof(CommandCleanupActiveDocument));
+
         public static string CommandCleanupOpenCode => Get(nameof(CommandCleanupOpenCode));
+
         public static string CommandCleanupAllCode => Get(nameof(CommandCleanupAllCode));
+
         public static string CommandCleanupOnSave => Get(nameof(CommandCleanupOnSave));
+
         public static string CommandCleanupSelectedCode => Get(nameof(CommandCleanupSelectedCode));
 
         // Progreso
         public static string ProgressActiveDocument => Get(nameof(ProgressActiveDocument));
+
         public static string ProgressOpenDocuments => Get(nameof(ProgressOpenDocuments));
+
         public static string ProgressSelectedItems => Get(nameof(ProgressSelectedItems));
+
         public static string ProgressSolution => Get(nameof(ProgressSolution));
 
         // Confirmaciones
         public static string CommonContinue => Get(nameof(CommonContinue));
+
         public static string SolutionConfirmTitle => Get(nameof(SolutionConfirmTitle));
+
         public static string SolutionConfirmMessage => Get(nameof(SolutionConfirmMessage));
+
         public static string SelectedItemsTitle => Get(nameof(SelectedItemsTitle));
+
         public static string SelectedItemsIncludesFilesAndContainers => Get(nameof(SelectedItemsIncludesFilesAndContainers));
+
         public static string SelectedItemsIncludesContainers => Get(nameof(SelectedItemsIncludesContainers));
+
         public static string SelectedItemsOptionYes => Get(nameof(SelectedItemsOptionYes));
+
         public static string SelectedItemsOptionCancel => Get(nameof(SelectedItemsOptionCancel));
 
         // Tipos de contenedor
         public static string KindSolution => Get(nameof(KindSolution));
+
         public static string KindSolutionFolder => Get(nameof(KindSolutionFolder));
+
         public static string KindProject => Get(nameof(KindProject));
+
         public static string KindFolder => Get(nameof(KindFolder));
 
         // Resumen y errores
         public static string SummaryTitle => Get(nameof(SummaryTitle));
+
         public static string SummaryCancelled => Get(nameof(SummaryCancelled));
+
         public static string FailureWorkspaceChanged => Get(nameof(FailureWorkspaceChanged));
+
         public static string DesignerNoSolutionExplorer => Get(nameof(DesignerNoSolutionExplorer));
+
         public static string DesignerNotInSolution => Get(nameof(DesignerNotInSolution));
+
         public static string DesignerCommandNotAvailable => Get(nameof(DesignerCommandNotAvailable));
+
         public static string EditorAskTitle => Get(nameof(EditorAskTitle));
+
         public static string EditorAskQuestion => Get(nameof(EditorAskQuestion));
+
         public static string EditorCannotFormat => Get(nameof(EditorCannotFormat));
 
         // Con formato ({0}, {1}…): usar Format(nameof(...), args)
@@ -74,5 +99,7 @@ namespace YelcoBot.CodeSweep.Application.Localization
         public const string EditorCannotFormatInBackground = nameof(EditorCannotFormatInBackground);
         public const string LogCleanupOnSave = nameof(LogCleanupOnSave);
         public const string EditorAskHeader = nameof(EditorAskHeader);
+        public const string SqlParseError = nameof(SqlParseError);
+        public const string SqlResultDiscarded = nameof(SqlResultDiscarded);
     }
 }

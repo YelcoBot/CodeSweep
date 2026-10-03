@@ -1,13 +1,10 @@
-using System;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Domain.Results;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Interaction

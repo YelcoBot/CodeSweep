@@ -11,6 +11,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         private const string Whitespace = "codeSweep.whitespace.";
         private const string CSharpVb = "codeSweep.csharpVb.";
         private const string Markup = "codeSweep.markup.";
+        private const string Sql = "codeSweep.sql.";
         private const string FileTypes = "codeSweep.fileTypes.";
 
         public const string CleanupOnSave = General + "cleanupOnSave";
@@ -61,6 +62,13 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         public const string IncludeStyles = FileTypes + "includeStyles";
         public const string IncludeScripts = FileTypes + "includeScripts";
         public const string IncludeJson = FileTypes + "includeJson";
+        public const string IncludeSql = FileTypes + "includeSql";
+        public const string FormatSql = Sql + "formatSql";
+
+        /// <summary>codeSweep.sqlFormatter.formatting.keywordCasing (igual que en CodeSweep.registration.json).</summary>
+        public static string SqlFormatter(Domain.Options.SqlFormatterOption option)
+            => "codeSweep.sqlFormatter." + option.Group + "." + char.ToLowerInvariant(option.Name[0]) + option.Name.Substring(1);
+
         public const string AdditionalFileExtensions = FileTypes + "additionalFileExtensions";
 
         public const string IgnoreGeneratedCode = FileTypes + "ignoreGeneratedCode";

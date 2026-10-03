@@ -1,0 +1,59 @@
+# Name	Group	Default (JSON del usuario)	editorconfig	enTitle	esTitle
+SqlVersion	general	Sql170	sql_version	SQL version	Versión de SQL
+SqlEngineType	general	All	sql_engine_type	SQL engine type	Tipo de motor SQL
+AllowExternalLibraryPaths	general	true	allow_external_library_paths	Allow external library paths	Permitir rutas de bibliotecas externas
+AllowExternalLanguagePaths	general	true	allow_external_language_paths	Allow external language paths	Permitir rutas de lenguajes externos
+AlignClauseBodies	alignment	false	align_clause_bodies	Align clause bodies	Alinear cuerpos de cláusulas
+AlignColumnDefinitionFields	alignment	true	align_column_definition_fields	Align column definition fields	Alinear campos de definición de columnas
+AlignSetClauseItem	alignment	true	align_set_clause_item	Align SET clause items	Alinear elementos de la cláusula SET
+ClauseBodyAlignment	alignment	Indented	clause_body_alignment	Clause body alignment	Alineación del cuerpo de cláusulas
+AsKeywordOnOwnLine	formatting	true	as_keyword_on_own_line	AS keyword on its own line	Palabra clave AS en su propia línea
+KeywordCasing	formatting	Uppercase	keyword_casing	Keyword casing	Mayúsculas de palabras clave
+BuiltInFunctionCasing	formatting	Uppercase	built_in_function_casing	Built-in function casing	Mayúsculas de funciones integradas
+IdentifierCasing	formatting	Preserve	identifier_casing	Identifier casing	Mayúsculas de identificadores
+IdentifierBracketing	formatting	Preserve	identifier_bracketing	Identifier brackets	Corchetes en identificadores
+ColumnAliasStyle	formatting	AsKeyword	column_alias_style	Column alias style	Estilo de alias de columna
+CommaPlacement	formatting	Trailing	comma_placement	Comma placement	Posición de las comas
+LeadingCommaSpaceCount	formatting	1	leading_comma_space_count	Spaces after leading comma	Espacios después de la coma inicial
+IncludeSemicolons	formatting	true	include_semicolons	Include semicolons	Incluir punto y coma
+TerminateBlockStatements	formatting	true	terminate_block_statements	Terminate block statements	Terminar sentencias de bloque
+PreserveComments	formatting	true	preserve_comments	Preserve comments	Conservar comentarios
+PersistTrailingGo	formatting	true	persist_trailing_go	Keep trailing GO	Conservar el GO final
+IndentationSize	indentation	4	indentation_size	Indentation size	Tamaño de la sangría
+IndentationMode	indentation	Tabs	indentation_mode	Indentation mode	Modo de sangría
+IndentSetClause	indentation	true	indent_set_clause	Indent SET clause	Sangría en la cláusula SET
+IndentViewBody	indentation	true	indent_view_body	Indent VIEW body	Sangría en el cuerpo de VIEW
+MultilineSelectElementsList	multiline	true	multiline_select_elements_list	SELECT columns on separate lines	Columnas de SELECT en líneas separadas
+MultilineWherePredicatesList	multiline	true	multiline_where_predicates_list	WHERE predicates on separate lines	Predicados de WHERE en líneas separadas
+MultilineGroupByElementsList	multiline	true	multiline_group_by_elements_list	GROUP BY elements on separate lines	Elementos de GROUP BY en líneas separadas
+MultilineHavingPredicatesList	multiline	true	multiline_having_predicates_list	HAVING predicates on separate lines	Predicados de HAVING en líneas separadas
+MultilineOrderByElementsList	multiline	false	multiline_order_by_elements_list	ORDER BY elements on separate lines	Elementos de ORDER BY en líneas separadas
+MultilinePartitionByElementsList	multiline	false	multiline_partition_by_elements_list	PARTITION BY elements on separate lines	Elementos de PARTITION BY en líneas separadas
+MultilineInValuesList	multiline	false	multiline_in_values_list	IN values on separate lines	Valores de IN en líneas separadas
+MultilineViewColumnsList	multiline	true	multiline_view_columns_list	VIEW columns on separate lines	Columnas de VIEW en líneas separadas
+MultilineSetClauseItems	multiline	true	multiline_set_clause_items	SET items on separate lines	Elementos de SET en líneas separadas
+MultilineInsertTargetsList	multiline	true	multiline_insert_targets_list	INSERT columns on separate lines	Columnas de INSERT en líneas separadas
+MultilineInsertSourcesList	multiline	true	multiline_insert_sources_list	INSERT sources on separate lines	Orígenes de INSERT en líneas separadas
+MultilineProcedureParametersList	multiline	true	multiline_procedure_parameters_list	Procedure parameters on separate lines	Parámetros de procedimientos en líneas separadas
+MultilineNestedFunctionCalls	multiline	false	multiline_nested_function_calls	Nested function call parameters on separate lines	Parámetros de llamadas anidadas en líneas separadas
+MultilineWithOptionsList	multiline	false	multiline_with_options_list	WITH / OPTION options on separate lines	Opciones de WITH / OPTION en líneas separadas
+NewLineBeforeFromClause	newLine	true	new_line_before_from_clause	New line before FROM	Nueva línea antes de FROM
+NewLineBeforeWhereClause	newLine	true	new_line_before_where_clause	New line before WHERE	Nueva línea antes de WHERE
+NewLineBeforeGroupByClause	newLine	true	new_line_before_group_by_clause	New line before GROUP BY	Nueva línea antes de GROUP BY
+NewLineBeforeOrderByClause	newLine	true	new_line_before_order_by_clause	New line before ORDER BY	Nueva línea antes de ORDER BY
+NewLineBeforeHavingClause	newLine	true	new_line_before_having_clause	New line before HAVING	Nueva línea antes de HAVING
+NewLineBeforeWindowClause	newLine	true	new_line_before_window_clause	New line before WINDOW	Nueva línea antes de WINDOW
+NewLineBeforeJoinClause	newLine	true	new_line_before_join_clause	New line before JOIN	Nueva línea antes de JOIN
+NewLineAfterJoinKeyword	newLine	false	new_line_after_join_keyword	New line after JOIN	Nueva línea después de JOIN
+NewLineBeforeOnClause	newLine	true	new_line_before_on_clause	New line before ON	Nueva línea antes de ON
+NewLineBeforeOffsetClause	newLine	true	new_line_before_offset_clause	New line before OFFSET	Nueva línea antes de OFFSET
+NewLineBeforeOutputClause	newLine	true	new_line_before_output_clause	New line before OUTPUT	Nueva línea antes de OUTPUT
+NewLineBeforeOpenParenthesisInMultilineList	newLine	true	new_line_before_open_parenthesis_in_multiline_list	New line before '(' in multi-line lists	Nueva línea antes de '(' en listas multilínea
+NewLineBeforeCloseParenthesisInMultilineList	newLine	true	new_line_before_close_parenthesis_in_multiline_list	New line before ')' in multi-line lists	Nueva línea antes de ')' en listas multilínea
+NewLineFormattedIndexDefinition	newLine	true	newline_formatted_index_definition	Index definitions on multiple lines	Definiciones de índices en varias líneas
+NewlineFormattedCheckConstraint	newLine	true	newline_formatted_check_constraint	CHECK constraints on multiple lines	Restricciones CHECK en varias líneas
+NumNewlinesAfterStatement	newLine	2	num_newlines_after_statement	New lines after each statement	Saltos de línea después de cada sentencia
+NumNewlinesAfterBatchStatement	newLine	1	num_newlines_after_batch_statement	New lines after a batch statement	Saltos de línea después de una sentencia de lote
+NumNewlinesAfterBatches	newLine	2	num_newlines_after_batches	New lines after each batch (GO)	Saltos de línea después de cada lote (GO)
+SpaceBetweenDataTypeAndParameters	spacing	false	space_between_data_type_and_parameters	Space between data type and parameters	Espacio entre el tipo de dato y sus parámetros
+SpaceBetweenParametersInDataType	spacing	true	space_between_parameters_in_data_type	Space between parameters in data types	Espacio entre parámetros de tipos de datos

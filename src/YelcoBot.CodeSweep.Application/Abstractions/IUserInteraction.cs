@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using YelcoBot.CodeSweep.Domain.Results;
 
 namespace YelcoBot.CodeSweep.Application.Abstractions
@@ -21,6 +18,7 @@ namespace YelcoBot.CodeSweep.Application.Abstractions
         Task<UserChoice> AskYesNoCancelAsync(string title, string message);
 
         Task ShowSummaryAsync(SweepSummary summary);
+
         Task RunWithProgressAsync(string title, Func<IProgress<SweepProgress>, CancellationToken, Task> action);
     }
 }

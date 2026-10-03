@@ -16,6 +16,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules
     public class SortUsingsRule : ISweepRule
     {
         public string Id => "SORT_USINGS";
+
         public int Order => 30;
 
         public bool IsEnabled(SweepOptions options) => options.EnableSortUsings;

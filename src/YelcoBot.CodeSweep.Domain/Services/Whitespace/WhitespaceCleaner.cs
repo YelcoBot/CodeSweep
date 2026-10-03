@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using YelcoBot.CodeSweep.Domain.Options;
 
 namespace YelcoBot.CodeSweep.Domain.Services.Whitespace

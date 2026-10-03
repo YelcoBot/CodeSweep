@@ -9,6 +9,10 @@
     <!-- Roslyn -->
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="4.14.0" />
+    <!-- T-SQL (mismo motor que el formateador de SSMS 22.7+) -->
+    <PackageVersion Include="Microsoft.SqlServer.TransactSql.ScriptDom" Version="180.117.0" />
+    <!-- .editorconfig para archivos que no son de Roslyn (.sql) -->
+    <PackageVersion Include="editorconfig" Version="0.18.0" />
     <!-- Visual Studio SDK & Toolkit -->
     <PackageVersion Include="Microsoft.VisualStudio.SDK" Version="17.14.40265" />
     <PackageVersion Include="Microsoft.VisualStudio.LanguageServices" Version="4.14.0" />

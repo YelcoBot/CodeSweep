@@ -65,7 +65,8 @@ namespace YelcoBot.CodeSweep.Domain.Tests.Routing
         [Fact]
         public void Route_ShouldIncludeGeneratedFiles_WhenIgnoreGeneratedCodeIsDisabled()
         {
-            SweepOptions options = new SweepOptions { IgnoreGeneratedCode = false };
+            // Sin patrones de exclusión: el patrón por defecto (\.Designer\.cs$) también lo excluiría.
+            SweepOptions options = new SweepOptions { IgnoreGeneratedCode = false, ExcludePatterns = string.Empty };
 
             _router.Route(@"C:\Repo\Default.aspx.designer.cs", options).Should().Be(CleanupEngine.Roslyn);
         }

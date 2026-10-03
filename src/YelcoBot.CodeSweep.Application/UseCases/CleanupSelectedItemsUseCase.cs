@@ -1,10 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Services;
 using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Domain.Results;

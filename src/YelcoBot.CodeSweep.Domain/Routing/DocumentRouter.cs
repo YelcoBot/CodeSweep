@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Domain.Services;
@@ -40,6 +36,9 @@ namespace YelcoBot.CodeSweep.Domain.Routing
 
             if (extension.Equals(".vb", StringComparison.OrdinalIgnoreCase))
                 return options.IncludeVisualBasic ? CleanupEngine.Roslyn : CleanupEngine.Skip;
+
+            if (extension.Equals(".sql", StringComparison.OrdinalIgnoreCase))
+                return options.IncludeSql ? CleanupEngine.Sql : CleanupEngine.Skip;
 
             if (options.FormatEditorFiles && FileTypeGroups.GetEditorExtensions(options).Contains(extension))
                 return CleanupEngine.Editor;

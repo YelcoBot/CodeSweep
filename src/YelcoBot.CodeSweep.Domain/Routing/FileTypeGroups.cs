@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using YelcoBot.CodeSweep.Domain.Options;
 
 namespace YelcoBot.CodeSweep.Domain.Routing
@@ -20,6 +18,9 @@ namespace YelcoBot.CodeSweep.Domain.Routing
         public static readonly string[] Styles = { ".css", ".less", ".scss" };
         public static readonly string[] Scripts = { ".js", ".ts" };
         public static readonly string[] Json = { ".json" };
+
+        /// <summary>T-SQL: no va al editor, se formatea con ScriptDOM (ver CleanupEngine.Sql).</summary>
+        public static readonly string[] Sql = { ".sql" };
 
         /// <summary>Markup (reglas C.2): Web Forms, Razor, HTML, XML / Config y XAML.</summary>
         public static readonly HashSet<string> Markup = new(StringComparer.OrdinalIgnoreCase)

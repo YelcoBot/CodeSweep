@@ -1,12 +1,12 @@
-using System.Collections.Generic;
-
 namespace YelcoBot.CodeSweep.Domain.Selection
 {
     /// <summary>Contenedor seleccionado en el Explorador de soluciones (solución, proyecto, carpeta).</summary>
     public sealed class SelectedContainer
     {
         public string Kind { get; }
+
         public string Name { get; }
+
         public IReadOnlyList<string> FilePaths { get; }
 
         public SelectedContainer(string kind, string name, IReadOnlyList<string> filePaths)
@@ -22,6 +22,7 @@ namespace YelcoBot.CodeSweep.Domain.Selection
     {
         /// <summary>Archivos seleccionados directamente (incluye sus hijos, ej. Default.aspx → .aspx.cs / .designer.cs).</summary>
         public IReadOnlyList<string> SelectedFilePaths { get; }
+
         public IReadOnlyList<SelectedContainer> Containers { get; }
 
         public int SelectedFileCount => SelectedFilePaths.Count;

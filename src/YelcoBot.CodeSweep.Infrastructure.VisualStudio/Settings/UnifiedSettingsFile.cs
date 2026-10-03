@@ -1,7 +1,5 @@
-using System;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;

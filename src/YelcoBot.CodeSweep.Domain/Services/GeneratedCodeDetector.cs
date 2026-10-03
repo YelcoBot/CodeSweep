@@ -1,4 +1,3 @@
-
 namespace YelcoBot.CodeSweep.Domain.Services
 {
     public sealed class GeneratedCodeDetector

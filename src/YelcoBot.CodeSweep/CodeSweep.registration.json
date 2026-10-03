@@ -2,403 +2,984 @@
 // VS guarda lo que cambia el usuario en settings.json con estas mismas claves; VsSettingsStore las lee (SettingKeys.cs).
 // Al cambiar este archivo, subir "CacheTag" en CodeSweep.Settings.pkgdef para que VS lo vuelva a leer.
 {
-  "properties": {
-    // =============================================
-    // General
-    // =============================================
-    "codeSweep.general.cleanupOnSave": {
-      "type": "boolean",
-      "title": "@Setting_CleanupOnSave_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_CleanupOnSave_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 0
+    "properties": {
+        // =============================================
+        // General
+        // =============================================
+        "codeSweep.general.cleanupOnSave": {
+            "type": "boolean",
+            "title": "@Setting_CleanupOnSave_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_CleanupOnSave_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": false,
+            "order": 0
+        },
+
+        // =============================================
+        // Roslyn (C# y VB)
+        // =============================================
+        "codeSweep.rules.removeUnusedLocalVariables": {
+            "type": "boolean",
+            "title": "@Setting_RemoveUnusedLocalVariables_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveUnusedLocalVariables_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 0,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.rules.removeUnusedUsings": {
+            "type": "boolean",
+            "title": "@Setting_RemoveUnusedUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveUnusedUsings_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 1,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.rules.sortUsings": {
+            "type": "boolean",
+            "title": "@Setting_SortUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_SortUsings_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 2,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.rules.formatDocument": {
+            "type": "boolean",
+            "title": "@Setting_FormatDocument_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_FormatDocument_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 3,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+
+        // =============================================
+        // Whitespace (todos los archivos, en las tres vías)
+        // =============================================
+        "codeSweep.whitespace.removeConsecutiveBlankLines": {
+            "type": "boolean",
+            "title": "@Setting_RemoveConsecutiveBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveConsecutiveBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 0
+        },
+        "codeSweep.whitespace.maxConsecutiveBlankLines": {
+            "type": "integer",
+            "title": "@Setting_MaxConsecutiveBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_MaxConsecutiveBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 10,
+            "order": 1,
+            "enableWhen": "${config:codeSweep.whitespace.removeConsecutiveBlankLines}=='true'"
+        },
+        "codeSweep.whitespace.removeLeadingBlankLines": {
+            "type": "boolean",
+            "title": "@Setting_RemoveLeadingBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveLeadingBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 2
+        },
+        "codeSweep.whitespace.removeTrailingBlankLines": {
+            "type": "boolean",
+            "title": "@Setting_RemoveTrailingBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveTrailingBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 3
+        },
+        "codeSweep.whitespace.trimTrailingWhitespace": {
+            "type": "boolean",
+            "title": "@Setting_TrimTrailingWhitespace_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_TrimTrailingWhitespace_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 4
+        },
+        "codeSweep.whitespace.singleFinalNewline": {
+            "type": "boolean",
+            "title": "@Setting_SingleFinalNewline_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_SingleFinalNewline_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 5
+        },
+
+        // =============================================
+        // SQL (T-SQL)
+        // =============================================
+        "codeSweep.sql.formatSql": {
+            "type": "boolean",
+            "title": "@Setting_FormatSql_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_FormatSql_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 0,
+            "enableWhen": "${config:codeSweep.fileTypes.includeSql}=='true'"
+        },
+
+        // =============================================
+        // Formateador SQL (ScriptDOM): solo las opciones que el producto no tiene (visibleWhen por opción)
+        // =============================================
+        "codeSweep.sqlFormatter.general.sqlVersion": {
+            "type": "string",
+            "enum": [ "Sql90", "Sql80", "Sql100", "Sql110", "Sql120", "Sql130", "Sql140", "Sql150", "Sql160", "Sql170", "SqlFabricDW", "Sql180" ],
+            "title": "@Setting_SqlFmt_SqlVersion;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: sql_version",
+            "default": "Sql170",
+            "order": 0,
+            "visibleWhen": "${uiContext:f620fc8b-5ed2-4f20-9c55-8ac39211cd59} != 'true'"
+        },
+        "codeSweep.sqlFormatter.general.sqlEngineType": {
+            "type": "string",
+            "enum": [ "All", "Standalone", "SqlAzure" ],
+            "title": "@Setting_SqlFmt_SqlEngineType;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: sql_engine_type",
+            "default": "All",
+            "order": 1,
+            "visibleWhen": "${uiContext:8246c74f-fc5d-4e23-b68a-173b394a4e3b} != 'true'"
+        },
+        "codeSweep.sqlFormatter.general.allowExternalLibraryPaths": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_AllowExternalLibraryPaths;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: allow_external_library_paths",
+            "default": true,
+            "order": 2,
+            "visibleWhen": "${uiContext:6396cc63-4af7-4ee4-96b8-3cba99048c81} != 'true'"
+        },
+        "codeSweep.sqlFormatter.general.allowExternalLanguagePaths": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_AllowExternalLanguagePaths;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: allow_external_language_paths",
+            "default": true,
+            "order": 3,
+            "visibleWhen": "${uiContext:57f202b0-7c87-4770-889a-b1d1753d4859} != 'true'"
+        },
+        "codeSweep.sqlFormatter.alignment.alignClauseBodies": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_AlignClauseBodies;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: align_clause_bodies",
+            "default": false,
+            "order": 0,
+            "visibleWhen": "${uiContext:da79b5c6-d389-4ce3-936c-b187020bf944} != 'true'"
+        },
+        "codeSweep.sqlFormatter.alignment.alignColumnDefinitionFields": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_AlignColumnDefinitionFields;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: align_column_definition_fields",
+            "default": true,
+            "order": 1,
+            "visibleWhen": "${uiContext:ed28ef80-ccec-44fa-877f-36b183e2c62b} != 'true'"
+        },
+        "codeSweep.sqlFormatter.alignment.alignSetClauseItem": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_AlignSetClauseItem;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: align_set_clause_item",
+            "default": true,
+            "order": 2,
+            "visibleWhen": "${uiContext:dbfb0e25-9522-4a33-bd5e-3979e5cba62b} != 'true'"
+        },
+        "codeSweep.sqlFormatter.alignment.clauseBodyAlignment": {
+            "type": "string",
+            "enum": [ "Aligned", "Indented" ],
+            "title": "@Setting_SqlFmt_ClauseBodyAlignment;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: clause_body_alignment",
+            "default": "Indented",
+            "order": 3,
+            "visibleWhen": "${uiContext:256af42c-dd50-4924-95af-742da25ae105} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.asKeywordOnOwnLine": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_AsKeywordOnOwnLine;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: as_keyword_on_own_line",
+            "default": true,
+            "order": 0,
+            "visibleWhen": "${uiContext:15c9341e-d677-4ce9-b038-c0f418aca571} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.keywordCasing": {
+            "type": "string",
+            "enum": [ "Lowercase", "Uppercase", "PascalCase" ],
+            "title": "@Setting_SqlFmt_KeywordCasing;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: keyword_casing",
+            "default": "Uppercase",
+            "order": 1,
+            "visibleWhen": "${uiContext:cc2da039-4b5b-44ed-bc5f-043714163ca8} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.builtInFunctionCasing": {
+            "type": "string",
+            "enum": [ "Preserve", "Uppercase", "Lowercase", "PascalCase" ],
+            "title": "@Setting_SqlFmt_BuiltInFunctionCasing;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: built_in_function_casing",
+            "default": "Uppercase",
+            "order": 2,
+            "visibleWhen": "${uiContext:2907b343-e273-4b81-bd51-0cfa357dd2a7} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.identifierCasing": {
+            "type": "string",
+            "enum": [ "Preserve", "Uppercase", "Lowercase", "PascalCase" ],
+            "title": "@Setting_SqlFmt_IdentifierCasing;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: identifier_casing",
+            "default": "Preserve",
+            "order": 3,
+            "visibleWhen": "${uiContext:5eef0c48-ffb1-45d1-8458-4e30979c9116} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.identifierBracketing": {
+            "type": "string",
+            "enum": [ "Preserve", "IncludeBrackets", "ExcludeBrackets" ],
+            "title": "@Setting_SqlFmt_IdentifierBracketing;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: identifier_bracketing",
+            "default": "Preserve",
+            "order": 4,
+            "visibleWhen": "${uiContext:2d11f173-a5ad-42f0-86f6-195bc80f7659} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.columnAliasStyle": {
+            "type": "string",
+            "enum": [ "AsKeyword", "EqualsSign", "Preserve" ],
+            "title": "@Setting_SqlFmt_ColumnAliasStyle;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: column_alias_style",
+            "default": "AsKeyword",
+            "order": 5,
+            "visibleWhen": "${uiContext:1486169c-61fd-473b-aeb2-1ddb72fede86} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.commaPlacement": {
+            "type": "string",
+            "enum": [ "Trailing", "Leading" ],
+            "title": "@Setting_SqlFmt_CommaPlacement;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: comma_placement",
+            "default": "Trailing",
+            "order": 6,
+            "visibleWhen": "${uiContext:ac0f9694-99ad-4348-8611-adce8900ba03} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.leadingCommaSpaceCount": {
+            "type": "integer",
+            "title": "@Setting_SqlFmt_LeadingCommaSpaceCount;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: leading_comma_space_count",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 1,
+            "order": 7,
+            "visibleWhen": "${uiContext:b53b7ad2-4e2c-483e-a6c4-f1a81117a3b5} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.includeSemicolons": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_IncludeSemicolons;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: include_semicolons",
+            "default": true,
+            "order": 8,
+            "visibleWhen": "${uiContext:f75d7ce6-fcc6-464b-9698-df7ac6a56baa} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.terminateBlockStatements": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_TerminateBlockStatements;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: terminate_block_statements",
+            "default": true,
+            "order": 9,
+            "visibleWhen": "${uiContext:89e5198d-d89d-41d3-a164-e7a728d3c6e2} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.preserveComments": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_PreserveComments;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: preserve_comments",
+            "default": true,
+            "order": 10,
+            "visibleWhen": "${uiContext:4805cd29-f474-424a-b95d-a6fd5310bb39} != 'true'"
+        },
+        "codeSweep.sqlFormatter.formatting.persistTrailingGo": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_PersistTrailingGo;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: persist_trailing_go",
+            "default": true,
+            "order": 11,
+            "visibleWhen": "${uiContext:8b09a6f5-3882-4fa1-9750-dc36f1c35ed0} != 'true'"
+        },
+        "codeSweep.sqlFormatter.indentation.indentationSize": {
+            "type": "integer",
+            "title": "@Setting_SqlFmt_IndentationSize;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: indentation_size",
+            "default": 4,
+            "minimum": 1,
+            "maximum": 8,
+            "order": 0,
+            "visibleWhen": "${uiContext:976c087f-1f95-438e-8dd4-0f3832202dea} != 'true'"
+        },
+        "codeSweep.sqlFormatter.indentation.indentationMode": {
+            "type": "string",
+            "enum": [ "Spaces", "Tabs" ],
+            "title": "@Setting_SqlFmt_IndentationMode;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: indentation_mode",
+            "default": "Tabs",
+            "order": 1,
+            "visibleWhen": "${uiContext:85220ea1-3505-40d4-83c1-fba004f84605} != 'true'"
+        },
+        "codeSweep.sqlFormatter.indentation.indentSetClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_IndentSetClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: indent_set_clause",
+            "default": true,
+            "order": 2,
+            "visibleWhen": "${uiContext:7a1c6eca-2775-4b0a-99cf-cd8701a22d33} != 'true'"
+        },
+        "codeSweep.sqlFormatter.indentation.indentViewBody": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_IndentViewBody;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: indent_view_body",
+            "default": true,
+            "order": 3,
+            "visibleWhen": "${uiContext:ee42b8bb-b6c3-4853-a08b-c4699e3a5db9} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineSelectElementsList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineSelectElementsList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_select_elements_list",
+            "default": true,
+            "order": 0,
+            "visibleWhen": "${uiContext:01f86128-8319-4476-8ce9-2bfc98964bc7} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineWherePredicatesList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineWherePredicatesList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_where_predicates_list",
+            "default": true,
+            "order": 1,
+            "visibleWhen": "${uiContext:c13cfeb9-e86f-43b1-987b-d8956a00041f} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineGroupByElementsList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineGroupByElementsList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_group_by_elements_list",
+            "default": true,
+            "order": 2,
+            "visibleWhen": "${uiContext:ff4f7e39-81e6-4c1e-8779-944ae93ce875} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineHavingPredicatesList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineHavingPredicatesList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_having_predicates_list",
+            "default": true,
+            "order": 3,
+            "visibleWhen": "${uiContext:32b39652-ee03-4195-9659-129a91ce511d} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineOrderByElementsList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineOrderByElementsList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_order_by_elements_list",
+            "default": false,
+            "order": 4,
+            "visibleWhen": "${uiContext:3394c918-ccd0-4c55-9bf2-58843f435ed5} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilinePartitionByElementsList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilinePartitionByElementsList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_partition_by_elements_list",
+            "default": false,
+            "order": 5,
+            "visibleWhen": "${uiContext:1b2b9ddb-94d3-4e23-a611-3fbb5edfd217} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineInValuesList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineInValuesList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_in_values_list",
+            "default": false,
+            "order": 6,
+            "visibleWhen": "${uiContext:6af6dcdf-ff58-4dcb-bd83-c8d266c62eb6} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineViewColumnsList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineViewColumnsList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_view_columns_list",
+            "default": true,
+            "order": 7,
+            "visibleWhen": "${uiContext:cbb76f21-2d7a-491e-a8d0-ff95ad72224c} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineSetClauseItems": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineSetClauseItems;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_set_clause_items",
+            "default": true,
+            "order": 8,
+            "visibleWhen": "${uiContext:75196296-b175-4ea3-8a29-c25f39dc0fa4} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineInsertTargetsList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineInsertTargetsList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_insert_targets_list",
+            "default": true,
+            "order": 9,
+            "visibleWhen": "${uiContext:dc3bd09b-f7d9-4baf-b86d-b4d36c4d778a} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineInsertSourcesList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineInsertSourcesList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_insert_sources_list",
+            "default": true,
+            "order": 10,
+            "visibleWhen": "${uiContext:fac2d96c-e823-4e1f-ae88-e89ae308a9ef} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineProcedureParametersList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineProcedureParametersList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_procedure_parameters_list",
+            "default": true,
+            "order": 11,
+            "visibleWhen": "${uiContext:234f2d3b-2ced-4588-bc10-1cd2eae94a1a} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineNestedFunctionCalls": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineNestedFunctionCalls;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_nested_function_calls",
+            "default": false,
+            "order": 12,
+            "visibleWhen": "${uiContext:5526c3bd-24e7-40e2-8076-3f334e25cb60} != 'true'"
+        },
+        "codeSweep.sqlFormatter.multiline.multilineWithOptionsList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_MultilineWithOptionsList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: multiline_with_options_list",
+            "default": false,
+            "order": 13,
+            "visibleWhen": "${uiContext:133cef1a-8cc0-4615-94eb-21f90deaf673} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeFromClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeFromClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_from_clause",
+            "default": true,
+            "order": 0,
+            "visibleWhen": "${uiContext:26770cab-df6c-4f09-afb4-a3f7f576705f} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeWhereClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeWhereClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_where_clause",
+            "default": true,
+            "order": 1,
+            "visibleWhen": "${uiContext:700cfd22-2af7-450e-9095-c0c0997f1ebd} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeGroupByClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeGroupByClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_group_by_clause",
+            "default": true,
+            "order": 2,
+            "visibleWhen": "${uiContext:fddeb590-fa47-4606-8ce8-d4b74e9b4f3c} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeOrderByClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeOrderByClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_order_by_clause",
+            "default": true,
+            "order": 3,
+            "visibleWhen": "${uiContext:d4cd9922-24bd-4bfe-9d22-cd539cc37a18} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeHavingClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeHavingClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_having_clause",
+            "default": true,
+            "order": 4,
+            "visibleWhen": "${uiContext:f3826edf-0e6f-48ca-8063-9bdf093ad204} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeWindowClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeWindowClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_window_clause",
+            "default": true,
+            "order": 5,
+            "visibleWhen": "${uiContext:bd09e386-c147-47d6-b7a1-50b2935ddcf9} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeJoinClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeJoinClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_join_clause",
+            "default": true,
+            "order": 6,
+            "visibleWhen": "${uiContext:18c29df5-9f0f-4819-9846-9df4915e38d0} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineAfterJoinKeyword": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineAfterJoinKeyword;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_after_join_keyword",
+            "default": false,
+            "order": 7,
+            "visibleWhen": "${uiContext:f8486d1e-fbae-4cd0-b472-d84172ac836c} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeOnClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeOnClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_on_clause",
+            "default": true,
+            "order": 8,
+            "visibleWhen": "${uiContext:e36420c5-1f06-423b-b091-50c79eb339b0} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeOffsetClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeOffsetClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_offset_clause",
+            "default": true,
+            "order": 9,
+            "visibleWhen": "${uiContext:d7a96e6f-9e12-4b25-a3b2-459cc4d3d53a} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeOutputClause": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeOutputClause;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_output_clause",
+            "default": true,
+            "order": 10,
+            "visibleWhen": "${uiContext:469899cb-6367-4b73-9658-55fd0c826893} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeOpenParenthesisInMultilineList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeOpenParenthesisInMultilineList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_open_parenthesis_in_multiline_list",
+            "default": true,
+            "order": 11,
+            "visibleWhen": "${uiContext:ff5bec62-cf90-4dfd-aa79-1e8fa30cd5e8} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineBeforeCloseParenthesisInMultilineList": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineBeforeCloseParenthesisInMultilineList;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: new_line_before_close_parenthesis_in_multiline_list",
+            "default": true,
+            "order": 12,
+            "visibleWhen": "${uiContext:1d478a22-4832-4777-b708-9f52dbb17112} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newLineFormattedIndexDefinition": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewLineFormattedIndexDefinition;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: newline_formatted_index_definition",
+            "default": true,
+            "order": 13,
+            "visibleWhen": "${uiContext:f041aec1-ad79-485d-baee-fe8d3b5f6653} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.newlineFormattedCheckConstraint": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_NewlineFormattedCheckConstraint;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: newline_formatted_check_constraint",
+            "default": true,
+            "order": 14,
+            "visibleWhen": "${uiContext:192492f3-6aae-41a9-9ff8-2610b389a99e} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.numNewlinesAfterStatement": {
+            "type": "integer",
+            "title": "@Setting_SqlFmt_NumNewlinesAfterStatement;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: num_newlines_after_statement",
+            "default": 2,
+            "minimum": 0,
+            "maximum": 10,
+            "order": 15,
+            "visibleWhen": "${uiContext:c0d09238-7b0a-4381-8d03-2413a91b7e8f} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.numNewlinesAfterBatchStatement": {
+            "type": "integer",
+            "title": "@Setting_SqlFmt_NumNewlinesAfterBatchStatement;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: num_newlines_after_batch_statement",
+            "default": 1,
+            "minimum": 0,
+            "maximum": 10,
+            "order": 16,
+            "visibleWhen": "${uiContext:15c39110-8fcd-4543-a288-c876f93b8e7d} != 'true'"
+        },
+        "codeSweep.sqlFormatter.newLine.numNewlinesAfterBatches": {
+            "type": "integer",
+            "title": "@Setting_SqlFmt_NumNewlinesAfterBatches;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: num_newlines_after_batches",
+            "default": 2,
+            "minimum": 0,
+            "maximum": 10,
+            "order": 17,
+            "visibleWhen": "${uiContext:5cd628a3-edc1-4d5e-b905-7865bf48d877} != 'true'"
+        },
+        "codeSweep.sqlFormatter.spacing.spaceBetweenDataTypeAndParameters": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_SpaceBetweenDataTypeAndParameters;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: space_between_data_type_and_parameters",
+            "default": false,
+            "order": 0,
+            "visibleWhen": "${uiContext:19a5a4df-eb0c-4bfd-b916-877907d3d0e2} != 'true'"
+        },
+        "codeSweep.sqlFormatter.spacing.spaceBetweenParametersInDataType": {
+            "type": "boolean",
+            "title": "@Setting_SqlFmt_SpaceBetweenParametersInDataType;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "editorconfig: space_between_parameters_in_data_type",
+            "default": true,
+            "order": 1,
+            "visibleWhen": "${uiContext:b3fff56f-dbd5-408a-a405-aae6aaff2d0c} != 'true'"
+        },
+
+        // =============================================
+        // C# y VB
+        // =============================================
+        "codeSweep.csharpVb.removeBlankLinesAfterOpenBlock": {
+            "type": "boolean",
+            "title": "@Setting_RemoveBlankLinesAfterOpenBlock_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveBlankLinesAfterOpenBlock_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 0,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.removeBlankLinesBeforeCloseBlock": {
+            "type": "boolean",
+            "title": "@Setting_RemoveBlankLinesBeforeCloseBlock_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveBlankLinesBeforeCloseBlock_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 1,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.removeBlankLinesAfterAttributes": {
+            "type": "boolean",
+            "title": "@Setting_RemoveBlankLinesAfterAttributes_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveBlankLinesAfterAttributes_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 2,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.removeBlankLinesBetweenChainedCalls": {
+            "type": "boolean",
+            "title": "@Setting_RemoveBlankLinesBetweenChainedCalls_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveBlankLinesBetweenChainedCalls_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 3,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.blankLineBetweenMembers": {
+            "type": "boolean",
+            "title": "@Setting_BlankLineBetweenMembers_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_BlankLineBetweenMembers_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 4,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.blankLineBetweenMemberKinds": {
+            "type": "string",
+            "title": "@Setting_BlankLineBetweenMemberKinds_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_BlankLineBetweenMemberKinds_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": "Methods;Properties;Constructors;Types;Enums;Events",
+            "order": 5,
+            "enableWhen": "${config:codeSweep.csharpVb.blankLineBetweenMembers}=='true'",
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.blankLineAroundRegions": {
+            "type": "boolean",
+            "title": "@Setting_BlankLineAroundRegions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_BlankLineAroundRegions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": false,
+            "order": 6,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.blankLineBeforeCase": {
+            "type": "boolean",
+            "title": "@Setting_BlankLineBeforeCase_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_BlankLineBeforeCase_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": false,
+            "order": 7,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.blankLineBeforeSingleLineComments": {
+            "type": "boolean",
+            "title": "@Setting_BlankLineBeforeSingleLineComments_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_BlankLineBeforeSingleLineComments_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 8,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.blankLineAfterUsings": {
+            "type": "boolean",
+            "title": "@Setting_BlankLineAfterUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 9,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.removeAllRegions": {
+            "type": "boolean",
+            "title": "@Setting_RemoveAllRegions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveAllRegions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": false,
+            "order": 10,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.updateEndRegionText": {
+            "type": "boolean",
+            "title": "@Setting_UpdateEndRegionText_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_UpdateEndRegionText_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": false,
+            "order": 11,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.removeEmptyRegions": {
+            "type": "boolean",
+            "title": "@Setting_RemoveEmptyRegions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 12,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.reorganizeMembers": {
+            "type": "boolean",
+            "title": "@Setting_ReorganizeMembers_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_ReorganizeMembers_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": false,
+            "order": 13,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.memberKindOrder": {
+            "type": "string",
+            "title": "@Setting_MemberKindOrder_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_MemberKindOrder_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": "Fields;Constructors;Properties;Events;Methods;Enums;Types",
+            "order": 14,
+            "enableWhen": "${config:codeSweep.csharpVb.reorganizeMembers}=='true'",
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.accessOrder": {
+            "type": "string",
+            "title": "@Setting_AccessOrder_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_AccessOrder_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": "public;internal;protected internal;protected;private protected;private",
+            "order": 15,
+            "enableWhen": "${config:codeSweep.csharpVb.reorganizeMembers}=='true'",
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.uniformAccessors": {
+            "type": "boolean",
+            "title": "@Setting_UniformAccessors_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_UniformAccessors_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": false,
+            "order": 16,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.wrapComments": {
+            "type": "boolean",
+            "title": "@Setting_WrapComments_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_WrapComments_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": false,
+            "order": 17,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.commentWrapColumn": {
+            "type": "integer",
+            "title": "@Setting_CommentWrapColumn_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_CommentWrapColumn_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": 120,
+            "minimum": 40,
+            "maximum": 400,
+            "order": 18,
+            "enableWhen": "${config:codeSweep.csharpVb.wrapComments}=='true'",
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.csharpVb.spaceAfterCommentPrefix": {
+            "type": "boolean",
+            "title": "@Setting_SpaceAfterCommentPrefix_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_SpaceAfterCommentPrefix_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": false,
+            "order": 19,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+
+        // =============================================
+        // Markup (Web Forms, Razor, HTML, XML / Config, XAML)
+        // =============================================
+        "codeSweep.markup.removeBlankLinesInsideTags": {
+            "type": "boolean",
+            "title": "@Setting_RemoveBlankLinesInsideTags_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RemoveBlankLinesInsideTags_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 0,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.markup.removeEmptyComments": {
+            "type": "boolean",
+            "title": "@Setting_RemoveEmptyComments_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 1,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+
+        // =============================================
+        // File Types
+        // =============================================
+        "codeSweep.fileTypes.includeCSharp": {
+            "type": "boolean",
+            "title": "C# (.cs)",
+            "description": "@Setting_IncludeCSharp_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 0,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeVisualBasic": {
+            "type": "boolean",
+            "title": "Visual Basic (.vb)",
+            "description": "@Setting_IncludeVisualBasic_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 1,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeWebForms": {
+            "type": "boolean",
+            "title": "Web Forms (.aspx, .ascx, .master, .asax)",
+            "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 2,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeRazor": {
+            "type": "boolean",
+            "title": "Razor (.cshtml, .vbhtml, .razor)",
+            "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 3,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeHtml": {
+            "type": "boolean",
+            "title": "HTML (.html, .htm)",
+            "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 4,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeXmlConfig": {
+            "type": "boolean",
+            "title": "XML / Config (.xml, .config, .webinfo)",
+            "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 5,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeXaml": {
+            "type": "boolean",
+            "title": "XAML (.xaml)",
+            "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 6,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeStyles": {
+            "type": "boolean",
+            "title": "@Setting_IncludeStyles_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 7,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeScripts": {
+            "type": "boolean",
+            "title": "Scripts (.js, .ts)",
+            "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 8,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeJson": {
+            "type": "boolean",
+            "title": "JSON (.json)",
+            "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 9,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.includeSql": {
+            "type": "boolean",
+            "title": "SQL (.sql)",
+            "description": "@Setting_IncludeSql_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 10
+        },
+        "codeSweep.fileTypes.additionalFileExtensions": {
+            "type": "string",
+            "title": "@Setting_AdditionalFileExtensions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_AdditionalFileExtensions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": "",
+            "order": 11,
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        },
+        "codeSweep.fileTypes.ignoreGeneratedCode": {
+            "type": "boolean",
+            "title": "@Setting_IgnoreGeneratedCode_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_IgnoreGeneratedCode_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 12
+        },
+        "codeSweep.fileTypes.excludeT4GeneratedCode": {
+            "type": "boolean",
+            "title": "@Setting_ExcludeT4GeneratedCode_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_ExcludeT4GeneratedCode_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 13
+        },
+        "codeSweep.fileTypes.excludePatterns": {
+            "type": "string",
+            "title": "@Setting_ExcludePatterns_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_ExcludePatterns_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": "\\.Designer\\.cs$;\\.Designer\\.vb$;\\.resx$;\\.min\\.css$;\\.min\\.js$",
+            "order": 14
+        },
+        "codeSweep.fileTypes.regenerateWebFormsDesigner": {
+            "type": "boolean",
+            "title": "@Setting_RegenerateWebFormsDesigner_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "description": "@Setting_RegenerateWebFormsDesigner_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "default": true,
+            "order": 15,
+            "enableWhen": "${config:codeSweep.fileTypes.includeWebForms}=='true'",
+            "visibleWhen": "${uiContext:48de90ae-eb39-443f-8cb2-6cc39c85ad20} != 'true'"
+        }
     },
 
-    // =============================================
-    // Roslyn (C# y VB)
-    // =============================================
-    "codeSweep.rules.removeUnusedLocalVariables": {
-      "type": "boolean",
-      "title": "@Setting_RemoveUnusedLocalVariables_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveUnusedLocalVariables_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 0
-    },
-    "codeSweep.rules.removeUnusedUsings": {
-      "type": "boolean",
-      "title": "@Setting_RemoveUnusedUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveUnusedUsings_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 1
-    },
-    "codeSweep.rules.sortUsings": {
-      "type": "boolean",
-      "title": "@Setting_SortUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_SortUsings_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 2
-    },
-    "codeSweep.rules.formatDocument": {
-      "type": "boolean",
-      "title": "@Setting_FormatDocument_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_FormatDocument_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 3
-    },
-
-    // =============================================
-    // Whitespace (todos los archivos, en las tres vías)
-    // =============================================
-    "codeSweep.whitespace.removeConsecutiveBlankLines": {
-      "type": "boolean",
-      "title": "@Setting_RemoveConsecutiveBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveConsecutiveBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 0
-    },
-    "codeSweep.whitespace.maxConsecutiveBlankLines": {
-      "type": "integer",
-      "title": "@Setting_MaxConsecutiveBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_MaxConsecutiveBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": 1,
-      "minimum": 0,
-      "maximum": 10,
-      "order": 1,
-      "enableWhen": "${config:codeSweep.whitespace.removeConsecutiveBlankLines}=='true'"
-    },
-    "codeSweep.whitespace.removeLeadingBlankLines": {
-      "type": "boolean",
-      "title": "@Setting_RemoveLeadingBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveLeadingBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 2
-    },
-    "codeSweep.whitespace.removeTrailingBlankLines": {
-      "type": "boolean",
-      "title": "@Setting_RemoveTrailingBlankLines_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveTrailingBlankLines_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 3
-    },
-    "codeSweep.whitespace.trimTrailingWhitespace": {
-      "type": "boolean",
-      "title": "@Setting_TrimTrailingWhitespace_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_TrimTrailingWhitespace_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 4
-    },
-    "codeSweep.whitespace.singleFinalNewline": {
-      "type": "boolean",
-      "title": "@Setting_SingleFinalNewline_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_SingleFinalNewline_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 5
-    },
-
-    // =============================================
-    // C# y VB
-    // =============================================
-    "codeSweep.csharpVb.removeBlankLinesAfterOpenBlock": {
-      "type": "boolean",
-      "title": "@Setting_RemoveBlankLinesAfterOpenBlock_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveBlankLinesAfterOpenBlock_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 0
-    },
-    "codeSweep.csharpVb.removeBlankLinesBeforeCloseBlock": {
-      "type": "boolean",
-      "title": "@Setting_RemoveBlankLinesBeforeCloseBlock_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveBlankLinesBeforeCloseBlock_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 1
-    },
-    "codeSweep.csharpVb.removeBlankLinesAfterAttributes": {
-      "type": "boolean",
-      "title": "@Setting_RemoveBlankLinesAfterAttributes_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveBlankLinesAfterAttributes_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 2
-    },
-    "codeSweep.csharpVb.removeBlankLinesBetweenChainedCalls": {
-      "type": "boolean",
-      "title": "@Setting_RemoveBlankLinesBetweenChainedCalls_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveBlankLinesBetweenChainedCalls_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 3
-    },
-    "codeSweep.csharpVb.blankLineBetweenMembers": {
-      "type": "boolean",
-      "title": "@Setting_BlankLineBetweenMembers_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_BlankLineBetweenMembers_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 4
-    },
-    "codeSweep.csharpVb.blankLineBetweenMemberKinds": {
-      "type": "string",
-      "title": "@Setting_BlankLineBetweenMemberKinds_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_BlankLineBetweenMemberKinds_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": "Methods;Properties;Constructors;Types;Enums;Events",
-      "order": 5,
-      "enableWhen": "${config:codeSweep.csharpVb.blankLineBetweenMembers}=='true'"
-    },
-    "codeSweep.csharpVb.blankLineAroundRegions": {
-      "type": "boolean",
-      "title": "@Setting_BlankLineAroundRegions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_BlankLineAroundRegions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 6
-    },
-    "codeSweep.csharpVb.blankLineBeforeCase": {
-      "type": "boolean",
-      "title": "@Setting_BlankLineBeforeCase_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_BlankLineBeforeCase_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 7
-    },
-    "codeSweep.csharpVb.blankLineBeforeSingleLineComments": {
-      "type": "boolean",
-      "title": "@Setting_BlankLineBeforeSingleLineComments_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_BlankLineBeforeSingleLineComments_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 8
-    },
-    "codeSweep.csharpVb.blankLineAfterUsings": {
-      "type": "boolean",
-      "title": "@Setting_BlankLineAfterUsings_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 9
-    },
-    "codeSweep.csharpVb.removeAllRegions": {
-      "type": "boolean",
-      "title": "@Setting_RemoveAllRegions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveAllRegions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 10
-    },
-    "codeSweep.csharpVb.updateEndRegionText": {
-      "type": "boolean",
-      "title": "@Setting_UpdateEndRegionText_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_UpdateEndRegionText_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 11
-    },
-    "codeSweep.csharpVb.removeEmptyRegions": {
-      "type": "boolean",
-      "title": "@Setting_RemoveEmptyRegions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 12
-    },
-    "codeSweep.csharpVb.reorganizeMembers": {
-      "type": "boolean",
-      "title": "@Setting_ReorganizeMembers_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_ReorganizeMembers_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 13
-    },
-    "codeSweep.csharpVb.memberKindOrder": {
-      "type": "string",
-      "title": "@Setting_MemberKindOrder_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_MemberKindOrder_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": "Fields;Constructors;Properties;Events;Methods;Enums;Types",
-      "order": 14,
-      "enableWhen": "${config:codeSweep.csharpVb.reorganizeMembers}=='true'"
-    },
-    "codeSweep.csharpVb.accessOrder": {
-      "type": "string",
-      "title": "@Setting_AccessOrder_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_AccessOrder_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": "public;internal;protected internal;protected;private protected;private",
-      "order": 15,
-      "enableWhen": "${config:codeSweep.csharpVb.reorganizeMembers}=='true'"
-    },
-    "codeSweep.csharpVb.uniformAccessors": {
-      "type": "boolean",
-      "title": "@Setting_UniformAccessors_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_UniformAccessors_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 16
-    },
-    "codeSweep.csharpVb.wrapComments": {
-      "type": "boolean",
-      "title": "@Setting_WrapComments_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_WrapComments_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 17
-    },
-    "codeSweep.csharpVb.commentWrapColumn": {
-      "type": "integer",
-      "title": "@Setting_CommentWrapColumn_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_CommentWrapColumn_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": 120,
-      "minimum": 40,
-      "maximum": 400,
-      "order": 18,
-      "enableWhen": "${config:codeSweep.csharpVb.wrapComments}=='true'"
-    },
-    "codeSweep.csharpVb.spaceAfterCommentPrefix": {
-      "type": "boolean",
-      "title": "@Setting_SpaceAfterCommentPrefix_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_SpaceAfterCommentPrefix_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 19
-    },
-
-    // =============================================
-    // Markup (Web Forms, Razor, HTML, XML / Config, XAML)
-    // =============================================
-    "codeSweep.markup.removeBlankLinesInsideTags": {
-      "type": "boolean",
-      "title": "@Setting_RemoveBlankLinesInsideTags_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RemoveBlankLinesInsideTags_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 0
-    },
-    "codeSweep.markup.removeEmptyComments": {
-      "type": "boolean",
-      "title": "@Setting_RemoveEmptyComments_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 1
-    },
-
-    // =============================================
-    // File Types
-    // =============================================
-    "codeSweep.fileTypes.includeCSharp": {
-      "type": "boolean",
-      "title": "C# (.cs)",
-      "description": "@Setting_IncludeCSharp_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 0
-    },
-    "codeSweep.fileTypes.includeVisualBasic": {
-      "type": "boolean",
-      "title": "Visual Basic (.vb)",
-      "description": "@Setting_IncludeVisualBasic_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 1
-    },
-    "codeSweep.fileTypes.includeWebForms": {
-      "type": "boolean",
-      "title": "Web Forms (.aspx, .ascx, .master, .asax)",
-      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 2
-    },
-    "codeSweep.fileTypes.includeRazor": {
-      "type": "boolean",
-      "title": "Razor (.cshtml, .vbhtml, .razor)",
-      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 3
-    },
-    "codeSweep.fileTypes.includeHtml": {
-      "type": "boolean",
-      "title": "HTML (.html, .htm)",
-      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 4
-    },
-    "codeSweep.fileTypes.includeXmlConfig": {
-      "type": "boolean",
-      "title": "XML / Config (.xml, .config, .webinfo)",
-      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 5
-    },
-    "codeSweep.fileTypes.includeXaml": {
-      "type": "boolean",
-      "title": "XAML (.xaml)",
-      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 6
-    },
-    "codeSweep.fileTypes.includeStyles": {
-      "type": "boolean",
-      "title": "@Setting_IncludeStyles_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 7
-    },
-    "codeSweep.fileTypes.includeScripts": {
-      "type": "boolean",
-      "title": "Scripts (.js, .ts)",
-      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 8
-    },
-    "codeSweep.fileTypes.includeJson": {
-      "type": "boolean",
-      "title": "JSON (.json)",
-      "description": "@Setting_EditorFormatted_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 9
-    },
-    "codeSweep.fileTypes.additionalFileExtensions": {
-      "type": "string",
-      "title": "@Setting_AdditionalFileExtensions_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_AdditionalFileExtensions_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": "",
-      "order": 10
-    },
-    "codeSweep.fileTypes.ignoreGeneratedCode": {
-      "type": "boolean",
-      "title": "@Setting_IgnoreGeneratedCode_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_IgnoreGeneratedCode_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 11
-    },
-    "codeSweep.fileTypes.excludeT4GeneratedCode": {
-      "type": "boolean",
-      "title": "@Setting_ExcludeT4GeneratedCode_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_ExcludeT4GeneratedCode_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": true,
-      "order": 12
-    },
-    "codeSweep.fileTypes.excludePatterns": {
-      "type": "string",
-      "title": "@Setting_ExcludePatterns_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_ExcludePatterns_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": "\\.Designer\\.cs$;\\.Designer\\.vb$;\\.resx$;\\.min\\.css$;\\.min\\.js$",
-      "order": 13
-    },
-    "codeSweep.fileTypes.regenerateWebFormsDesigner": {
-      "type": "boolean",
-      "title": "@Setting_RegenerateWebFormsDesigner_Title;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "description": "@Setting_RegenerateWebFormsDesigner_Description;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "default": false,
-      "order": 14,
-      "enableWhen": "${config:codeSweep.fileTypes.includeWebForms}=='true'"
+    "categories": {
+        "codeSweep": {
+            "title": "CodeSweep"
+        },
+        "codeSweep.general": {
+            "title": "General",
+            "legacyOptionPageId": "c7d4e2a1-5b3f-4e8a-9c6d-2f1a0b3e4d5c",
+            "order": 0
+        },
+        "codeSweep.rules": {
+            "title": "@Category_Rules;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 1
+        },
+        "codeSweep.whitespace": {
+            "title": "@Category_Whitespace;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 2
+        },
+        "codeSweep.sql": {
+            "title": "SQL",
+            "order": 3
+        },
+        "codeSweep.sqlFormatter": {
+            "title": "@Category_SqlFormatter;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 4
+        },
+        "codeSweep.sqlFormatter.general": {
+            "title": "@Category_SqlFormatter_General;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 0
+        },
+        "codeSweep.sqlFormatter.alignment": {
+            "title": "@Category_SqlFormatter_Alignment;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 1
+        },
+        "codeSweep.sqlFormatter.formatting": {
+            "title": "@Category_SqlFormatter_Formatting;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 2
+        },
+        "codeSweep.sqlFormatter.indentation": {
+            "title": "@Category_SqlFormatter_Indentation;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 3
+        },
+        "codeSweep.sqlFormatter.multiline": {
+            "title": "@Category_SqlFormatter_Multiline;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 4
+        },
+        "codeSweep.sqlFormatter.newLine": {
+            "title": "@Category_SqlFormatter_NewLine;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 5
+        },
+        "codeSweep.sqlFormatter.spacing": {
+            "title": "@Category_SqlFormatter_Spacing;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 6
+        },
+        "codeSweep.csharpVb": {
+            "title": "@Category_CSharpVb;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 5
+        },
+        "codeSweep.markup": {
+            "title": "@Category_Markup;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 6
+        },
+        "codeSweep.fileTypes": {
+            "title": "@Category_FileTypes;{a2f2b3c4-1111-4222-3333-444455556666}",
+            "order": 7
+        }
     }
-  },
-
-  "categories": {
-    "codeSweep": {
-      "title": "CodeSweep"
-    },
-    "codeSweep.general": {
-      "title": "General",
-      "legacyOptionPageId": "c7d4e2a1-5b3f-4e8a-9c6d-2f1a0b3e4d5c",
-      "order": 0
-    },
-    "codeSweep.rules": {
-      "title": "@Category_Rules;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "order": 1
-    },
-    "codeSweep.whitespace": {
-      "title": "@Category_Whitespace;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "order": 2
-    },
-    "codeSweep.csharpVb": {
-      "title": "@Category_CSharpVb;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "order": 3
-    },
-    "codeSweep.markup": {
-      "title": "@Category_Markup;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "order": 4
-    },
-    "codeSweep.fileTypes": {
-      "title": "@Category_FileTypes;{a2f2b3c4-1111-4222-3333-444455556666}",
-      "order": 5
-    }
-  }
 }

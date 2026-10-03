@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using YelcoBot.CodeSweep.Domain.Options;
@@ -22,6 +18,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules
     public class RegionsRule : ISweepRule
     {
         public string Id => "REGIONS";
+
         public int Order => 35;
 
         public bool IsEnabled(SweepOptions options)
@@ -146,7 +143,9 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules
             }
 
             public int StartLine { get; }
+
             public int EndLine { get; }
+
             public string Name { get; }
         }
     }

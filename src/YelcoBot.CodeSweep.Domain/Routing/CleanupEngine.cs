@@ -4,6 +4,9 @@ namespace YelcoBot.CodeSweep.Domain.Routing
     {
         Skip,
         Roslyn,
-        Editor
+        Editor,
+
+        /// <summary>T-SQL: se formatea con ScriptDOM en segundo plano, sin abrir editores.</summary>
+        Sql
     }
 }

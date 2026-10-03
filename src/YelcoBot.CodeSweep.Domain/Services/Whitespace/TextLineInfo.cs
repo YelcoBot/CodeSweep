@@ -11,10 +11,13 @@ namespace YelcoBot.CodeSweep.Domain.Services.Whitespace
         }
 
         public int Start { get; }
+
         public string Text { get; }
+
         public string LineBreak { get; }
 
         public int LengthIncludingLineBreak => Text.Length + LineBreak.Length;
+
         public bool IsBlank => string.IsNullOrWhiteSpace(Text);
     }
 }

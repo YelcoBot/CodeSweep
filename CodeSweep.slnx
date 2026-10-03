@@ -3,6 +3,8 @@
     <Project Path="src/YelcoBot.CodeSweep.Domain/YelcoBot.CodeSweep.Domain.csproj" />
     <Project Path="src/YelcoBot.CodeSweep.Application/YelcoBot.CodeSweep.Application.csproj" />
     <Project Path="src/YelcoBot.CodeSweep.Infrastructure.Roslyn/YelcoBot.CodeSweep.Infrastructure.Roslyn.csproj" />
+    <Project Path="src/YelcoBot.CodeSweep.Infrastructure.Sql/YelcoBot.CodeSweep.Infrastructure.Sql.csproj" />
+    <Project Path="src/YelcoBot.CodeSweep.SqlEngine/YelcoBot.CodeSweep.SqlEngine.csproj" />
     <Project Path="src/YelcoBot.CodeSweep.Infrastructure.VisualStudio/YelcoBot.CodeSweep.Infrastructure.VisualStudio.csproj" />
     <Project Path="src/YelcoBot.CodeSweep/YelcoBot.CodeSweep.csproj" />
   </Folder>

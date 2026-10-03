@@ -46,4 +46,6 @@
   <data name="EditorAskHeader" xml:space="preserve"><value>{0} archivo(s) no se pudieron formatear en segundo plano (sin abrirlos):</value></data>
   <data name="EditorAskQuestion" xml:space="preserve"><value>¿Formatearlos con el editor de Visual Studio? Cada archivo se abrirá, formateará, guardará y cerrará.</value></data>
   <data name="EditorCannotFormat" xml:space="preserve"><value>No se formateó: el editor de Visual Studio no pudo formatear este archivo.</value></data>
+  <data name="SqlParseError" xml:space="preserve"><value>T-SQL no formateado (línea {0}, columna {1}): {2}</value></data>
+  <data name="SqlResultDiscarded" xml:space="preserve"><value>T-SQL no formateado: el resultado perdería comentarios o no sería T-SQL válido.</value></data>
 </root>

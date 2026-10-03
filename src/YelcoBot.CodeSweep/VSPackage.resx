@@ -43,7 +43,7 @@
   <data name="Setting_ExcludePatterns_Title" xml:space="preserve"><value>Exclude paths (regular expressions)</value></data>
   <data name="Setting_ExcludePatterns_Description" xml:space="preserve"><value>Files whose full path matches any expression are skipped. Separate with &apos;;&apos;.</value></data>
   <data name="Setting_RegenerateWebFormsDesigner_Title" xml:space="preserve"><value>Regenerate Web Forms designer after formatting</value></data>
-  <data name="Setting_RegenerateWebFormsDesigner_Description" xml:space="preserve"><value>After formatting .aspx/.ascx/.master files, regenerates their .designer.cs with &apos;Convert to Web Application&apos; (Web Application projects only). Usually not needed: formatting does not change controls.</value></data>
+  <data name="Setting_RegenerateWebFormsDesigner_Description" xml:space="preserve"><value>After formatting .aspx/.ascx/.master files, regenerates their .designer.cs with &apos;Convert to Web Application&apos; so they stay in sync with the markup (Web Application projects only).</value></data>
   <data name="Setting_RemoveBlankLinesAfterOpenBlock_Title" xml:space="preserve"><value>Remove blank lines after opening a block</value></data>
   <data name="Setting_RemoveBlankLinesAfterOpenBlock_Description" xml:space="preserve"><value>After &apos;{&apos; in C#; after Sub, If, For, Class… in VB.</value></data>
   <data name="Setting_RemoveBlankLinesBeforeCloseBlock_Title" xml:space="preserve"><value>Remove blank lines before closing a block</value></data>
@@ -85,4 +85,73 @@
   <data name="Setting_RemoveBlankLinesInsideTags_Title" xml:space="preserve"><value>Remove blank lines right inside a tag</value></data>
   <data name="Setting_RemoveBlankLinesInsideTags_Description" xml:space="preserve"><value>After &lt;div&gt; and before &lt;/div&gt;. Never inside &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; or CDATA.</value></data>
   <data name="Setting_RemoveEmptyComments_Title" xml:space="preserve"><value>Remove empty comments &lt;!-- --&gt;</value></data>
+  <data name="Setting_IncludeSql_Description" xml:space="preserve"><value>Cleaned in the background, without opening editors (also in SSMS 22.7+).</value></data>
+  <data name="Setting_FormatSql_Title" xml:space="preserve"><value>Format T-SQL</value></data>
+  <data name="Setting_FormatSql_Description" xml:space="preserve"><value>ScriptDOM, the same engine as the SSMS 22.7+ formatter. Options come from .editorconfig [*.sql] with the same keys as SSMS (keyword_casing, indentation_size…). Files with syntax errors or SQLCMD are not formatted.</value></data>
+  <data name="Category_SqlFormatter" xml:space="preserve"><value>SQL formatter (ScriptDOM)</value></data>
+  <data name="Category_SqlFormatter_General" xml:space="preserve"><value>General</value></data>
+  <data name="Category_SqlFormatter_Alignment" xml:space="preserve"><value>Alignment</value></data>
+  <data name="Category_SqlFormatter_Formatting" xml:space="preserve"><value>Formatting</value></data>
+  <data name="Category_SqlFormatter_Indentation" xml:space="preserve"><value>Indentation</value></data>
+  <data name="Category_SqlFormatter_Multiline" xml:space="preserve"><value>Multiline</value></data>
+  <data name="Category_SqlFormatter_NewLine" xml:space="preserve"><value>New line</value></data>
+  <data name="Category_SqlFormatter_Spacing" xml:space="preserve"><value>Spacing</value></data>
+  <data name="Setting_SqlFmt_SqlVersion" xml:space="preserve"><value>SQL version</value></data>
+  <data name="Setting_SqlFmt_SqlEngineType" xml:space="preserve"><value>SQL engine type</value></data>
+  <data name="Setting_SqlFmt_AllowExternalLibraryPaths" xml:space="preserve"><value>Allow external library paths</value></data>
+  <data name="Setting_SqlFmt_AllowExternalLanguagePaths" xml:space="preserve"><value>Allow external language paths</value></data>
+  <data name="Setting_SqlFmt_AlignClauseBodies" xml:space="preserve"><value>Align clause bodies</value></data>
+  <data name="Setting_SqlFmt_AlignColumnDefinitionFields" xml:space="preserve"><value>Align column definition fields</value></data>
+  <data name="Setting_SqlFmt_AlignSetClauseItem" xml:space="preserve"><value>Align SET clause items</value></data>
+  <data name="Setting_SqlFmt_ClauseBodyAlignment" xml:space="preserve"><value>Clause body alignment</value></data>
+  <data name="Setting_SqlFmt_AsKeywordOnOwnLine" xml:space="preserve"><value>AS keyword on its own line</value></data>
+  <data name="Setting_SqlFmt_KeywordCasing" xml:space="preserve"><value>Keyword casing</value></data>
+  <data name="Setting_SqlFmt_BuiltInFunctionCasing" xml:space="preserve"><value>Built-in function casing</value></data>
+  <data name="Setting_SqlFmt_IdentifierCasing" xml:space="preserve"><value>Identifier casing</value></data>
+  <data name="Setting_SqlFmt_IdentifierBracketing" xml:space="preserve"><value>Identifier brackets</value></data>
+  <data name="Setting_SqlFmt_ColumnAliasStyle" xml:space="preserve"><value>Column alias style</value></data>
+  <data name="Setting_SqlFmt_CommaPlacement" xml:space="preserve"><value>Comma placement</value></data>
+  <data name="Setting_SqlFmt_LeadingCommaSpaceCount" xml:space="preserve"><value>Spaces after leading comma</value></data>
+  <data name="Setting_SqlFmt_IncludeSemicolons" xml:space="preserve"><value>Include semicolons</value></data>
+  <data name="Setting_SqlFmt_TerminateBlockStatements" xml:space="preserve"><value>Terminate block statements</value></data>
+  <data name="Setting_SqlFmt_PreserveComments" xml:space="preserve"><value>Preserve comments</value></data>
+  <data name="Setting_SqlFmt_PersistTrailingGo" xml:space="preserve"><value>Keep trailing GO</value></data>
+  <data name="Setting_SqlFmt_IndentationSize" xml:space="preserve"><value>Indentation size</value></data>
+  <data name="Setting_SqlFmt_IndentationMode" xml:space="preserve"><value>Indentation mode</value></data>
+  <data name="Setting_SqlFmt_IndentSetClause" xml:space="preserve"><value>Indent SET clause</value></data>
+  <data name="Setting_SqlFmt_IndentViewBody" xml:space="preserve"><value>Indent VIEW body</value></data>
+  <data name="Setting_SqlFmt_MultilineSelectElementsList" xml:space="preserve"><value>SELECT columns on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineWherePredicatesList" xml:space="preserve"><value>WHERE predicates on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineGroupByElementsList" xml:space="preserve"><value>GROUP BY elements on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineHavingPredicatesList" xml:space="preserve"><value>HAVING predicates on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineOrderByElementsList" xml:space="preserve"><value>ORDER BY elements on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilinePartitionByElementsList" xml:space="preserve"><value>PARTITION BY elements on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineInValuesList" xml:space="preserve"><value>IN values on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineViewColumnsList" xml:space="preserve"><value>VIEW columns on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineSetClauseItems" xml:space="preserve"><value>SET items on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineInsertTargetsList" xml:space="preserve"><value>INSERT columns on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineInsertSourcesList" xml:space="preserve"><value>INSERT sources on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineProcedureParametersList" xml:space="preserve"><value>Procedure parameters on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineNestedFunctionCalls" xml:space="preserve"><value>Nested function call parameters on separate lines</value></data>
+  <data name="Setting_SqlFmt_MultilineWithOptionsList" xml:space="preserve"><value>WITH / OPTION options on separate lines</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeFromClause" xml:space="preserve"><value>New line before FROM</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeWhereClause" xml:space="preserve"><value>New line before WHERE</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeGroupByClause" xml:space="preserve"><value>New line before GROUP BY</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeOrderByClause" xml:space="preserve"><value>New line before ORDER BY</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeHavingClause" xml:space="preserve"><value>New line before HAVING</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeWindowClause" xml:space="preserve"><value>New line before WINDOW</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeJoinClause" xml:space="preserve"><value>New line before JOIN</value></data>
+  <data name="Setting_SqlFmt_NewLineAfterJoinKeyword" xml:space="preserve"><value>New line after JOIN</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeOnClause" xml:space="preserve"><value>New line before ON</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeOffsetClause" xml:space="preserve"><value>New line before OFFSET</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeOutputClause" xml:space="preserve"><value>New line before OUTPUT</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeOpenParenthesisInMultilineList" xml:space="preserve"><value>New line before &apos;(&apos; in multi-line lists</value></data>
+  <data name="Setting_SqlFmt_NewLineBeforeCloseParenthesisInMultilineList" xml:space="preserve"><value>New line before &apos;)&apos; in multi-line lists</value></data>
+  <data name="Setting_SqlFmt_NewLineFormattedIndexDefinition" xml:space="preserve"><value>Index definitions on multiple lines</value></data>
+  <data name="Setting_SqlFmt_NewlineFormattedCheckConstraint" xml:space="preserve"><value>CHECK constraints on multiple lines</value></data>
+  <data name="Setting_SqlFmt_NumNewlinesAfterStatement" xml:space="preserve"><value>New lines after each statement</value></data>
+  <data name="Setting_SqlFmt_NumNewlinesAfterBatchStatement" xml:space="preserve"><value>New lines after a batch statement</value></data>
+  <data name="Setting_SqlFmt_NumNewlinesAfterBatches" xml:space="preserve"><value>New lines after each batch (GO)</value></data>
+  <data name="Setting_SqlFmt_SpaceBetweenDataTypeAndParameters" xml:space="preserve"><value>Space between data type and parameters</value></data>
+  <data name="Setting_SqlFmt_SpaceBetweenParametersInDataType" xml:space="preserve"><value>Space between parameters in data types</value></data>
 </root>

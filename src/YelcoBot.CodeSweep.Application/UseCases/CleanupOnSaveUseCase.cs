@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Services;

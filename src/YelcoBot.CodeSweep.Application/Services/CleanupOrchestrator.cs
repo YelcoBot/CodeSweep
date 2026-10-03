@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Domain.Results;
@@ -17,6 +11,7 @@ namespace YelcoBot.CodeSweep.Application.Services
         private readonly IDocumentProvider _documentProvider;
         private readonly DocumentRouter _documentRouter;
         private readonly ICodeCleaner _codeCleaner;
+        private readonly ISqlCleaner _sqlCleaner;
         private readonly IEditorFormatter _editorFormatter;
         private readonly IWebFormsDesignerGenerator _webFormsDesignerGenerator;
         private readonly SweepActivity _activity;
@@ -25,6 +20,7 @@ namespace YelcoBot.CodeSweep.Application.Services
             IDocumentProvider documentProvider,
             DocumentRouter documentRouter,
             ICodeCleaner codeCleaner,
+            ISqlCleaner sqlCleaner,
             IEditorFormatter editorFormatter,
             IWebFormsDesignerGenerator webFormsDesignerGenerator,
             SweepActivity activity)
@@ -32,6 +28,7 @@ namespace YelcoBot.CodeSweep.Application.Services
             _documentProvider = documentProvider;
             _documentRouter = documentRouter;
             _codeCleaner = codeCleaner;
+            _sqlCleaner = sqlCleaner;
             _editorFormatter = editorFormatter;
             _webFormsDesignerGenerator = webFormsDesignerGenerator;
             _activity = activity;
@@ -64,6 +61,7 @@ namespace YelcoBot.CodeSweep.Application.Services
 
             List<string> roslynFiles = distinctPaths.Where(p => _documentRouter.Route(p, options) == CleanupEngine.Roslyn).ToList();
             List<string> editorFiles = distinctPaths.Where(p => _documentRouter.Route(p, options) == CleanupEngine.Editor).ToList();
+            List<string> sqlFiles = distinctPaths.Where(p => _documentRouter.Route(p, options) == CleanupEngine.Sql).ToList();
 
             SweepSummary summary = new SweepSummary();
 
@@ -72,6 +70,19 @@ namespace YelcoBot.CodeSweep.Application.Services
             {
                 SweepSummary roslynSummary = await _codeCleaner.CleanAsync(DocumentSelection.Files(roslynFiles), options, progress, cancellationToken);
                 summary.Merge(roslynSummary);
+            }
+
+            if (summary.IsCancelled || cancellationToken.IsCancellationRequested)
+            {
+                summary.IsCancelled = true;
+                return summary;
+            }
+
+            // Fase 1b: T-SQL con ScriptDOM, en background.
+            if (sqlFiles.Count > 0)
+            {
+                SweepSummary sqlSummary = await _sqlCleaner.CleanAsync(sqlFiles, options, progress, cancellationToken);
+                summary.Merge(sqlSummary);
             }
 
             if (summary.IsCancelled || cancellationToken.IsCancellationRequested)

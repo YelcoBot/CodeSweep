@@ -1,5 +1,3 @@
-using System;
-
 namespace YelcoBot.CodeSweep
 {
     internal static class PackageGuids

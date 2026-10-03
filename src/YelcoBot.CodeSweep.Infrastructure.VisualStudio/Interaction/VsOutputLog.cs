@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using YelcoBot.CodeSweep.Application.Abstractions;
 

@@ -8,7 +8,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
     /// Opciones para VS 2022 (Tools → Options clásico). En VS 2026 no se muestra: la reemplaza la página moderna
     /// (CodeSweep.registration.json declara "legacyOptionPageId" con el GUID de esta página).
     /// </summary>
-    public class ClassicOptions : BaseOptionModel<ClassicOptions>
+    public partial class ClassicOptions : BaseOptionModel<ClassicOptions>
     {
         private const string General = "1. General";
         private const string Rules = "2. Roslyn (C# and VB)";
@@ -162,9 +162,9 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         [DefaultValue(true)]
         public bool IncludeWebForms { get; set; } = true;
 
-        [Category(FileTypes), DisplayName("Regenerate Web Forms designer after formatting"), Description("Web Application projects only. Usually not needed.")]
-        [DefaultValue(false)]
-        public bool RegenerateWebFormsDesigner { get; set; } = false;
+        [Category(FileTypes), DisplayName("Regenerate Web Forms designer after formatting"), Description("Keeps .designer.cs in sync with the markup. Web Application projects only.")]
+        [DefaultValue(true)]
+        public bool RegenerateWebFormsDesigner { get; set; } = true;
 
         [Category(FileTypes), DisplayName("Razor (.cshtml, .vbhtml, .razor)")]
         [DefaultValue(true)]
@@ -193,6 +193,14 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         [Category(FileTypes), DisplayName("JSON (.json)")]
         [DefaultValue(true)]
         public bool IncludeJson { get; set; } = true;
+
+        [Category(FileTypes), DisplayName("SQL (.sql)"), Description("Cleaned in the background, without opening editors.")]
+        [DefaultValue(true)]
+        public bool IncludeSql { get; set; } = true;
+
+        [Category(FileTypes), DisplayName("Format T-SQL"), Description("ScriptDOM, the same engine as the SSMS 22.7+ formatter. Options from .editorconfig [*.sql], with the same keys as SSMS.")]
+        [DefaultValue(true)]
+        public bool FormatSql { get; set; } = true;
 
         [Category(FileTypes), DisplayName("Additional file extensions"), Description("Separate with ';' (e.g. .skin;.sitemap).")]
         [DefaultValue("")]
@@ -256,6 +264,9 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
             IncludeStyles = IncludeStyles,
             IncludeScripts = IncludeScripts,
             IncludeJson = IncludeJson,
+            IncludeSql = IncludeSql,
+            EnableFormatSql = FormatSql,
+            SqlFormatter = GetSqlFormatterValues(),
             AdditionalFileExtensions = AdditionalFileExtensions ?? string.Empty,
             IgnoreGeneratedCode = IgnoreGeneratedCode,
             ExcludeT4GeneratedCode = ExcludeT4GeneratedCode,

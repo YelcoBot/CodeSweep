@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="YelcoBot.CodeSweep.100" Version="1.0.17" Language="en-US" Publisher="YelcoBot" />
+    <!-- Versión fija para builds locales: el pipeline la reemplaza al publicar en el Marketplace (no se edita aquí). -->
+    <Identity Id="YelcoBot.CodeSweep.100" Version="1.0.0" Language="en-US" Publisher="YelcoBot" />
     <DisplayName>CodeSweep</DisplayName>
-    <Description xml:space="preserve">Clean Architecture + Roslyn automated code cleanup tool for Visual Studio.</Description>
+    <Description xml:space="preserve">Fast code cleanup for Visual Studio (C#, VB, markup, SQL) and SQL Server Management Studio (SQL).</Description>
     <MoreInfoUrl>https://github.com/YelcoBotCompany/CodeSweep</MoreInfoUrl>
     <License>LICENSE.txt</License>
     <Icon>Resources\Icon.png</Icon>
     <PreviewImage>Resources\PreviewImage.png</PreviewImage>
+    <Tags>cleanup, code cleanup, format, formatter, roslyn, csharp, vb, sql, t-sql, ssms, editorconfig</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.14, 19.0)">
@@ -15,6 +17,9 @@
     </InstallationTarget>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.14, 19.0)">
       <ProductArchitecture>arm64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Ssms" Version="[22.7, 23.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
     </InstallationTarget>
   </Installation>
   <Dependencies>

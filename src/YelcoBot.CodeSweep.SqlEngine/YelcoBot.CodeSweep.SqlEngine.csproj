@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Motor de formato T-SQL. Corre en un AppDomain aparte, cargado desde la subcarpeta SqlEngine\ de la extensión,
+    para usar SIEMPRE este ScriptDOM (también en SSMS, que trae otro con la misma identidad 18.0.0.0)
+    y para que las dependencias de EditorConfig no choquen con las del producto.
+    No referencia nada de CodeSweep: entre dominios solo viajan strings y diccionarios.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net481</TargetFramework>
+    <RootNamespace>YelcoBot.CodeSweep.SqlEngine</RootNamespace>
+    <AssemblyName>YelcoBot.CodeSweep.SqlEngine</AssemblyName>
+  </PropertyGroup>
+
+  <!-- PrivateAssets: estas DLLs van solo a SqlEngine\ (no a la carpeta principal de la extensión). -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SqlServer.TransactSql.ScriptDom" PrivateAssets="all" />
+    <PackageReference Include="editorconfig" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
@@ -18,7 +17,8 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Tests.Rules
             using (AdhocWorkspace workspace = new AdhocWorkspace())
             {
                 Project project = workspace.AddProject("TestProject", LanguageNames.CSharp);
-                Document document = workspace.AddDocument(project.Id, "TestDoc.cs", SourceText.From(code));
+                // project.AddDocument (no workspace.AddDocument): así el documento queda en el proyecto con sus referencias.
+                Document document = project.AddDocument("TestDoc.cs", SourceText.From(code));
 
                 WhitespaceRule rule = new WhitespaceRule();
                 Document updatedDoc = await rule.ApplyAsync(document, new SweepOptions());

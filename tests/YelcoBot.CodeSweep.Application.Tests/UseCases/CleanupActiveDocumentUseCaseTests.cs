@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
 using YelcoBot.CodeSweep.Application.Abstractions;
@@ -35,6 +31,7 @@ namespace YelcoBot.CodeSweep.Application.Tests.UseCases
                 _documentProvider,
                 new DocumentRouter(new GeneratedCodeDetector()),
                 _codeCleaner,
+                Substitute.For<ISqlCleaner>(),
                 _editorFormatter,
                 Substitute.For<IWebFormsDesignerGenerator>(),
                 new SweepActivity());

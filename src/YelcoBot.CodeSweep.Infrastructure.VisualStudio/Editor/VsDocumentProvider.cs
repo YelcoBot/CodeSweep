@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Community.VisualStudio.Toolkit;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Application.Abstractions;
+using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Domain.Selection;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
@@ -63,14 +58,22 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
             {
                 if (ErrorHandler.Succeeded(buffer[0].GetProperty((int)__VSFPROPID.VSFPROPID_pszMkDocument, out object moniker))
                     && moniker is string path
-                    && Path.IsPathRooted(path)
-                    && File.Exists(path))
+                    && (IsUnsavedSqlQuery(path) || (Path.IsPathRooted(path) && File.Exists(path))))
                 {
                     paths.Add(path);
                 }
             }
 
             return paths;
+        }
+
+        /// <summary>
+        /// SSMS: una ventana de consulta nueva (SQLQuery1.sql) no existe en disco hasta que se guarda;
+        /// igual se limpia, porque el cleaner de SQL trabaja sobre su buffer.
+        /// </summary>
+        private static bool IsUnsavedSqlQuery(string path)
+        {
+            return string.Equals(Path.GetExtension(path), ".sql", StringComparison.OrdinalIgnoreCase) && !File.Exists(path);
         }
 
         private static async Task<IReadOnlyList<string>> GetSolutionFilePathsAsync(CancellationToken cancellationToken)

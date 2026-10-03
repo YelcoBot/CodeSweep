@@ -5,6 +5,7 @@ using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor;
 using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Events;
 using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Interaction;
 using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings;
+using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Sql;
 using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Workspace;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio
@@ -23,6 +24,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio
             services.AddSingleton<IEditorFormatStrategy>(sp => sp.GetRequiredService<WindowFormatStrategy>());
             services.AddSingleton<IEditorFormatter, VsEditorFormatter>();
             services.AddSingleton<IWebFormsDesignerGenerator, VsWebFormsDesignerGenerator>();
+            services.AddSingleton<ISqlCleaner, VsSqlCleaner>();
 
             services.AddSingleton<IUserInteraction, VsUserInteraction>();
             services.AddSingleton<ISweepLog, VsOutputLog>();

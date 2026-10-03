@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Options;
 

@@ -11,7 +11,9 @@ namespace YelcoBot.CodeSweep.Domain.Services.Whitespace
         }
 
         public int Start { get; }
+
         public int Length { get; }
+
         public string NewText { get; }
     }
 }

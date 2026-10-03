@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace YelcoBot.CodeSweep.Domain.Services.Whitespace
@@ -7,6 +5,7 @@ namespace YelcoBot.CodeSweep.Domain.Services.Whitespace
     /// <summary>
     /// Protección para los archivos que formatea el editor de VS (aspx, html, xml, css, js…), por línea:
     /// - JS/TS: líneas dentro de template strings (`…`) o strings con continuación de línea.
+    /// - SQL: líneas dentro de strings, identificadores "…" o […] de varias líneas.
     /// - Resto: bloques donde los saltos de línea son contenido: &lt;pre&gt;, &lt;textarea&gt;, &lt;script&gt; y CDATA.
     /// </summary>
     public sealed class EditorTextGuard : ITextGuard
@@ -33,9 +32,13 @@ namespace YelcoBot.CodeSweep.Domain.Services.Whitespace
 
         public static EditorTextGuard Create(string extension, IReadOnlyList<string> lines)
         {
-            return new EditorTextGuard(ScriptExtensions.Contains(extension ?? string.Empty)
-                ? ScriptScanner.FindProtectedLines(lines)
-                : FindProtectedBlockLines(lines));
+            if (ScriptExtensions.Contains(extension ?? string.Empty))
+                return new EditorTextGuard(ScriptScanner.FindProtectedLines(lines));
+
+            if (string.Equals(extension, ".sql", StringComparison.OrdinalIgnoreCase))
+                return new EditorTextGuard(SqlScanner.FindProtectedLines(lines));
+
+            return new EditorTextGuard(FindProtectedBlockLines(lines));
         }
 
         public bool CanRemoveLine(int lineIndex) => !_protectedLines[lineIndex];

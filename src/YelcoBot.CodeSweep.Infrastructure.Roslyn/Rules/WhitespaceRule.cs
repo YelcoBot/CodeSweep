@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using YelcoBot.CodeSweep.Domain.Options;
@@ -18,6 +14,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules
     public class WhitespaceRule : ISweepRule
     {
         public string Id => "WHITESPACE";
+
         public int Order => 60;
 
         public bool IsEnabled(SweepOptions options) => WhitespaceCleaner.IsAnyEnabled(options);

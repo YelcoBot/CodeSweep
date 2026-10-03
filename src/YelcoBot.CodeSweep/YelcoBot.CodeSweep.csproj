@@ -20,6 +20,7 @@
     <ProjectReference Include="..\YelcoBot.CodeSweep.Domain\YelcoBot.CodeSweep.Domain.csproj" />
     <ProjectReference Include="..\YelcoBot.CodeSweep.Application\YelcoBot.CodeSweep.Application.csproj" />
     <ProjectReference Include="..\YelcoBot.CodeSweep.Infrastructure.Roslyn\YelcoBot.CodeSweep.Infrastructure.Roslyn.csproj" />
+    <ProjectReference Include="..\YelcoBot.CodeSweep.Infrastructure.Sql\YelcoBot.CodeSweep.Infrastructure.Sql.csproj" />
     <ProjectReference Include="..\YelcoBot.CodeSweep.Infrastructure.VisualStudio\YelcoBot.CodeSweep.Infrastructure.VisualStudio.csproj" />
   </ItemGroup>
 
@@ -70,22 +71,34 @@
     - Microsoft.Extensions.DependencyInjection* y Microsoft.Bcl.AsyncInterfaces: el VSSDK los omite.
       Deben ser 10.0.10 = la versión que trae VS 2026 (devenv.exe.config redirige 0.0.0.0-10.0.0.10 a su copia).
       Una versión mayor carga dos copias del mismo tipo (MissingMethodException). En VS 2022 se usan estas.
+    - SqlEngine\: el motor T-SQL (ScriptDOM + EditorConfig y sus dependencias). Corre en un AppDomain aparte con esa carpeta
+      como base, así siempre usa este ScriptDOM (también en SSMS, que trae otro con la misma identidad 18.0.0.0).
   -->
   <Target Name="IncludeExtraFilesInVsix" AfterTargets="GetVsixSourceItems">
+    <ItemGroup>
+      <_SqlEngineFiles Include="..\YelcoBot.CodeSweep.SqlEngine\bin\$(Configuration)\net481\*.dll" />
+      <_SqlEngineSatellites Include="..\YelcoBot.CodeSweep.SqlEngine\bin\$(Configuration)\net481\es\*.dll" />
+    </ItemGroup>
     <Copy SourceFiles="..\..\LICENSE" DestinationFiles="$(IntermediateOutputPath)LICENSE.txt" SkipUnchangedFiles="true" />
     <ItemGroup>
       <VSIXSourceItem Include="$(IntermediateOutputPath)LICENSE.txt" />
       <VSIXSourceItem Include="$(OutDir)Microsoft.Extensions.DependencyInjection.dll" />
       <VSIXSourceItem Include="$(OutDir)Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
       <VSIXSourceItem Include="$(OutDir)Microsoft.Bcl.AsyncInterfaces.dll" />
+      <VSIXSourceItem Include="@(_SqlEngineFiles)" VSIXSubPath="SqlEngine" />
+      <VSIXSourceItem Include="@(_SqlEngineSatellites)" VSIXSubPath="SqlEngine\es" />
+    </ItemGroup>
+    <!-- Las dependencias del motor solo van en SqlEngine\: en la raíz las arrastra la referencia al proyecto, y ahí sobran. -->
+    <ItemGroup>
+      <_RootSqlEngineLeak Include="@(VSIXSourceItem)" Condition="'%(VSIXSourceItem.VSIXSubPath)' == '' And ('%(Filename)' == 'Microsoft.SqlServer.TransactSql.ScriptDom' Or '%(Filename)' == 'EditorConfig.Core' Or '%(Filename)' == 'System.IO.Abstractions' Or '%(Filename)' == 'TestableIO.System.IO.Abstractions' Or '%(Filename)' == 'TestableIO.System.IO.Abstractions.Wrappers' Or '%(Filename)' == 'Testably.Abstractions.FileSystem.Interface' Or '%(Filename)' == 'System.Numerics.Vectors')" />
+      <VSIXSourceItem Remove="@(_RootSqlEngineLeak)" />
     </ItemGroup>
   </Target>
 
-  <!-- Publicación al Marketplace (no se empaquetan en el VSIX) -->
+  <!-- Publicación al Marketplace: las usa el pipeline (no se empaquetan en el VSIX) -->
   <ItemGroup>
     <None Include="Marketplace\publishManifest.json" TargetPath="publishManifest.json" CopyToOutputDirectory="PreserveNewest" IncludeInVSIX="false" />
     <None Include="Marketplace\overview.md" TargetPath="overview.md" CopyToOutputDirectory="PreserveNewest" IncludeInVSIX="false" />
-    <None Include="Properties\PublishProfiles\Publish-Marketplace.ps1" />
   </ItemGroup>
 
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />

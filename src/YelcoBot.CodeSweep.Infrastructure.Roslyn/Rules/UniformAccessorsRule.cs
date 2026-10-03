@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -20,6 +16,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules
     public class UniformAccessorsRule : ISweepRule
     {
         public string Id => "UNIFORM_ACCESSORS";
+
         public int Order => 34;
 
         public bool IsEnabled(SweepOptions options) => options.EnableUniformAccessors;

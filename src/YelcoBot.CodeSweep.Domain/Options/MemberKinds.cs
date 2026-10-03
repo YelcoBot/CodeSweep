@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace YelcoBot.CodeSweep.Domain.Options
 {
     /// <summary>Tipos de miembro para las reglas 3.1 (línea en blanco entre miembros) y 5.1 (reorganizar).</summary>

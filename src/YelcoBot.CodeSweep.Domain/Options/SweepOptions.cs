@@ -6,8 +6,11 @@ namespace YelcoBot.CodeSweep.Domain.Options
 
         // A. Roslyn (C# y VB)
         public bool EnableRemoveUnusedUsings { get; set; } = true;
+
         public bool EnableSortUsings { get; set; } = true;
+
         public bool EnableRemoveUnusedLocalVariables { get; set; } = true;
+
         public bool EnableFormatDocument { get; set; } = true;
 
         // B. Universales (cualquier archivo, en las tres vías)
@@ -15,27 +18,43 @@ namespace YelcoBot.CodeSweep.Domain.Options
 
         /// <summary>Máximo de líneas en blanco seguidas que deja la regla 1.1.</summary>
         public int MaxConsecutiveBlankLines { get; set; } = 1;
+
         public bool EnableRemoveLeadingBlankLines { get; set; } = true;
+
         public bool EnableRemoveTrailingBlankLines { get; set; } = true;
+
         public bool EnableTrimTrailingWhitespace { get; set; } = true;
+
         public bool EnableSingleFinalNewline { get; set; } = true;
 
         // C.1 C# y VB
         public bool EnableRemoveBlankLinesAfterOpenBlock { get; set; } = true;
+
         public bool EnableRemoveBlankLinesBeforeCloseBlock { get; set; } = true;
+
         public bool EnableRemoveBlankLinesAfterAttributes { get; set; } = true;
+
         public bool EnableRemoveBlankLinesBetweenChainedCalls { get; set; } = true;
+
         public bool EnableBlankLineBetweenMembers { get; set; } = true;
 
         /// <summary>Tipos de miembro que llevan línea en blanco entre ellos (ver <see cref="MemberKinds"/>), separados por ';'.</summary>
         public string BlankLineBetweenMemberKinds { get; set; } = MemberKinds.DefaultBlankLineKinds;
+
         public bool EnableBlankLineAroundRegions { get; set; } = false;
+
         public bool EnableBlankLineBeforeCase { get; set; } = false;
+
         public bool EnableBlankLineBeforeSingleLineComments { get; set; } = true;
+
         public bool EnableBlankLineAfterUsings { get; set; } = true;
+
         public bool EnableRemoveAllRegions { get; set; } = false;
+
         public bool EnableUpdateEndRegionText { get; set; } = false;
+
         public bool EnableRemoveEmptyRegions { get; set; } = true;
+
         public bool EnableReorganizeMembers { get; set; } = false;
 
         /// <summary>Orden de los tipos de miembro al reorganizar (ver <see cref="MemberKinds"/>), separados por ';'.</summary>
@@ -43,33 +62,59 @@ namespace YelcoBot.CodeSweep.Domain.Options
 
         /// <summary>Orden de los accesos al reorganizar, separados por ';'.</summary>
         public string AccessOrder { get; set; } = MemberKinds.DefaultAccessOrder;
+
         public bool EnableUniformAccessors { get; set; } = false;
+
         public bool EnableWrapComments { get; set; } = false;
+
         public int CommentWrapColumn { get; set; } = 120;
+
         public bool EnableSpaceAfterCommentPrefix { get; set; } = false;
 
         // C.2 Markup (Web Forms, Razor, HTML, XML / Config, XAML)
         public bool EnableRemoveBlankLinesInsideTags { get; set; } = true;
+
         public bool EnableRemoveEmptyComments { get; set; } = true;
 
         // Tipos de archivo: Roslyn
         public bool IncludeCSharp { get; set; } = true;
+
         public bool IncludeVisualBasic { get; set; } = true;
+
+        // Tipos de archivo: SQL (ScriptDOM, el mismo motor del formateador de SSMS)
+        public bool IncludeSql { get; set; } = true;
+
+        /// <summary>Formatear T-SQL con ScriptDOM (opciones del .editorconfig [*.sql], igual que SSMS). Apagado: solo reglas universales.</summary>
+        public bool EnableFormatSql { get; set; } = true;
+
+        /// <summary>
+        /// Opciones del formateador T-SQL ya resueltas (propiedad de ScriptDOM → valor): las del producto (VS / SSMS)
+        /// para las que tiene, y las de CodeSweep para el resto. El .editorconfig de cada archivo gana sobre estas.
+        /// </summary>
+        public Dictionary<string, string> SqlFormatter { get; set; } = SqlFormatterCatalog.Options
+            .ToDictionary(o => o.Name, o => o.DefaultValue, StringComparer.OrdinalIgnoreCase);
 
         // Tipos de archivo: editor de VS (ver FileTypeGroups)
         public bool IncludeWebForms { get; set; } = true;
 
         /// <summary>
         /// Tras formatear .aspx/.ascx/.master, regenerar sus .designer.cs con "Convert to Web Application".
-        /// Apagado por defecto: formatear no cambia controles, así que el designer no debería cambiar.
+        /// Activo por defecto: el equipo trabaja con Web Forms clásico (Web Application) y quiere el designer al día.
         /// </summary>
-        public bool RegenerateWebFormsDesigner { get; set; } = false;
+        public bool RegenerateWebFormsDesigner { get; set; } = true;
+
         public bool IncludeRazor { get; set; } = true;
+
         public bool IncludeHtml { get; set; } = true;
+
         public bool IncludeXmlConfig { get; set; } = true;
+
         public bool IncludeXaml { get; set; } = true;
+
         public bool IncludeStyles { get; set; } = true;
+
         public bool IncludeScripts { get; set; } = true;
+
         public bool IncludeJson { get; set; } = true;
 
         /// <summary>Extensiones extra que van al editor de VS, separadas por ';' (ej. ".skin;.sitemap").</summary>
@@ -77,6 +122,7 @@ namespace YelcoBot.CodeSweep.Domain.Options
 
         // Exclusiones
         public bool IgnoreGeneratedCode { get; set; } = true;
+
         public bool ExcludeT4GeneratedCode { get; set; } = true;
 
         /// <summary>Expresiones regulares sobre la ruta completa, separadas por ';'.</summary>
@@ -87,5 +133,27 @@ namespace YelcoBot.CodeSweep.Domain.Options
 
         /// <summary>Interruptor general de la fase del editor (todos los grupos no-Roslyn).</summary>
         public bool FormatEditorFiles { get; set; } = true;
+
+        /// <summary>
+        /// SSMS: solo SQL. Los demás lenguajes no se procesan aunque estén activos en settings.json
+        /// (VS y SSMS pueden compartir valores; en SSMS esas opciones ni se muestran).
+        /// </summary>
+        public SweepOptions RestrictToSql()
+        {
+            IncludeCSharp = false;
+            IncludeVisualBasic = false;
+            IncludeWebForms = false;
+            RegenerateWebFormsDesigner = false;
+            IncludeRazor = false;
+            IncludeHtml = false;
+            IncludeXmlConfig = false;
+            IncludeXaml = false;
+            IncludeStyles = false;
+            IncludeScripts = false;
+            IncludeJson = false;
+            AdditionalFileExtensions = string.Empty;
+            FormatEditorFiles = false;
+            return this;
+        }
     }
 }

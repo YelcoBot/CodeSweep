@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Options;
@@ -19,7 +18,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
             if (!VsVersion.HasUnifiedSettings)
             {
                 ClassicOptions classic = await ClassicOptions.GetLiveInstanceAsync();
-                return classic.ToSweepOptions();
+                return VsHost.IsSsms ? classic.ToSweepOptions().RestrictToSql() : classic.ToSweepOptions();
             }
 
             JObject settings = await _file.ReadAsync();
@@ -34,7 +33,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
             string Text(string key, string fallback) =>
                 settings[key] is JValue { Type: JTokenType.String } value ? (string?)value ?? fallback : fallback;
 
-            return new SweepOptions
+            SweepOptions options = new SweepOptions
             {
                 CleanupOnSave = Bool(SettingKeys.CleanupOnSave, defaults.CleanupOnSave),
 
@@ -84,12 +83,43 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
                 IncludeStyles = Bool(SettingKeys.IncludeStyles, defaults.IncludeStyles),
                 IncludeScripts = Bool(SettingKeys.IncludeScripts, defaults.IncludeScripts),
                 IncludeJson = Bool(SettingKeys.IncludeJson, defaults.IncludeJson),
+                IncludeSql = Bool(SettingKeys.IncludeSql, defaults.IncludeSql),
+                EnableFormatSql = Bool(SettingKeys.FormatSql, defaults.EnableFormatSql),
                 AdditionalFileExtensions = Text(SettingKeys.AdditionalFileExtensions, defaults.AdditionalFileExtensions),
 
                 IgnoreGeneratedCode = Bool(SettingKeys.IgnoreGeneratedCode, defaults.IgnoreGeneratedCode),
                 ExcludeT4GeneratedCode = Bool(SettingKeys.ExcludeT4GeneratedCode, defaults.ExcludeT4GeneratedCode),
                 ExcludePatterns = Text(SettingKeys.ExcludePatterns, defaults.ExcludePatterns)
             };
+
+            options.SqlFormatter = await ResolveSqlFormatterAsync(settings);
+
+            return VsHost.IsSsms ? options.RestrictToSql() : options;
+        }
+
+        /// <summary>
+        /// Opciones del formateador T-SQL: las de CodeSweep (o su default) y, encima, las del producto para las que tiene
+        /// (valor guardado en settings.json o el default de su manifiesto). El .editorconfig gana después, en el motor.
+        /// </summary>
+        private static async Task<Dictionary<string, string>> ResolveSqlFormatterAsync(JObject settings)
+        {
+            Dictionary<string, string> values = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (SqlFormatterOption option in SqlFormatterCatalog.Options)
+            {
+                values[option.Name] = HostSqlFormatterSettings.ToValue(settings[SettingKeys.SqlFormatter(option)]) ?? option.DefaultValue;
+            }
+
+            foreach (KeyValuePair<string, HostSetting> host in await HostSqlFormatterSettings.Shared.GetAsync())
+            {
+                string? value = HostSqlFormatterSettings.ToValue(settings[host.Value.Moniker]) ?? host.Value.DefaultValue;
+                if (value != null)
+                {
+                    values[host.Key] = value;
+                }
+            }
+
+            return values;
         }
 
         public async Task SaveOptionsAsync(SweepOptions options)

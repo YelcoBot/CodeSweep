@@ -1,0 +1,46 @@
+# clave	inglés	español
+CommandCleanupActiveDocument	Cleanup Active Document	Limpiar documento activo
+CommandCleanupOpenCode	Cleanup Open Code	Limpiar código abierto
+CommandCleanupAllCode	Cleanup All Code...	Limpiar todo el código...
+CommandCleanupOnSave	Automatic Cleanup On Save	Limpieza automática al guardar
+CommandCleanupSelectedCode	Cleanup Selected Code	Limpiar código seleccionado
+ProgressActiveDocument	Cleaning active document...	Limpiando documento activo...
+ProgressOpenDocuments	Cleaning open documents...	Limpiando documentos abiertos...
+ProgressSelectedItems	Cleaning selected items...	Limpiando elementos seleccionados...
+ProgressSolution	Cleaning solution...	Limpiando solución...
+CommonContinue	Continue?	¿Continuar?
+SolutionConfirmTitle	Cleanup Entire Solution	Limpiar toda la solución
+SolutionConfirmMessage	Are you sure you want to run CodeSweep on all documents in the solution?	¿Seguro que quieres ejecutar CodeSweep en todos los documentos de la solución?
+SelectedItemsTitle	CodeSweep: Cleanup Selected Code	CodeSweep: Limpiar código seleccionado
+SelectedItemsIncludesFilesAndContainers	Your selection includes files and also these containers:	Tu selección incluye archivos y también estos contenedores:
+SelectedItemsIncludesContainers	Your selection includes these containers:	Tu selección incluye estos contenedores:
+SelectedItemsOptionYes	Yes: clean everything, including the containers.	Sí: limpiar todo, incluidos los contenedores.
+SelectedItemsOptionNo	No: clean only the selected files ({0} file(s)).	No: limpiar solo los archivos seleccionados ({0} archivo(s)).
+SelectedItemsOptionCancel	Cancel: do nothing.	Cancelar: no hacer nada.
+SelectedItemsContainerLine	  • {0}  {1}  —  {2} file(s)	  • {0}  {1}  —  {2} archivo(s)
+SelectedItemsMore	  …and {0} more	  …y {0} más
+SelectedItemsContainersTotal	The containers include {0} file(s) to clean.	Los contenedores incluyen {0} archivo(s) para limpiar.
+KindSolution	Solution	Solución
+KindSolutionFolder	Solution folder	Carpeta de solución
+KindProject	Project	Proyecto
+KindFolder	Folder	Carpeta
+SummaryTitle	CodeSweep Summary	Resumen de CodeSweep
+SummaryCancelled	CodeSweep operation was cancelled.	La operación de CodeSweep se canceló.
+SummaryProcessed	Processed: {0} file(s)	Procesados: {0} archivo(s)
+SummaryChanged	Changed: {0} file(s)	Modificados: {0} archivo(s)
+SummaryDuration	Duration: {0:F2} seconds	Duración: {0:F2} segundos
+SummaryFailures	Failures: {0}	Errores: {0}
+SummaryStatusBar	CodeSweep finished: {0} file(s) cleaned.	CodeSweep terminó: {0} archivo(s) limpiados.
+FailureWorkspaceChanged	Visual Studio rejected the changes because the solution changed during the cleanup. Run it again.	Visual Studio rechazó los cambios porque la solución cambió durante la limpieza. Vuelve a ejecutarla.
+DesignerNoSolutionExplorer	Solution Explorer is not available.	El Explorador de soluciones no está disponible.
+DesignerNotInSolution	Designer not regenerated: the file is not part of the solution.	No se regeneró el designer: el archivo no forma parte de la solución.
+DesignerCommandNotAvailable	Designer not regenerated: 'Convert to Web Application' is not available (only Web Application projects).	No se regeneró el designer: 'Convert to Web Application' no está disponible (solo proyectos Web Application).
+DesignerFailed	Designer not regenerated: {0}	No se regeneró el designer: {0}
+EditorCannotFormatInBackground	Not formatted: the Visual Studio editor for {0} files cannot format without opening a window.	No se formateó: el editor de Visual Studio para archivos {0} no permite formatear sin abrir una ventana.
+LogCleanupOnSave	Cleanup on save: {0}	Limpieza al guardar: {0}
+EditorAskTitle	CodeSweep: Format with the editor?	CodeSweep: ¿Formatear con el editor?
+EditorAskHeader	{0} file(s) could not be formatted in the background (without opening them):	{0} archivo(s) no se pudieron formatear en segundo plano (sin abrirlos):
+EditorAskQuestion	Format them with the Visual Studio editor? Each file will be opened, formatted, saved and closed.	¿Formatearlos con el editor de Visual Studio? Cada archivo se abrirá, formateará, guardará y cerrará.
+EditorCannotFormat	Not formatted: the Visual Studio editor could not format this file.	No se formateó: el editor de Visual Studio no pudo formatear este archivo.
+SqlParseError	T-SQL not formatted (line {0}, column {1}): {2}	T-SQL no formateado (línea {0}, columna {1}): {2}
+SqlResultDiscarded	T-SQL not formatted: the result would lose comments or would not be valid T-SQL.	T-SQL no formateado: el resultado perdería comentarios o no sería T-SQL válido.

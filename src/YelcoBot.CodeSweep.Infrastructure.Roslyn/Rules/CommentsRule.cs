@@ -1,8 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using YelcoBot.CodeSweep.Domain.Options;
@@ -23,6 +19,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules
         private const int TabWidth = 4;
 
         public string Id => "COMMENTS";
+
         public int Order => 45;
 
         public bool IsEnabled(SweepOptions options) => options.EnableSpaceAfterCommentPrefix || options.EnableWrapComments;

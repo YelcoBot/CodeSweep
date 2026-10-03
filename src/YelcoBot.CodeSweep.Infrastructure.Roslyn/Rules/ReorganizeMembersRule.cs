@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Infrastructure.Roslyn.Abstractions;
@@ -25,6 +21,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules
     public class ReorganizeMembersRule : ISweepRule
     {
         public string Id => "REORGANIZE_MEMBERS";
+
         public int Order => 33;
 
         public bool IsEnabled(SweepOptions options) => options.EnableReorganizeMembers;

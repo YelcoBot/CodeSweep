@@ -1,8 +1,4 @@
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using YelcoBot.CodeSweep.Domain.Options;
@@ -18,6 +14,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.Roslyn.Rules
     public class RemoveUnusedUsingsRule : ISweepRule
     {
         public string Id => "REMOVE_UNUSED_USINGS";
+
         public int Order => 20;
 
         public bool IsEnabled(SweepOptions options) => options.EnableRemoveUnusedUsings;

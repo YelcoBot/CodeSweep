@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
@@ -42,7 +39,8 @@ namespace TestNamespace
                 Project project = workspace.AddProject("TestProject", LanguageNames.CSharp)
                     .WithMetadataReferences(GetMetadataReferences());
 
-                Document document = workspace.AddDocument(project.Id, "TestDoc.cs", SourceText.From(code));
+                // project.AddDocument (no workspace.AddDocument): así el documento queda en el proyecto con sus referencias.
+                Document document = project.AddDocument("TestDoc.cs", SourceText.From(code));
 
                 RemoveUnusedLocalVariablesRule rule = new RemoveUnusedLocalVariablesRule();
                 SweepOptions options = new SweepOptions();
