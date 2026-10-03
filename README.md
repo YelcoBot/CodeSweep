@@ -26,7 +26,7 @@ msbuild CodeSweep.slnx -restore -p:Configuration=Release
 # VSIX: src/YelcoBot.CodeSweep/bin/Release/net481/YelcoBot.CodeSweep.vsix
 ```
 
-- **Version:** fixed at `1.0.0` in `source.extension.vsixmanifest` for local builds; the pipeline sets the real one when it publishes.
+- **Version:** `source.extension.vsixmanifest` stays at `1.0.0`; the pipeline sets the real version when it publishes. For local builds, create `src/YelcoBot.CodeSweep/version.local.props` (ignored by git) with `<Project><PropertyGroup><LocalVsixVersion>1.10.1</LocalVsixVersion></PropertyGroup></Project>` and bump it: only the VSIX gets that version, never the manifest in the repo.
 - **Install locally:** use the `VSIXInstaller.exe` of the product you want. Double-clicking the `.vsix` may open the SSMS installer, which only offers SSMS.
 - **Debug:** press F5 to use the experimental instance, so you don't touch the version installed from the Marketplace.
 

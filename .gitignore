@@ -428,3 +428,6 @@ obj/**/*.vsix
 *.msix
 *.msm
 *.msp
+
+# Versión local del VSIX (ver el comentario en src/YelcoBot.CodeSweep/YelcoBot.CodeSweep.csproj)
+version.local.props

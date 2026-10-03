@@ -16,6 +16,14 @@
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
 
+  <!--
+    Versión local del VSIX: source.extension.vsixmanifest queda fijo en 1.0.0 (el pipeline pone la real al publicar).
+    Para probar builds locales en VS / SSMS, crea version.local.props junto a este .csproj (ignorado por git):
+      <Project><PropertyGroup><LocalVsixVersion>1.10.1</LocalVsixVersion></PropertyGroup></Project>
+    y sube LocalVsixVersion en cada build que quieras instalar encima de la anterior. Sin ese archivo, sale 1.0.0.
+  -->
+  <Import Project="version.local.props" Condition="Exists('version.local.props')" />
+
   <ItemGroup>
     <ProjectReference Include="..\YelcoBot.CodeSweep.Domain\YelcoBot.CodeSweep.Domain.csproj" />
     <ProjectReference Include="..\YelcoBot.CodeSweep.Application\YelcoBot.CodeSweep.Application.csproj" />
@@ -93,6 +101,15 @@
       <_RootSqlEngineLeak Include="@(VSIXSourceItem)" Condition="'%(VSIXSourceItem.VSIXSubPath)' == '' And ('%(Filename)' == 'Microsoft.SqlServer.TransactSql.ScriptDom' Or '%(Filename)' == 'EditorConfig.Core' Or '%(Filename)' == 'System.IO.Abstractions' Or '%(Filename)' == 'TestableIO.System.IO.Abstractions' Or '%(Filename)' == 'TestableIO.System.IO.Abstractions.Wrappers' Or '%(Filename)' == 'Testably.Abstractions.FileSystem.Interface' Or '%(Filename)' == 'System.Numerics.Vectors')" />
       <VSIXSourceItem Remove="@(_RootSqlEngineLeak)" />
     </ItemGroup>
+  </Target>
+
+  <!-- Aplica LocalVsixVersion al manifiesto que va dentro del VSIX (obj\), nunca al source.extension.vsixmanifest del repo. -->
+  <Target Name="ApplyLocalVsixVersion" AfterTargets="DetokenizeVsixManifestFile" Condition="'$(LocalVsixVersion)' != ''">
+    <XmlPoke XmlInputPath="$(IntermediateVsixManifest)"
+             Query="/x:PackageManifest/x:Metadata/x:Identity/@Version"
+             Value="$(LocalVsixVersion)"
+             Namespaces="&lt;Namespace Prefix='x' Uri='http://schemas.microsoft.com/developer/vsx-schema/2011' /&gt;" />
+    <Message Importance="high" Text="CodeSweep: VSIX local con versión $(LocalVsixVersion) (version.local.props)." />
   </Target>
 
   <!-- Publicación al Marketplace: las usa el pipeline (no se empaquetan en el VSIX) -->

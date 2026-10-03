@@ -159,6 +159,6 @@ Al cambiar `CodeSweep.registration.json` hay que subir el `CacheTag` de `CodeSwe
 
 ## VSIX
 
-- **Versión:** fija en `1.0.0` en el manifiesto; el pipeline la reemplaza al publicar.
+- **Versión:** el manifiesto queda fijo en `1.0.0` y el pipeline pone la real al publicar. Para builds locales: crear `src/YelcoBot.CodeSweep/version.local.props` (ignorado por git) con `<Project><PropertyGroup><LocalVsixVersion>1.10.1</LocalVsixVersion></PropertyGroup></Project>` y subir ese número; el target `ApplyLocalVsixVersion` la aplica solo al manifiesto dentro del VSIX (`obj`), nunca al del repo.
 - **DLLs extra:** DI 10.0.10 y `Microsoft.Bcl.AsyncInterfaces` en la raíz, porque el VSSDK las omite. El motor SQL y sus dependencias van solo en `SqlEngine\`; ver el target `IncludeExtraFilesInVsix` del `.csproj`.
 - **Instalación:** un solo `.vsix` para VS y SSMS, pero cada producto lo instala por separado. Si al hacer doble clic se abre el instalador de SSMS, solo ofrece SSMS: para VS, usar el `VSIXInstaller.exe` de VS.
