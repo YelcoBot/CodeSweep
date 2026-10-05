@@ -15,7 +15,7 @@ resources:
   repositories:
     - repository: templates
       type: github
-      name: YelcoBotCompany/azure-devops-core
+      name: YelcoBot/azure-devops-core
       ref: refs/heads/main
       endpoint: YelcoBotCompany # Service connection de GitHub en Azure DevOps
 
@@ -50,4 +50,19 @@ stages:
             publisherId: 'yelcobot'
         artifacts:
           - name: CodeSweep
+            path: ''
+
+    - template: main.yml@templates
+      parameters:
+        service: github-release
+        language: netframework
+        command: deploy
+        dependsOn: []
+        projects:
+          - name: CodeSweep
+            type: VSIX
+            projectPattern: '**\YelcoBot.CodeSweep.csproj'
+            outputPath: ''
+        artifacts:
+          - name: CodeSweep-GitHub
             path: ''
