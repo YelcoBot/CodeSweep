@@ -34,7 +34,7 @@ stages:
         language: netframework
         command: test
 
-  # Push: empaqueta y despliega el VSIX
+  # Push: empaqueta y despliega el VSIX (Marketplace para VS, GitHub Release para SSMS)
   - ${{ else }}:
     - template: main.yml@templates
       parameters:

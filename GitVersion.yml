@@ -6,7 +6,7 @@ branches:
   main:
     regex: ^main$
     mode: ContinuousDeployment
-    increment: Minor
+    increment: Patch
     is-main-branch: true
     label: ''
 

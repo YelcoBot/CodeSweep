@@ -4,7 +4,7 @@
 
 ### New
 
-- **SQL Server Management Studio 22.7+**: CodeSweep now installs in SSMS too (same `.vsix`). In SSMS it only cleans `.sql` files, and Tools → Options hides the other languages.
+- **SQL Server Management Studio 22.7+**: CodeSweep now installs in SSMS too. Download it from [GitHub Releases](https://github.com/YelcoBot/CodeSweep/releases) (the Visual Studio Marketplace doesn't accept SSMS packages). In SSMS it only cleans `.sql` files, and Tools → Options hides the other languages.
 - **T-SQL formatting** with ScriptDOM 180.117, the engine behind the SSMS formatter, in the background and without opening files.
   - It always uses its own ScriptDOM, even inside SSMS (which ships an older one).
   - 58 formatter options. Each value comes from `.editorconfig` `[*.sql]` (same keys as SSMS) → the product's own options (SSMS *SQL Formatter*) → CodeSweep's options.

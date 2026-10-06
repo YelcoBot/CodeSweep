@@ -2,6 +2,8 @@
 
 Fast code cleanup for **Visual Studio 2022 / 2026** (C#, VB, markup, T-SQL) and **SQL Server Management Studio 22.7+** (T-SQL).
 
+> **Using SSMS?** The Visual Studio Marketplace only lists Visual Studio. Download the `.vsix` from [GitHub Releases](https://github.com/YelcoBot/CodeSweep/releases): it installs in SSMS 22.7+ and in Visual Studio.
+
 - **C# and VB** are cleaned with Roslyn **in the background and in parallel, without opening files**.
 - **T-SQL** is formatted with **ScriptDOM**, the same engine as the SSMS formatter, also without opening files.
 - **ASPX, Razor, HTML, XML, XAML, CSS, JS, JSON…** are formatted with the Visual Studio editor.

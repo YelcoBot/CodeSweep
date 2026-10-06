@@ -98,7 +98,7 @@ CodeSweep/
 │     ├─ CodeSweep.Settings.pkgdef                   # Registra el manifiesto (subir CacheTag al cambiarlo)
 │     ├─ VSPackage.resx / VSPackage.es.resx          # Textos de Tools → Options (generados, ver tools/)
 │     ├─ Marketplace/                                # overview.md + publishManifest.json
-│     └─ source.extension.vsixmanifest               # VS 2022/2026 (x64, ARM64) + SSMS 22.7+ (x64); versión fija 1.0.0
+│     └─ source.extension.vsixmanifest               # VS 2022/2026 (x64, ARM64); SSMS se agrega en el build; versión fija 1.0.0
 │
 ├─ tests/                                            # xUnit: Domain, Application, Infrastructure.Roslyn (AdhocWorkspace)
 │
@@ -161,4 +161,7 @@ Al cambiar `CodeSweep.registration.json` hay que subir el `CacheTag` de `CodeSwe
 
 - **Versión:** el manifiesto queda fijo en `1.0.0` y el pipeline pone la real al publicar. Para builds locales: crear `src/YelcoBot.CodeSweep/version.local.props` (ignorado por git) con `<Project><PropertyGroup><LocalVsixVersion>1.10.1</LocalVsixVersion></PropertyGroup></Project>` y subir ese número; el target `ApplyLocalVsixVersion` la aplica solo al manifiesto dentro del VSIX (`obj`), nunca al del repo.
 - **DLLs extra:** DI 10.0.10 y `Microsoft.Bcl.AsyncInterfaces` en la raíz, porque el VSSDK las omite. El motor SQL y sus dependencias van solo en `SqlEngine\`; ver el target `IncludeExtraFilesInVsix` del `.csproj`.
-- **Instalación:** un solo `.vsix` para VS y SSMS, pero cada producto lo instala por separado. Si al hacer doble clic se abre el instalador de SSMS, solo ofrece SSMS: para VS, usar el `VSIXInstaller.exe` de VS.
+- **Dos paquetes, mismo código:** el Marketplace de Visual Studio rechaza el destino `Microsoft.VisualStudio.Ssms` (`Could not find matching sku`), así que el manifiesto del repo solo declara Visual Studio.
+  - **Marketplace** (pipeline): build normal, solo Visual Studio.
+  - **GitHub Releases** (https://github.com/YelcoBot/CodeSweep/releases): build con `IncludeSsmsTarget=true` (en `version.local.props` o `-p:IncludeSsmsTarget=true`). El target `AddSsmsInstallationTarget` agrega SSMS 22.7+ al manifiesto dentro del VSIX (`obj`). Ese `.vsix` se instala en VS y SSMS.
+- **Instalación:** cada producto instala su copia por separado. Si al hacer doble clic se abre el instalador de SSMS, solo ofrece SSMS: para VS, usar el `VSIXInstaller.exe` de VS.

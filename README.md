@@ -7,7 +7,14 @@ Fast code cleanup for **Visual Studio 2022 / 2026** (C#, VB, markup, T-SQL) and 
 - **ASPX, Razor, HTML, XML, XAML, CSS, JS, JSON…**: formatted with the Visual Studio editor.
 - **Every file type**: blank lines, trailing whitespace and the final newline.
 
-Marketplace: [CodeSweep](https://marketplace.visualstudio.com/items?itemName=yelcobot.CodeSweep)
+## Install
+
+| Product | Where |
+|---|---|
+| Visual Studio 2022 / 2026 | [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=yelcobot.CodeSweep) (updates from *Extensions → Manage Extensions*) |
+| SQL Server Management Studio 22.7+ | [GitHub Releases](https://github.com/YelcoBot/CodeSweep/releases): download the `.vsix` and run it with SSMS closed. It also installs in Visual Studio |
+
+The Visual Studio Marketplace rejects packages that target SSMS, so there are two packages built from the same code: the Marketplace one (Visual Studio only) and the GitHub Releases one (Visual Studio + SSMS).
 
 ## Documentation
 
@@ -27,6 +34,7 @@ msbuild CodeSweep.slnx -restore -p:Configuration=Release
 ```
 
 - **Version:** `source.extension.vsixmanifest` stays at `1.0.0`; the pipeline sets the real version when it publishes. For local builds, create `src/YelcoBot.CodeSweep/version.local.props` (ignored by git) with `<Project><PropertyGroup><LocalVsixVersion>1.10.1</LocalVsixVersion></PropertyGroup></Project>` and bump it: only the VSIX gets that version, never the manifest in the repo.
+- **SSMS package:** add `<IncludeSsmsTarget>true</IncludeSsmsTarget>` to `version.local.props`, or build with `-p:IncludeSsmsTarget=true -p:LocalVsixVersion=<version>`. That `.vsix` targets Visual Studio and SSMS and is the one for GitHub Releases; it can't be published to the Marketplace.
 - **Install locally:** use the `VSIXInstaller.exe` of the product you want. Double-clicking the `.vsix` may open the SSMS installer, which only offers SSMS.
 - **Debug:** press F5 to use the experimental instance, so you don't touch the version installed from the Marketplace.
 

@@ -5,8 +5,9 @@
     <Identity Id="YelcoBot.CodeSweep.100" Version="1.0.0" Language="en-US" Publisher="YelcoBot" />
     <DisplayName>CodeSweep</DisplayName>
     <Description xml:space="preserve">Fast code cleanup for Visual Studio (C#, VB, markup, SQL) and SQL Server Management Studio (SQL).</Description>
-    <MoreInfoUrl>https://github.com/YelcoBotCompany/CodeSweep</MoreInfoUrl>
+    <MoreInfoUrl>https://github.com/YelcoBot/CodeSweep</MoreInfoUrl>
     <License>LICENSE.txt</License>
+    <ReleaseNotes>https://github.com/YelcoBot/CodeSweep/releases</ReleaseNotes>
     <Icon>Resources\Icon.png</Icon>
     <PreviewImage>Resources\PreviewImage.png</PreviewImage>
     <Tags>cleanup;code cleanup;format;formatter;roslyn;csharp;vb;sql;t-sql;ssms;editorconfig</Tags>
