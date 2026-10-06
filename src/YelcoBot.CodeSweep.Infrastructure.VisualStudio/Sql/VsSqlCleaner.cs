@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
 using YelcoBot.CodeSweep.Application.Abstractions;
@@ -34,57 +35,79 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Sql
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             SweepSummary summary = new SweepSummary();
+            ConcurrentBag<SweepSummary> results = new ConcurrentBag<SweepSummary>();
+            int started = 0;
 
-            for (int i = 0; i < filePaths.Count; i++)
+            using (SemaphoreSlim throttler = new SemaphoreSlim(Environment.ProcessorCount))
             {
-                if (cancellationToken.IsCancellationRequested)
+                IEnumerable<Task> tasks = filePaths.Select(filePath => Task.Run(async () =>
                 {
-                    summary.IsCancelled = true;
-                    break;
-                }
-
-                string filePath = filePaths[i];
-                progress?.Report(new SweepProgress(i + 1, filePaths.Count, filePath));
+                    await throttler.WaitAsync(cancellationToken).ConfigureAwait(false);
+                    try
+                    {
+                        progress?.Report(new SweepProgress(Interlocked.Increment(ref started), filePaths.Count, filePath));
+                        results.Add(await CleanFileAsync(filePath, options, cancellationToken).ConfigureAwait(false));
+                    }
+                    finally
+                    {
+                        throttler.Release();
+                    }
+                }, cancellationToken));
 
                 try
                 {
-                    await CleanFileAsync(filePath, options, summary, cancellationToken);
+                    await Task.WhenAll(tasks).ConfigureAwait(false);
                 }
-                catch (Exception ex) when (ex is not OperationCanceledException)
+                catch (OperationCanceledException)
                 {
-                    summary.Failures.Add(new SweepFailure(filePath, ex.Message));
+                    summary.IsCancelled = true;
                 }
             }
 
+            foreach (SweepSummary result in results)
+            {
+                summary.Merge(result);
+            }
+
+            summary.IsCancelled |= cancellationToken.IsCancellationRequested;
             summary.Duration = stopwatch.Elapsed;
             return summary;
         }
 
-        private async Task CleanFileAsync(string filePath, SweepOptions options, SweepSummary summary, CancellationToken cancellationToken)
+        private async Task<SweepSummary> CleanFileAsync(string filePath, SweepOptions options, CancellationToken cancellationToken)
         {
-            TextFileSession? file = await TextFileSession.OpenAsync(filePath, cancellationToken);
-            if (file == null)
-                return;
+            SweepSummary result = new SweepSummary();
 
-            string original = file.Text;
-
-            // Formato + reglas universales, fuera del hilo de UI.
-            (string cleaned, string? reason) = await Task.Run(() => Clean(original, filePath, options), cancellationToken);
-
-            if (reason != null)
+            try
             {
-                summary.Failures.Add(new SweepFailure(filePath, reason));
+                TextFileSession? file = await TextFileSession.OpenAsync(filePath, cancellationToken);
+                if (file == null)
+                    return result;
+
+                string original = file.Text;
+
+                // Formato + reglas universales, fuera del hilo de UI.
+                (string cleaned, string? reason) = await Task.Run(() => Clean(original, filePath, options), cancellationToken);
+
+                if (reason != null)
+                {
+                    result.Failures.Add(new SweepFailure(filePath, reason));
+                }
+
+                result.ProcessedFilesCount++;
+
+                if (cleaned != original && await file.ApplyAsync(cleaned, cancellationToken))
+                {
+                    result.ChangedFilesCount++;
+                    result.ChangedFilePaths.Add(filePath);
+                }
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                result.Failures.Add(new SweepFailure(filePath, ex.Message));
             }
 
-            summary.ProcessedFilesCount++;
-            if (cleaned == original)
-                return;
-
-            if (!await file.ApplyAsync(cleaned, cancellationToken))
-                return;
-
-            summary.ChangedFilesCount++;
-            summary.ChangedFilePaths.Add(filePath);
+            return result;
         }
 
         private (string Text, string? Reason) Clean(string text, string filePath, SweepOptions options)

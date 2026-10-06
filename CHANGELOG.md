@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.11.3
+
+### Changed
+
+- **T-SQL**: `.sql` files are cleaned in parallel, like C# and VB.
+
 ## 1.11.2
 
 ### New
