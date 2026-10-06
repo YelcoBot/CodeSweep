@@ -11,10 +11,10 @@
   <data name="ProgressActiveDocument" xml:space="preserve"><value>Cleaning active document...</value></data>
   <data name="ProgressOpenDocuments" xml:space="preserve"><value>Cleaning open documents...</value></data>
   <data name="ProgressSelectedItems" xml:space="preserve"><value>Cleaning selected items...</value></data>
-  <data name="ProgressSolution" xml:space="preserve"><value>Cleaning solution...</value></data>
+  <data name="ProgressSolution" xml:space="preserve"><value>Cleaning all code...</value></data>
   <data name="CommonContinue" xml:space="preserve"><value>Continue?</value></data>
-  <data name="SolutionConfirmTitle" xml:space="preserve"><value>Cleanup Entire Solution</value></data>
-  <data name="SolutionConfirmMessage" xml:space="preserve"><value>Are you sure you want to run CodeSweep on all documents in the solution?</value></data>
+  <data name="SolutionConfirmTitle" xml:space="preserve"><value>Cleanup All Code</value></data>
+  <data name="SolutionConfirmMessage" xml:space="preserve"><value>Are you sure you want to run CodeSweep on all documents in the solution or open folder?</value></data>
   <data name="SelectedItemsTitle" xml:space="preserve"><value>CodeSweep: Cleanup Selected Code</value></data>
   <data name="SelectedItemsIncludesFilesAndContainers" xml:space="preserve"><value>Your selection includes files and also these containers:</value></data>
   <data name="SelectedItemsIncludesContainers" xml:space="preserve"><value>Your selection includes these containers:</value></data>

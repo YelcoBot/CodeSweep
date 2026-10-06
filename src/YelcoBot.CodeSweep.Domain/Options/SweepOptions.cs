@@ -155,5 +155,17 @@ namespace YelcoBot.CodeSweep.Domain.Options
             FormatEditorFiles = false;
             return this;
         }
+
+        /// <summary>
+        /// Returns a copy without the rules that need a compilation: a loose file (no project, no references)
+        /// cannot tell which usings or variables are really unused.
+        /// </summary>
+        public SweepOptions WithoutSemanticRules()
+        {
+            SweepOptions copy = (SweepOptions)MemberwiseClone();
+            copy.EnableRemoveUnusedUsings = false;
+            copy.EnableRemoveUnusedLocalVariables = false;
+            return copy;
+        }
     }
 }

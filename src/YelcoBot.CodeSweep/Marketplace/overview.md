@@ -16,7 +16,7 @@ Menu **Tools → CodeSweep**, plus the Solution Explorer, document tab and code 
 |---|---|
 | **Cleanup Active Document** | Cleans the document you are editing |
 | **Cleanup Open Code** | Cleans every open document |
-| **Cleanup All Code...** | Cleans the whole solution (asks for confirmation, shows progress) |
+| **Cleanup All Code...** | Cleans the whole solution or open folder (asks for confirmation, shows progress) |
 | **Cleanup Selected Code** | Cleans the items selected in Solution Explorer |
 | **Automatic Cleanup On Save** | Cleans each document right before it is saved |
 

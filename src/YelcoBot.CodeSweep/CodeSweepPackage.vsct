@@ -120,6 +120,10 @@
       <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
     </CommandPlacement>
 
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="DocumentContextGroup" priority="0x0100">
+      <Parent guid="guidSqlQueryEditorCmdSet" id="SqlQueryEditorContextMenu"/>
+    </CommandPlacement>
+
     <!-- El submenú del Explorador de soluciones en todos sus nodos (igual que CodeMaid) -->
     <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
       <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNFOLDER"/>
@@ -154,10 +158,21 @@
     <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
       <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_XPROJ_MULTIPROJFLDR"/>
     </CommandPlacement>
+
+    <CommandPlacement guid="guidCodeSweepPackageCmdSet" id="SolutionExplorerGroup" priority="0x0100">
+      <Parent guid="guidWorkspaceExplorerCmdSet" id="WorkspaceExplorerContextMenu"/>
+    </CommandPlacement>
   </CommandPlacements>
 
   <Symbols>
     <GuidSymbol name="guidCodeSweepPackage" value="{a2f2b3c4-1111-4222-3333-444455556666}" />
+
+    <GuidSymbol name="guidSqlQueryEditorCmdSet" value="{33f13ac3-80bb-4ecb-85bc-225435603a5e}">
+      <IDSymbol name="SqlQueryEditorContextMenu" value="0x0050" />
+    </GuidSymbol>
+    <GuidSymbol name="guidWorkspaceExplorerCmdSet" value="{cfb400f1-5c60-4f3c-856e-180d28def0b7}">
+      <IDSymbol name="WorkspaceExplorerContextMenu" value="0x0002" />
+    </GuidSymbol>
 
     <GuidSymbol name="guidCodeSweepPackageCmdSet" value="{b3f3c4d5-2222-4333-4444-555566667777}">
       <!-- Grupos -->

@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.11.2
+
+### New
+
+- **Open Folder** (File → Open → Folder, no solution): every command now works.
+  - **Cleanup All Code** cleans the files of the open folder, skipping `bin`, `obj`, `node_modules` and folders that start with a dot.
+  - **Cleanup Selected Code** is available in the Folder View context menu, for files, folders and the root folder.
+  - C# and VB files that belong to no project are cleaned too. Without a project there are no references, so unused `using` / `Imports` and unused local variables are left alone.
+- **SSMS**: the CodeSweep menu is also in the context menu of the query editor.
+
+### Changed
+
+- The *Cleanup All Code* confirmation and progress texts no longer mention only the solution.
+
 ## 1.10.0
 
 ### New

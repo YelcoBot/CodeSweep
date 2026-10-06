@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Application.Localization;
 using YelcoBot.CodeSweep.Domain.Selection;
+using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Workspace;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
 {
@@ -80,6 +81,12 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
+            string? openFolder = OpenFolderWorkspace.GetRootFolder();
+            if (openFolder != null)
+            {
+                return await Task.Run(() => OpenFolderWorkspace.GetFiles(openFolder), cancellationToken);
+            }
+
             List<string> paths = new List<string>();
             foreach (Project project in await VS.Solutions.GetAllProjectsAsync())
             {
@@ -96,6 +103,13 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
         private static async Task<IReadOnlyList<string>> GetSelectedItemsFilePathsAsync(CancellationToken cancellationToken)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            string? openFolder = OpenFolderWorkspace.GetRootFolder();
+            if (openFolder != null)
+            {
+                SolutionExplorerSelectionInfo info = await DescribeOpenFolderSelectionAsync(openFolder, cancellationToken);
+                return info.SelectedFilePaths.Concat(info.Containers.SelectMany(c => c.FilePaths)).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+            }
 
             List<string> paths = new List<string>();
             foreach (SolutionItem item in await VS.Solutions.GetActiveItemsAsync())
@@ -114,6 +128,12 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
         public async Task<SolutionExplorerSelectionInfo> DescribeSolutionExplorerSelectionAsync(CancellationToken cancellationToken = default)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            string? openFolder = OpenFolderWorkspace.GetRootFolder();
+            if (openFolder != null)
+            {
+                return await DescribeOpenFolderSelectionAsync(openFolder, cancellationToken);
+            }
 
             List<string> selectedFiles = new List<string>();
             List<SelectedContainer> containers = new List<SelectedContainer>();
@@ -138,6 +158,37 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
             }
 
             return new SolutionExplorerSelectionInfo(selectedFiles.Distinct(StringComparer.OrdinalIgnoreCase).ToList(), containers);
+        }
+
+        /// <summary>
+        /// Describes the selection in Folder View: every selected folder is a container
+        /// whose files are read from disk.
+        /// </summary>
+        private static async Task<SolutionExplorerSelectionInfo> DescribeOpenFolderSelectionAsync(string openFolder, CancellationToken cancellationToken)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            List<string> selectedPaths = OpenFolderWorkspace.GetSelectedPaths(openFolder);
+
+            return await Task.Run(() =>
+            {
+                List<string> selectedFiles = new List<string>();
+                List<SelectedContainer> containers = new List<SelectedContainer>();
+
+                foreach (string path in selectedPaths)
+                {
+                    if (Directory.Exists(path))
+                    {
+                        containers.Add(new SelectedContainer(Strings.KindFolder, Path.GetFileName(path), OpenFolderWorkspace.GetFiles(path)));
+                    }
+                    else
+                    {
+                        selectedFiles.Add(path);
+                    }
+                }
+
+                return new SolutionExplorerSelectionInfo(selectedFiles, containers);
+            }, cancellationToken);
         }
 
         private static string GetKindName(SolutionItemType type)

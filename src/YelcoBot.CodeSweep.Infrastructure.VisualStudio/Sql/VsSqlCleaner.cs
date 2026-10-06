@@ -1,13 +1,10 @@
 using System.Diagnostics;
-using System.IO;
 using System.Text;
-using Community.VisualStudio.Toolkit;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Text;
 using YelcoBot.CodeSweep.Application.Abstractions;
 using YelcoBot.CodeSweep.Domain.Options;
 using YelcoBot.CodeSweep.Domain.Results;
 using YelcoBot.CodeSweep.Domain.Services.Whitespace;
+using YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor;
 using TextEdit = YelcoBot.CodeSweep.Domain.Services.Whitespace.TextEdit;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Sql
@@ -65,27 +62,11 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Sql
 
         private async Task CleanFileAsync(string filePath, SweepOptions options, SweepSummary summary, CancellationToken cancellationToken)
         {
-            ITextBuffer? openBuffer = await GetOpenBufferAsync(filePath);
+            TextFileSession? file = await TextFileSession.OpenAsync(filePath, cancellationToken);
+            if (file == null)
+                return;
 
-            string original;
-            int version = 0;
-            FileContent? file = null;
-
-            if (openBuffer != null)
-            {
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-                ITextSnapshot snapshot = openBuffer.CurrentSnapshot;
-                original = snapshot.GetText();
-                version = snapshot.Version.VersionNumber;
-            }
-            else
-            {
-                if (!File.Exists(filePath))
-                    return;
-
-                file = FileContent.Read(filePath);
-                original = file.Text;
-            }
+            string original = file.Text;
 
             // Formato + reglas universales, fuera del hilo de UI.
             (string cleaned, string? reason) = await Task.Run(() => Clean(original, filePath, options), cancellationToken);
@@ -99,20 +80,8 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Sql
             if (cleaned == original)
                 return;
 
-            if (openBuffer != null)
-            {
-                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-
-                // El usuario siguió escribiendo mientras se calculaba: no pisar sus cambios.
-                if (openBuffer.CurrentSnapshot.Version.VersionNumber != version)
-                    return;
-
-                ReplaceChangedRegion(openBuffer, original, cleaned);
-            }
-            else
-            {
-                file!.Write(cleaned);
-            }
+            if (!await file.ApplyAsync(cleaned, cancellationToken))
+                return;
 
             summary.ChangedFilesCount++;
             summary.ChangedFilePaths.Add(filePath);
@@ -168,106 +137,6 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Sql
 
             lines.Add(new TextLineInfo(start, text.Substring(start), string.Empty));
             return lines;
-        }
-
-        /// <summary>Reemplaza solo lo que cambió (sin el prefijo y sufijo comunes): el cursor y el scroll se mueven lo mínimo.</summary>
-        private static void ReplaceChangedRegion(ITextBuffer buffer, string original, string cleaned)
-        {
-            int prefix = 0;
-            int maxPrefix = Math.Min(original.Length, cleaned.Length);
-            while (prefix < maxPrefix && original[prefix] == cleaned[prefix])
-            {
-                prefix++;
-            }
-
-            int suffix = 0;
-            int maxSuffix = Math.Min(original.Length, cleaned.Length) - prefix;
-            while (suffix < maxSuffix && original[original.Length - 1 - suffix] == cleaned[cleaned.Length - 1 - suffix])
-            {
-                suffix++;
-            }
-
-            using (ITextEdit edit = buffer.CreateEdit())
-            {
-                edit.Replace(new Span(prefix, original.Length - prefix - suffix), cleaned.Substring(prefix, cleaned.Length - prefix - suffix));
-                edit.Apply();
-            }
-        }
-
-        private static async Task<ITextBuffer?> GetOpenBufferAsync(string filePath)
-        {
-            try
-            {
-                if (!await VS.Documents.IsOpenAsync(filePath))
-                    return null;
-
-                DocumentView? view = await VS.Documents.GetDocumentViewAsync(filePath);
-                return view?.TextBuffer;
-            }
-            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>Texto de un archivo cerrado y cómo volver a escribirlo igual (codificación y BOM).</summary>
-        private sealed class FileContent
-        {
-            private static readonly UTF8Encoding StrictUtf8 = new UTF8Encoding(false, throwOnInvalidBytes: true);
-
-            private readonly string _path;
-            private readonly Encoding _encoding;
-
-            private FileContent(string path, string text, Encoding encoding)
-            {
-                _path = path;
-                Text = text;
-                _encoding = encoding;
-            }
-
-            public string Text { get; }
-
-            public static FileContent Read(string path)
-            {
-                byte[] bytes = File.ReadAllBytes(path);
-
-                if (StartsWith(bytes, 0xEF, 0xBB, 0xBF))
-                    return new FileContent(path, new UTF8Encoding(true).GetString(bytes, 3, bytes.Length - 3), new UTF8Encoding(true));
-
-                if (StartsWith(bytes, 0xFF, 0xFE))
-                    return new FileContent(path, Encoding.Unicode.GetString(bytes, 2, bytes.Length - 2), Encoding.Unicode);
-
-                if (StartsWith(bytes, 0xFE, 0xFF))
-                    return new FileContent(path, Encoding.BigEndianUnicode.GetString(bytes, 2, bytes.Length - 2), Encoding.BigEndianUnicode);
-
-                try
-                {
-                    return new FileContent(path, StrictUtf8.GetString(bytes), new UTF8Encoding(false));
-                }
-                catch (DecoderFallbackException)
-                {
-                    // Sin BOM y no es UTF-8 válido: la página de códigos de Windows (lo que usan los scripts viejos).
-                    return new FileContent(path, Encoding.Default.GetString(bytes), Encoding.Default);
-                }
-            }
-
-            /// <summary>Escribe con la misma codificación; GetPreamble agrega el BOM solo si el original lo tenía.</summary>
-            public void Write(string text)
-            {
-                byte[] preamble = _encoding.GetPreamble();
-                byte[] body = _encoding.GetBytes(text);
-
-                using (FileStream stream = new FileStream(_path, FileMode.Create, FileAccess.Write, FileShare.Read))
-                {
-                    stream.Write(preamble, 0, preamble.Length);
-                    stream.Write(body, 0, body.Length);
-                }
-            }
-
-            private static bool StartsWith(byte[] bytes, params byte[] prefix)
-            {
-                return bytes.Length >= prefix.Length && !prefix.Where((b, i) => bytes[i] != b).Any();
-            }
         }
     }
 }

@@ -15,6 +15,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio
         public static IServiceCollection AddCodeSweepVisualStudio(this IServiceCollection services)
         {
             services.AddSingleton<IWorkspaceAccessor, VsWorkspaceAccessor>();
+            services.AddSingleton<ILooseFileStore, VsLooseFileStore>();
             services.AddSingleton<IEditorContext, VsEditorContext>();
             services.AddSingleton<IDocumentProvider, VsDocumentProvider>();
 
