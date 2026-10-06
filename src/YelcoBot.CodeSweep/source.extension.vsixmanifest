@@ -9,7 +9,7 @@
     <License>LICENSE.txt</License>
     <Icon>Resources\Icon.png</Icon>
     <PreviewImage>Resources\PreviewImage.png</PreviewImage>
-    <Tags>cleanup, code cleanup, format, formatter, roslyn, csharp, vb, sql, t-sql, ssms, editorconfig</Tags>
+    <Tags>cleanup;code cleanup;format;formatter;roslyn;csharp;vb;sql;t-sql;ssms;editorconfig</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.14, 19.0)">
