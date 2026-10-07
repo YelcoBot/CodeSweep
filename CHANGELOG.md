@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.11.4
+
+### New
+
+- **Progress dialog with Cancel**: long cleanups show the Visual Studio wait dialog, with the current file and a Cancel button. Files already cleaned stay cleaned.
+
+### Fixed
+
+- `.sql` files open in the editor were not cleaned since 1.11.3; only closed files were.
+- The *CodeSweep Summary* was never shown at the end of a cleanup, and the status bar progress could get stuck.
+
 ## 1.11.3
 
 ### Changed

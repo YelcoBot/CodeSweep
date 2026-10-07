@@ -3,6 +3,7 @@ using System.Text;
 using Community.VisualStudio.Toolkit;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Threading;
 using YelcoBot.CodeSweep.Infrastructure.Roslyn.Abstractions;
 
 namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
@@ -31,7 +32,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
         /// <summary>Opens the file. Returns null when it is neither open nor on disk.</summary>
         public static async Task<TextFileSession?> OpenAsync(string filePath, CancellationToken cancellationToken)
         {
-            ITextBuffer? openBuffer = await GetOpenBufferAsync(filePath);
+            ITextBuffer? openBuffer = await GetOpenBufferAsync(filePath, cancellationToken);
 
             if (openBuffer != null)
             {
@@ -39,6 +40,8 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
                 ITextSnapshot snapshot = openBuffer.CurrentSnapshot;
                 return new TextFileSession(snapshot.GetText(), openBuffer, snapshot.Version.VersionNumber, null);
             }
+
+            await TaskScheduler.Default;
 
             if (!File.Exists(filePath))
                 return null;
@@ -98,12 +101,14 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Editor
             }
         }
 
-        private static async Task<ITextBuffer?> GetOpenBufferAsync(string filePath)
+        private static async Task<ITextBuffer?> GetOpenBufferAsync(string filePath, CancellationToken cancellationToken)
         {
             try
             {
                 if (!await VS.Documents.IsOpenAsync(filePath))
                     return null;
+
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
                 DocumentView? view = await VS.Documents.GetDocumentViewAsync(filePath);
                 return view?.TextBuffer;

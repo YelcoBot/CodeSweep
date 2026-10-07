@@ -24,6 +24,7 @@ namespace TestNamespace
             using (AdhocWorkspace workspace = new AdhocWorkspace())
             {
                 Project project = workspace.AddProject("TestProject", LanguageNames.CSharp);
+
                 // project.AddDocument (no workspace.AddDocument): así el documento queda en el proyecto con sus referencias.
                 Document document = project.AddDocument("TestDoc.cs", SourceText.From(code));
 

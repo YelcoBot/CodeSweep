@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text;
 using Community.VisualStudio.Toolkit;
 using Microsoft.VisualStudio;
@@ -11,6 +12,8 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Interaction
 {
     public class VsUserInteraction : IUserInteraction
     {
+        private static readonly TimeSpan WaitDialogDelay = TimeSpan.FromSeconds(1);
+
         public async Task<bool> ConfirmAsync(string title, string message)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
@@ -65,26 +68,38 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Interaction
             await VS.StatusBar.ShowMessageAsync(Strings.Format(Strings.SummaryStatusBar, summary.ChangedFilesCount));
         }
 
+        /// <summary>
+        /// Runs the action behind the Visual Studio wait dialog, which shows the progress
+        /// and lets the user cancel. The dialog only appears when the action takes longer than a moment.
+        /// </summary>
         public async Task RunWithProgressAsync(string title, Func<IProgress<SweepProgress>, CancellationToken, Task> action)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            Progress<SweepProgress> progress = new Progress<SweepProgress>(p =>
-            {
-                _ = ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
-                {
-                    await VS.StatusBar.ShowProgressAsync($"{title} ({p.Current}/{p.Total})", p.Current, p.Total);
-                });
-            });
+            IVsThreadedWaitDialogFactory factory = await VS.GetRequiredServiceAsync<SVsThreadedWaitDialogFactory, IVsThreadedWaitDialogFactory>();
+            ThreadedWaitDialogProgressData initialProgress = new ThreadedWaitDialogProgressData(title, isCancelable: true);
 
-            try
+            bool finished = false;
+
+            using (ThreadedWaitDialogHelper.Session session = factory.StartWaitDialog(title, initialProgress, WaitDialogDelay))
             {
-                await action(progress, CancellationToken.None);
-            }
-            finally
-            {
-                await VS.StatusBar.ShowProgressAsync(title, 0, 0);
-                await VS.StatusBar.ClearAsync();
+                Progress<SweepProgress> progress = new Progress<SweepProgress>(p =>
+                {
+                    if (!finished)
+                    {
+                        session.Progress.Report(new ThreadedWaitDialogProgressData(title, Path.GetFileName(p.CurrentFilePath), null, isCancelable: true, p.Current, p.Total));
+                    }
+                });
+
+                try
+                {
+                    await action(progress, session.UserCancellationToken);
+                }
+                finally
+                {
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                    finished = true;
+                }
             }
         }
     }
