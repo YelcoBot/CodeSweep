@@ -12,6 +12,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
     {
         private const string General = "1. General";
         private const string Rules = "2. Roslyn (C# and VB)";
+        private const string UnusedMethods = "2.1 Unused methods (C# and VB)";
         private const string Whitespace = "3. Whitespace (all files)";
         private const string CSharpVb = "4. C# and VB";
         private const string Markup = "5. Markup (Web Forms, Razor, HTML, XML, XAML)";
@@ -37,6 +38,62 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         [Category(Rules), DisplayName("Format document"), Description("Roslyn formatting; respects your .editorconfig.")]
         [DefaultValue(true)]
         public bool FormatDocument { get; set; } = true;
+
+        [Category(UnusedMethods), DisplayName("Remove unused methods"), Description("Removes methods that nothing in the solution references, for the access levels below. Never removes override, abstract, virtual, extern or partial methods, interface implementations, Main or pattern methods. Skipped when the file has compile errors.")]
+        [DefaultValue(false)]
+        public bool RemoveUnusedMethods { get; set; } = false;
+
+        [Category(UnusedMethods), DisplayName("Private methods"), Description("Effective access counts: a public method of a private nested class is private, and protected in a sealed class is private.")]
+        [DefaultValue(true)]
+        public bool UnusedMethodsIncludePrivate { get; set; } = true;
+
+        [Category(UnusedMethods), DisplayName("Private protected methods"), Description("VB: Private Protected.")]
+        [DefaultValue(true)]
+        public bool UnusedMethodsIncludePrivateProtected { get; set; } = true;
+
+        [Category(UnusedMethods), DisplayName("Internal methods"), Description("VB: Friend. Skipped when InternalsVisibleTo points to an assembly that is not in the solution.")]
+        [DefaultValue(false)]
+        public bool UnusedMethodsIncludeInternal { get; set; } = false;
+
+        [Category(UnusedMethods), DisplayName("Protected methods"), Description("A derived class in another assembly may use them.")]
+        [DefaultValue(false)]
+        public bool UnusedMethodsIncludeProtected { get; set; } = false;
+
+        [Category(UnusedMethods), DisplayName("Protected internal methods"), Description("VB: Protected Friend.")]
+        [DefaultValue(false)]
+        public bool UnusedMethodsIncludeProtectedInternal { get; set; } = false;
+
+        [Category(UnusedMethods), DisplayName("Public methods"), Description("Only for applications: in a library, the code that uses them is not in the solution.")]
+        [DefaultValue(false)]
+        public bool UnusedMethodsIncludePublic { get; set; } = false;
+
+        [Category(UnusedMethods), DisplayName("Protect methods referenced from markup"), Description("XAML Click=\"…\", Web Forms OnClick=\"…\", Razor @onclick=\"…\", Ribbon XML onAction=\"…\".")]
+        [DefaultValue(true)]
+        public bool UnusedMethodsProtectMarkupReferences { get; set; } = true;
+
+        [Category(UnusedMethods), DisplayName("Markup extensions"), Description("Files scanned for method names. Separate with ';'.")]
+        [DefaultValue(SweepOptions.DefaultUnusedMethodsMarkupExtensions)]
+        public string UnusedMethodsMarkupExtensions { get; set; } = SweepOptions.DefaultUnusedMethodsMarkupExtensions;
+
+        [Category(UnusedMethods), DisplayName("Protect event handlers"), Description("(object sender, EventArgs e) signature, and VB methods with a Handles clause.")]
+        [DefaultValue(true)]
+        public bool UnusedMethodsProtectEventHandlers { get; set; } = true;
+
+        [Category(UnusedMethods), DisplayName("Protect naming conventions"), Description("Page_*, Application_*, Session_*, OnGet* / OnPost*, ShouldSerializeX / ResetX.")]
+        [DefaultValue(true)]
+        public bool UnusedMethodsProtectNamingConventions { get; set; } = true;
+
+        [Category(UnusedMethods), DisplayName("Protect framework entry points"), Description("Controllers, hubs, Razor pages, Blazor components, Web Forms pages, Global.asax, web services, Unity messages.")]
+        [DefaultValue(true)]
+        public bool UnusedMethodsProtectFrameworkEntryPoints { get; set; } = true;
+
+        [Category(UnusedMethods), DisplayName("Protect methods with attributes"), Description("[TestMethod], [HttpGet], [WebMethod]… Informative ones ([Obsolete], [SuppressMessage]…) do not protect.")]
+        [DefaultValue(true)]
+        public bool UnusedMethodsProtectAttributed { get; set; } = true;
+
+        [Category(UnusedMethods), DisplayName("Protect names used in strings"), Description("Reflection (GetMethod(\"Name\")), Invoke(\"Name\"), SelectMethod = \"Name\".")]
+        [DefaultValue(true)]
+        public bool UnusedMethodsProtectStringReferences { get; set; } = true;
 
         [Category(Whitespace), DisplayName("Remove consecutive blank lines"), Description("Keeps at most 'Maximum consecutive blank lines' in a row.")]
         [DefaultValue(true)]
@@ -174,7 +231,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         [DefaultValue(true)]
         public bool IncludeHtml { get; set; } = true;
 
-        [Category(FileTypes), DisplayName("XML / Config (.xml, .config, .webinfo)")]
+        [Category(FileTypes), DisplayName("XML / Config (.xml, .config, .webinfo, .props)")]
         [DefaultValue(true)]
         public bool IncludeXmlConfig { get; set; } = true;
 
@@ -225,6 +282,20 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
             EnableRemoveUnusedUsings = RemoveUnusedUsings,
             EnableSortUsings = SortUsings,
             EnableFormatDocument = FormatDocument,
+            EnableRemoveUnusedMethods = RemoveUnusedMethods,
+            UnusedMethodsIncludePrivate = UnusedMethodsIncludePrivate,
+            UnusedMethodsIncludePrivateProtected = UnusedMethodsIncludePrivateProtected,
+            UnusedMethodsIncludeInternal = UnusedMethodsIncludeInternal,
+            UnusedMethodsIncludeProtected = UnusedMethodsIncludeProtected,
+            UnusedMethodsIncludeProtectedInternal = UnusedMethodsIncludeProtectedInternal,
+            UnusedMethodsIncludePublic = UnusedMethodsIncludePublic,
+            UnusedMethodsProtectMarkupReferences = UnusedMethodsProtectMarkupReferences,
+            UnusedMethodsMarkupExtensions = UnusedMethodsMarkupExtensions ?? string.Empty,
+            UnusedMethodsProtectEventHandlers = UnusedMethodsProtectEventHandlers,
+            UnusedMethodsProtectNamingConventions = UnusedMethodsProtectNamingConventions,
+            UnusedMethodsProtectFrameworkEntryPoints = UnusedMethodsProtectFrameworkEntryPoints,
+            UnusedMethodsProtectAttributed = UnusedMethodsProtectAttributed,
+            UnusedMethodsProtectStringReferences = UnusedMethodsProtectStringReferences,
             EnableRemoveConsecutiveBlankLines = RemoveConsecutiveBlankLines,
             MaxConsecutiveBlankLines = MaxConsecutiveBlankLines,
             EnableRemoveLeadingBlankLines = RemoveLeadingBlankLines,

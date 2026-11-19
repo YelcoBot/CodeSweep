@@ -13,7 +13,7 @@ namespace YelcoBot.CodeSweep.Domain.Routing
         public static readonly HashSet<string> WebFormsWithDesigner = new(StringComparer.OrdinalIgnoreCase) { ".aspx", ".ascx", ".master" };
         public static readonly string[] Razor = { ".cshtml", ".vbhtml", ".razor" };
         public static readonly string[] Html = { ".html", ".htm" };
-        public static readonly string[] XmlConfig = { ".xml", ".config", ".webinfo" };
+        public static readonly string[] XmlConfig = { ".xml", ".config", ".webinfo", ".props" };
         public static readonly string[] Xaml = { ".xaml" };
         public static readonly string[] Styles = { ".css", ".less", ".scss" };
         public static readonly string[] Scripts = { ".js", ".ts" };
@@ -25,7 +25,7 @@ namespace YelcoBot.CodeSweep.Domain.Routing
         /// <summary>Markup (reglas C.2): Web Forms, Razor, HTML, XML / Config y XAML.</summary>
         public static readonly HashSet<string> Markup = new(StringComparer.OrdinalIgnoreCase)
         {
-            ".aspx", ".ascx", ".master", ".asax", ".cshtml", ".vbhtml", ".razor", ".html", ".htm", ".xml", ".config", ".webinfo", ".xaml"
+            ".aspx", ".ascx", ".master", ".asax", ".cshtml", ".vbhtml", ".razor", ".html", ".htm", ".xml", ".config", ".webinfo", ".props", ".xaml"
         };
 
         /// <summary>Extensiones de los grupos activos + las adicionales configuradas.</summary>

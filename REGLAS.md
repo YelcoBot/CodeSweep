@@ -30,7 +30,63 @@ Todas aplican **igual a C# y a VB**. Corren con Roslyn en segundo plano y en par
 | Ordenar `using` / `Imports` (System primero) | 🟢 | ✅ | ✅ | *Code Cleanup* |
 | Quitar variables locales sin usar | 🟢 | ✅ | ✅ | *Code Cleanup* (parcial, `IDE0059`) |
 
+| Quitar métodos sin usar (ver A.1) | ⚪ | ✅ | ✅ | No (`IDE0051` solo avisa, y solo `private`) |
+
 > VB: `Imports` sin usar = BC50000 / BC50001; variables sin usar = BC42024 / BC42099. Una variable con valor calculado (`Dim y = Calcular()`) no se quita, porque se perdería la llamada.
+
+### A.1 Quitar métodos sin usar
+
+Quita los métodos que **nada en la solución referencia** (`SymbolFinder.FindReferencesAsync`). Hace varias pasadas por archivo: si un método solo lo llamaba otro que se quitó, también se va. No se aplica si el archivo tiene errores de compilación.
+
+**Niveles de acceso** (una casilla por nivel). Cuenta el acceso **efectivo**: un método `public` dentro de una clase anidada `private` es `private`, y `protected` en una clase `sealed` / `NotInheritable` es `private`.
+
+| Nivel (C# / VB) | Por defecto | Riesgo |
+|---|---|---|
+| `private` / `Private` | 🟢 | Ninguno: si no hay referencias, nadie lo usa (salvo reflexión, ver protecciones) |
+| `private protected` / `Private Protected` | 🟢 | Ninguno: solo lo ven derivadas del mismo ensamblado |
+| `internal` / `Friend` | ⚪ | No se toca si `InternalsVisibleTo` apunta a un ensamblado que no está en la solución |
+| `protected` / `Protected` | ⚪ | Una derivada en otro ensamblado puede usarlo |
+| `protected internal` / `Protected Friend` | ⚪ | Los dos anteriores |
+| `public` / `Public` | ⚪ | En una librería, quien lo usa no está en la solución |
+
+**Protecciones** (una casilla cada una, todas 🟢):
+
+| Protección | Qué conserva |
+|---|---|
+| Referenciados desde markup | Métodos cuyo nombre aparece en un archivo de markup dentro de las carpetas de los proyectos: XAML `Click="…"`, Web Forms `OnClick="…"` / `SelectMethod="…"` / `<%# Metodo() %>`, Razor `@onclick="…"`, Ribbon XML `onAction="…"`. Extensiones configurables (por defecto `.aspx;.ascx;.master;.asax;.ashx;.asmx;.skin;.xaml;.axaml;.cshtml;.vbhtml;.razor;.xml`). |
+| Event handlers | Firma `(object sender, XxxEventArgs e)` y métodos de VB con `Handles`. |
+| Convenciones de nombres | `Page_*`, `Application_*`, `Session_*` (Web Forms, `Global.asax`), `OnGet*` / `OnPost*`… (Razor Pages), `ShouldSerializeX` / `ResetX` si existe la propiedad `X`. |
+| Puntos de entrada de frameworks | Métodos no `private` de controllers (MVC, Web API, POCO `*Controller`), hubs de SignalR, `PageModel`, componentes Blazor, `Page` / `UserControl` / `MasterPage`, `HttpApplication`, `WebService`; mensajes de Unity (`Start`, `Update`, `On*`…). |
+| Métodos con atributos | `[TestMethod]`, `[HttpGet]`, `[WebMethod]`, `[JSInvokable]`… Los informativos (`[Obsolete]`, `[DebuggerStepThrough]`, `[SuppressMessage]`…) no protegen. |
+| Nombres usados en strings | Reflexión (`GetMethod("Nombre")`), `Invoke("Nombre")`, `SelectMethod = "Nombre"`. |
+
+**Nunca se quitan** (sin casilla, porque romperían la compilación o el contrato del tipo): `override`, `abstract`, `virtual` / `Overridable`, `extern` / `Declare`, `partial`, implementaciones de interfaz (también las explícitas y `Implements`), `Main`, constructores, operadores, finalizadores, métodos de patrón (`GetEnumerator`, `Dispose`, `Deconstruct`, `GetAwaiter`, `Add`, `Select`, `Where`…) y nombres que aparecen en código `#if` inactivo.
+
+Antes:
+```csharp
+public class Pedido
+{
+    public void Guardar() { Validar(); }
+    private void Validar() { }
+    private void CalcularViejo() { Redondear(); }
+    private void Redondear() { }
+    private void btnGuardar_Click(object sender, EventArgs e) { }
+}
+```
+Después:
+```csharp
+public class Pedido
+{
+    public void Guardar() { Validar(); }
+    private void Validar() { }
+    private void btnGuardar_Click(object sender, EventArgs e) { }
+}
+```
+```vb
+' Se conserva: Handles conecta el evento sin que nadie llame al método.
+Private Sub btnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
+End Sub
+```
 
 Ejemplo en VB (quitar y ordenar `Imports`, quitar variable sin usar).
 
@@ -58,7 +114,7 @@ End Sub
 
 ## B. Universales — cualquier archivo
 
-Aplican a **todos** los tipos de archivo (C#, VB, aspx, ascx, master, asax, cshtml, razor, html, xml, config, webinfo, xaml, css, js, ts, json…) y **en las tres vías**:
+Aplican a **todos** los tipos de archivo (C#, VB, aspx, ascx, master, asax, cshtml, razor, html, xml, config, webinfo, props, xaml, css, js, ts, json…) y **en las tres vías**:
 - **Roslyn**, en segundo plano.
 - **Editor invisible**, después de *Format Document* y antes de guardar.
 - **Editor visible**, después de *Format Document* y antes de guardar.
@@ -669,6 +725,7 @@ CodeSweep solo muestra las opciones que el producto **no** tiene: lo detecta sol
 | Sección | Reglas | En SSMS |
 |---|---|---|
 | Roslyn (C# y VB) | A | Oculta |
+| Métodos sin usar (C# y VB) | A.1 (+ niveles de acceso, protecciones y extensiones de markup) | Oculta |
 | Espacios (todos los archivos) | B: 1.1 (+ máximo de líneas), 1.2, 1.3, 2.1, 2.2 | Visible |
 | SQL | D: activar el formato T-SQL | Visible |
 | Formateador SQL (ScriptDOM) | D: las opciones que el producto no tiene | Solo las 4 que SSMS no tiene |
@@ -677,6 +734,6 @@ CodeSweep solo muestra las opciones que el producto **no** tiene: lo detecta sol
 | Tipos de archivo | Qué archivos entran al cleanup + exclusiones | Solo SQL y exclusiones |
 
 Orden en que se aplican:
-- **C# / VB:** variables → usings → ordenar usings → reorganizar (5.1) → accessors (5.2) → regiones (4.x) → líneas en blanco (1.4–1.7, 3.x) → comentarios (6.x) → formatear → universales (B).
+- **C# / VB:** métodos sin usar (A.1) → variables → usings → ordenar usings → reorganizar (5.1) → accessors (5.2) → regiones (4.x) → líneas en blanco (1.4–1.7, 3.x) → comentarios (6.x) → formatear → universales (B).
 - **SQL:** formatear con ScriptDOM (D) → universales (B).
 - **Demás archivos:** *Format Document* del editor → markup (C.2) → universales (B), antes de guardar.

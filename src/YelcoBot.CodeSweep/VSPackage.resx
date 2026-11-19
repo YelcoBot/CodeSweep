@@ -154,4 +154,33 @@
   <data name="Setting_SqlFmt_NumNewlinesAfterBatches" xml:space="preserve"><value>New lines after each batch (GO)</value></data>
   <data name="Setting_SqlFmt_SpaceBetweenDataTypeAndParameters" xml:space="preserve"><value>Space between data type and parameters</value></data>
   <data name="Setting_SqlFmt_SpaceBetweenParametersInDataType" xml:space="preserve"><value>Space between parameters in data types</value></data>
+  <data name="Category_UnusedMethods" xml:space="preserve"><value>Unused methods (C# and VB)</value></data>
+  <data name="Setting_RemoveUnusedMethods_Title" xml:space="preserve"><value>Remove unused methods</value></data>
+  <data name="Setting_RemoveUnusedMethods_Description" xml:space="preserve"><value>Removes methods that nothing in the solution references, for the access levels checked below. Never removes override, abstract, virtual, extern or partial methods, interface implementations, Main, pattern methods (GetEnumerator, Dispose, Deconstruct…) or names used in inactive #if code. Skipped when the file has compile errors.</value></data>
+  <data name="Setting_UnusedMethodsIncludePrivate_Title" xml:space="preserve"><value>Private methods</value></data>
+  <data name="Setting_UnusedMethodsIncludePrivate_Description" xml:space="preserve"><value>C#: private. VB: Private. Effective access counts: a public method of a private nested class is private, and protected in a sealed class is private.</value></data>
+  <data name="Setting_UnusedMethodsIncludePrivateProtected_Title" xml:space="preserve"><value>Private protected methods</value></data>
+  <data name="Setting_UnusedMethodsIncludePrivateProtected_Description" xml:space="preserve"><value>C#: private protected. VB: Private Protected. Only derived classes of the same assembly see them.</value></data>
+  <data name="Setting_UnusedMethodsIncludeInternal_Title" xml:space="preserve"><value>Internal methods</value></data>
+  <data name="Setting_UnusedMethodsIncludeInternal_Description" xml:space="preserve"><value>C#: internal. VB: Friend. Skipped when InternalsVisibleTo points to an assembly that is not in the solution.</value></data>
+  <data name="Setting_UnusedMethodsIncludeProtected_Title" xml:space="preserve"><value>Protected methods</value></data>
+  <data name="Setting_UnusedMethodsIncludeProtected_Description" xml:space="preserve"><value>C#: protected. VB: Protected. A derived class in another assembly may use them.</value></data>
+  <data name="Setting_UnusedMethodsIncludeProtectedInternal_Title" xml:space="preserve"><value>Protected internal methods</value></data>
+  <data name="Setting_UnusedMethodsIncludeProtectedInternal_Description" xml:space="preserve"><value>C#: protected internal. VB: Protected Friend. Has the risks of both protected and internal.</value></data>
+  <data name="Setting_UnusedMethodsIncludePublic_Title" xml:space="preserve"><value>Public methods</value></data>
+  <data name="Setting_UnusedMethodsIncludePublic_Description" xml:space="preserve"><value>C#: public. VB: Public. Only for applications: in a library, the code that uses them is not in the solution.</value></data>
+  <data name="Setting_UnusedMethodsProtectMarkupReferences_Title" xml:space="preserve"><value>Protect methods referenced from markup</value></data>
+  <data name="Setting_UnusedMethodsProtectMarkupReferences_Description" xml:space="preserve"><value>Keeps every method whose name appears in a markup file under the project folders: XAML Click=&quot;…&quot;, Web Forms OnClick=&quot;…&quot; / SelectMethod=&quot;…&quot;, Razor @onclick=&quot;…&quot;, Ribbon XML onAction=&quot;…&quot;.</value></data>
+  <data name="Setting_UnusedMethodsMarkupExtensions_Title" xml:space="preserve"><value>Markup extensions</value></data>
+  <data name="Setting_UnusedMethodsMarkupExtensions_Description" xml:space="preserve"><value>Files scanned for method names. Separate with &apos;;&apos;. bin, obj, node_modules, packages and folders that start with a dot are skipped.</value></data>
+  <data name="Setting_UnusedMethodsProtectEventHandlers_Title" xml:space="preserve"><value>Protect event handlers</value></data>
+  <data name="Setting_UnusedMethodsProtectEventHandlers_Description" xml:space="preserve"><value>Methods with the (object sender, EventArgs e) signature, and VB methods with a Handles clause.</value></data>
+  <data name="Setting_UnusedMethodsProtectNamingConventions_Title" xml:space="preserve"><value>Protect naming conventions</value></data>
+  <data name="Setting_UnusedMethodsProtectNamingConventions_Description" xml:space="preserve"><value>Page_*, Application_*, Session_* (Web Forms, Global.asax), OnGet* / OnPost* (Razor Pages), and ShouldSerializeX / ResetX when property X exists.</value></data>
+  <data name="Setting_UnusedMethodsProtectFrameworkEntryPoints_Title" xml:space="preserve"><value>Protect framework entry points</value></data>
+  <data name="Setting_UnusedMethodsProtectFrameworkEntryPoints_Description" xml:space="preserve"><value>Non-private methods of MVC / Web API controllers, SignalR hubs, Razor PageModel, Blazor components, Web Forms pages, user controls, master pages, Global.asax and web services; Unity messages (Start, Update, On*…).</value></data>
+  <data name="Setting_UnusedMethodsProtectAttributed_Title" xml:space="preserve"><value>Protect methods with attributes</value></data>
+  <data name="Setting_UnusedMethodsProtectAttributed_Description" xml:space="preserve"><value>[TestMethod], [HttpGet], [WebMethod], [JSInvokable], [OperationContract]… Informative attributes ([Obsolete], [DebuggerStepThrough], [SuppressMessage]…) do not protect.</value></data>
+  <data name="Setting_UnusedMethodsProtectStringReferences_Title" xml:space="preserve"><value>Protect names used in strings</value></data>
+  <data name="Setting_UnusedMethodsProtectStringReferences_Description" xml:space="preserve"><value>Keeps methods whose name appears inside a C# / VB string: reflection (GetMethod(&quot;Name&quot;)), Invoke(&quot;Name&quot;), SelectMethod = &quot;Name&quot;.</value></data>
 </root>

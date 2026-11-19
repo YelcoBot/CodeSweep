@@ -8,6 +8,7 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
     {
         private const string General = "codeSweep.general.";
         private const string Rules = "codeSweep.rules.";
+        private const string UnusedMethods = "codeSweep.unusedMethods.";
         private const string Whitespace = "codeSweep.whitespace.";
         private const string CSharpVb = "codeSweep.csharpVb.";
         private const string Markup = "codeSweep.markup.";
@@ -20,6 +21,21 @@ namespace YelcoBot.CodeSweep.Infrastructure.VisualStudio.Settings
         public const string RemoveUnusedUsings = Rules + "removeUnusedUsings";
         public const string SortUsings = Rules + "sortUsings";
         public const string FormatDocument = Rules + "formatDocument";
+
+        public const string RemoveUnusedMethods = UnusedMethods + "removeUnusedMethods";
+        public const string UnusedMethodsIncludePrivate = UnusedMethods + "includePrivate";
+        public const string UnusedMethodsIncludePrivateProtected = UnusedMethods + "includePrivateProtected";
+        public const string UnusedMethodsIncludeInternal = UnusedMethods + "includeInternal";
+        public const string UnusedMethodsIncludeProtected = UnusedMethods + "includeProtected";
+        public const string UnusedMethodsIncludeProtectedInternal = UnusedMethods + "includeProtectedInternal";
+        public const string UnusedMethodsIncludePublic = UnusedMethods + "includePublic";
+        public const string UnusedMethodsProtectMarkupReferences = UnusedMethods + "protectMarkupReferences";
+        public const string UnusedMethodsMarkupExtensions = UnusedMethods + "markupExtensions";
+        public const string UnusedMethodsProtectEventHandlers = UnusedMethods + "protectEventHandlers";
+        public const string UnusedMethodsProtectNamingConventions = UnusedMethods + "protectNamingConventions";
+        public const string UnusedMethodsProtectFrameworkEntryPoints = UnusedMethods + "protectFrameworkEntryPoints";
+        public const string UnusedMethodsProtectAttributed = UnusedMethods + "protectAttributed";
+        public const string UnusedMethodsProtectStringReferences = UnusedMethods + "protectStringReferences";
 
         public const string RemoveConsecutiveBlankLines = Whitespace + "removeConsecutiveBlankLines";
         public const string MaxConsecutiveBlankLines = Whitespace + "maxConsecutiveBlankLines";

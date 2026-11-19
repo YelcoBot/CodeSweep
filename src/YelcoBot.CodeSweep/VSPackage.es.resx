@@ -154,4 +154,33 @@
   <data name="Setting_SqlFmt_NumNewlinesAfterBatches" xml:space="preserve"><value>Saltos de línea después de cada lote (GO)</value></data>
   <data name="Setting_SqlFmt_SpaceBetweenDataTypeAndParameters" xml:space="preserve"><value>Espacio entre el tipo de dato y sus parámetros</value></data>
   <data name="Setting_SqlFmt_SpaceBetweenParametersInDataType" xml:space="preserve"><value>Espacio entre parámetros de tipos de datos</value></data>
+  <data name="Category_UnusedMethods" xml:space="preserve"><value>Métodos sin usar (C# y VB)</value></data>
+  <data name="Setting_RemoveUnusedMethods_Title" xml:space="preserve"><value>Quitar métodos sin usar</value></data>
+  <data name="Setting_RemoveUnusedMethods_Description" xml:space="preserve"><value>Quita los métodos que nada en la solución referencia, para los niveles de acceso marcados abajo. Nunca quita métodos override, abstract, virtual, extern o partial, implementaciones de interfaz, Main, métodos de patrón (GetEnumerator, Dispose, Deconstruct…) ni nombres usados en código #if inactivo. No se aplica si el archivo tiene errores de compilación.</value></data>
+  <data name="Setting_UnusedMethodsIncludePrivate_Title" xml:space="preserve"><value>Métodos private</value></data>
+  <data name="Setting_UnusedMethodsIncludePrivate_Description" xml:space="preserve"><value>C#: private. VB: Private. Cuenta el acceso efectivo: un método public de una clase anidada private es private, y protected en una clase sealed es private.</value></data>
+  <data name="Setting_UnusedMethodsIncludePrivateProtected_Title" xml:space="preserve"><value>Métodos private protected</value></data>
+  <data name="Setting_UnusedMethodsIncludePrivateProtected_Description" xml:space="preserve"><value>C#: private protected. VB: Private Protected. Solo los ven las clases derivadas del mismo ensamblado.</value></data>
+  <data name="Setting_UnusedMethodsIncludeInternal_Title" xml:space="preserve"><value>Métodos internal</value></data>
+  <data name="Setting_UnusedMethodsIncludeInternal_Description" xml:space="preserve"><value>C#: internal. VB: Friend. No se tocan si InternalsVisibleTo apunta a un ensamblado que no está en la solución.</value></data>
+  <data name="Setting_UnusedMethodsIncludeProtected_Title" xml:space="preserve"><value>Métodos protected</value></data>
+  <data name="Setting_UnusedMethodsIncludeProtected_Description" xml:space="preserve"><value>C#: protected. VB: Protected. Una clase derivada en otro ensamblado puede usarlos.</value></data>
+  <data name="Setting_UnusedMethodsIncludeProtectedInternal_Title" xml:space="preserve"><value>Métodos protected internal</value></data>
+  <data name="Setting_UnusedMethodsIncludeProtectedInternal_Description" xml:space="preserve"><value>C#: protected internal. VB: Protected Friend. Tiene los riesgos de protected y de internal.</value></data>
+  <data name="Setting_UnusedMethodsIncludePublic_Title" xml:space="preserve"><value>Métodos public</value></data>
+  <data name="Setting_UnusedMethodsIncludePublic_Description" xml:space="preserve"><value>C#: public. VB: Public. Solo para aplicaciones: en una librería, el código que los usa no está en la solución.</value></data>
+  <data name="Setting_UnusedMethodsProtectMarkupReferences_Title" xml:space="preserve"><value>Proteger métodos referenciados desde markup</value></data>
+  <data name="Setting_UnusedMethodsProtectMarkupReferences_Description" xml:space="preserve"><value>Conserva todo método cuyo nombre aparezca en un archivo de markup dentro de las carpetas de los proyectos: XAML Click=&quot;…&quot;, Web Forms OnClick=&quot;…&quot; / SelectMethod=&quot;…&quot;, Razor @onclick=&quot;…&quot;, Ribbon XML onAction=&quot;…&quot;.</value></data>
+  <data name="Setting_UnusedMethodsMarkupExtensions_Title" xml:space="preserve"><value>Extensiones de markup</value></data>
+  <data name="Setting_UnusedMethodsMarkupExtensions_Description" xml:space="preserve"><value>Archivos donde se buscan nombres de métodos. Separa con &apos;;&apos;. Se omiten bin, obj, node_modules, packages y las carpetas que empiezan con punto.</value></data>
+  <data name="Setting_UnusedMethodsProtectEventHandlers_Title" xml:space="preserve"><value>Proteger event handlers</value></data>
+  <data name="Setting_UnusedMethodsProtectEventHandlers_Description" xml:space="preserve"><value>Métodos con la firma (object sender, EventArgs e) y métodos de VB con cláusula Handles.</value></data>
+  <data name="Setting_UnusedMethodsProtectNamingConventions_Title" xml:space="preserve"><value>Proteger convenciones de nombres</value></data>
+  <data name="Setting_UnusedMethodsProtectNamingConventions_Description" xml:space="preserve"><value>Page_*, Application_*, Session_* (Web Forms, Global.asax), OnGet* / OnPost* (Razor Pages), y ShouldSerializeX / ResetX cuando existe la propiedad X.</value></data>
+  <data name="Setting_UnusedMethodsProtectFrameworkEntryPoints_Title" xml:space="preserve"><value>Proteger puntos de entrada de frameworks</value></data>
+  <data name="Setting_UnusedMethodsProtectFrameworkEntryPoints_Description" xml:space="preserve"><value>Métodos no private de controllers MVC / Web API, hubs de SignalR, PageModel de Razor, componentes Blazor, páginas, user controls y master pages de Web Forms, Global.asax y web services; mensajes de Unity (Start, Update, On*…).</value></data>
+  <data name="Setting_UnusedMethodsProtectAttributed_Title" xml:space="preserve"><value>Proteger métodos con atributos</value></data>
+  <data name="Setting_UnusedMethodsProtectAttributed_Description" xml:space="preserve"><value>[TestMethod], [HttpGet], [WebMethod], [JSInvokable], [OperationContract]… Los atributos informativos ([Obsolete], [DebuggerStepThrough], [SuppressMessage]…) no protegen.</value></data>
+  <data name="Setting_UnusedMethodsProtectStringReferences_Title" xml:space="preserve"><value>Proteger nombres usados en strings</value></data>
+  <data name="Setting_UnusedMethodsProtectStringReferences_Description" xml:space="preserve"><value>Conserva los métodos cuyo nombre aparece dentro de un string de C# / VB: reflexión (GetMethod(&quot;Nombre&quot;)), Invoke(&quot;Nombre&quot;), SelectMethod = &quot;Nombre&quot;.</value></data>
 </root>

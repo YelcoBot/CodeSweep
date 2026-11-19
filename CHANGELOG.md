@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.12.0
+
+### New
+
+- **Remove unused methods** (C# and VB, off by default): removes methods that nothing in the solution references. Tools → Options → CodeSweep → *Unused methods*.
+  - One checkbox per access level: private and private protected on by default; internal, protected, protected internal and public off. Effective access counts (a public method of a private nested class is private).
+  - Protections, all on by default: methods named in markup (XAML, Web Forms, Razor, Ribbon XML), event handlers (including VB `Handles`), naming conventions (`Page_Load`, `Application_Start`, `OnGet`, `ShouldSerializeX`…), framework entry points (controllers, hubs, Razor pages, Blazor components, Web Forms pages, Unity messages), methods with attributes and names used in strings.
+  - Never removes override, abstract, virtual, extern or partial methods, interface implementations, `Main`, pattern methods or names used in inactive `#if` code.
+- **`.props` files** (`Directory.Build.props`, `Directory.Packages.props`…) are formatted with the XML / Config group.
+
 ## 1.11.4
 
 ### New

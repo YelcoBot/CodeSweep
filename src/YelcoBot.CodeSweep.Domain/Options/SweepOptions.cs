@@ -13,6 +13,45 @@ namespace YelcoBot.CodeSweep.Domain.Options
 
         public bool EnableFormatDocument { get; set; } = true;
 
+        // A.1 Unused methods (C# and VB)
+        public const string DefaultUnusedMethodsMarkupExtensions = ".aspx;.ascx;.master;.asax;.ashx;.asmx;.skin;.xaml;.axaml;.cshtml;.vbhtml;.razor;.xml";
+
+        public bool EnableRemoveUnusedMethods { get; set; } = false;
+
+        /// <summary>Accessibility levels are effective: a public method inside a private nested class counts as private.</summary>
+        public bool UnusedMethodsIncludePrivate { get; set; } = true;
+
+        public bool UnusedMethodsIncludePrivateProtected { get; set; } = true;
+
+        public bool UnusedMethodsIncludeInternal { get; set; } = false;
+
+        public bool UnusedMethodsIncludeProtected { get; set; } = false;
+
+        public bool UnusedMethodsIncludeProtectedInternal { get; set; } = false;
+
+        public bool UnusedMethodsIncludePublic { get; set; } = false;
+
+        /// <summary>Keeps methods whose name appears in a markup file of any project (XAML, Web Forms, Razor, Ribbon XML…).</summary>
+        public bool UnusedMethodsProtectMarkupReferences { get; set; } = true;
+
+        /// <summary>Markup extensions scanned for method names, separated by ';'.</summary>
+        public string UnusedMethodsMarkupExtensions { get; set; } = DefaultUnusedMethodsMarkupExtensions;
+
+        /// <summary>Keeps (object sender, EventArgs e) methods and VB methods with a Handles clause.</summary>
+        public bool UnusedMethodsProtectEventHandlers { get; set; } = true;
+
+        /// <summary>Keeps Page_*, Application_*, Session_*, OnGet*/OnPost*, ShouldSerializeX / ResetX.</summary>
+        public bool UnusedMethodsProtectNamingConventions { get; set; } = true;
+
+        /// <summary>Keeps non-private methods of controllers, hubs, Razor pages, components, Web Forms pages and Unity messages.</summary>
+        public bool UnusedMethodsProtectFrameworkEntryPoints { get; set; } = true;
+
+        /// <summary>Keeps methods with attributes ([TestMethod], [HttpGet], [WebMethod]…), except purely informative ones.</summary>
+        public bool UnusedMethodsProtectAttributed { get; set; } = true;
+
+        /// <summary>Keeps methods whose name appears inside a string literal (reflection, ObjectDataSource, Invoke("Name")).</summary>
+        public bool UnusedMethodsProtectStringReferences { get; set; } = true;
+
         // B. Universales (cualquier archivo, en las tres vías)
         public bool EnableRemoveConsecutiveBlankLines { get; set; } = true;
 
@@ -165,6 +204,7 @@ namespace YelcoBot.CodeSweep.Domain.Options
             SweepOptions copy = (SweepOptions)MemberwiseClone();
             copy.EnableRemoveUnusedUsings = false;
             copy.EnableRemoveUnusedLocalVariables = false;
+            copy.EnableRemoveUnusedMethods = false;
             return copy;
         }
     }

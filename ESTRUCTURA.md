@@ -45,6 +45,7 @@ CodeSweep/
 │  │
 │  ├─ YelcoBot.CodeSweep.Infrastructure.Roslyn/      # netstandard2.0 — motor C# / VB
 │  │  ├─ Rules/                                      # ISweepRule, en orden de ejecución (Order):
+│  │  │  ├─ RemoveUnusedMethodsRule.cs           (5) # A.1: SymbolFinder.FindReferencesAsync, varias pasadas
 │  │  │  ├─ RemoveUnusedLocalVariablesRule.cs   (10) # CS0168/CS0219 · BC42024/BC42099
 │  │  │  ├─ RemoveUnusedUsingsRule.cs           (20) # CS8019 · BC50000/BC50001
 │  │  │  ├─ SortUsingsRule.cs                   (30)
@@ -55,6 +56,10 @@ CodeSweep/
 │  │  │  ├─ CommentsRule.cs                     (45) # 6.1, 6.2
 │  │  │  ├─ FormatDocumentRule.cs               (50) # Formatter de Roslyn (.editorconfig)
 │  │  │  └─ WhitespaceRule.cs                   (60) # Reglas universales (B)
+│  │  ├─ UnusedMethods/                              # Apoyo de A.1:
+│  │  │  ├─ UnusedMethodPolicy.cs                    #   exclusiones fijas, acceso efectivo, protecciones
+│  │  │  ├─ MarkupIdentifierIndex.cs                 #   nombres en XAML / Web Forms / Razor / XML (disco, con caché)
+│  │  │  └─ SolutionNameIndex.cs                     #   nombres en strings y en #if inactivos (por foto de la solución)
 │  │  ├─ Layout/                                     # Análisis por lenguaje para BlankLineLayoutRule (C# y VB)
 │  │  ├─ Text/                                       # LinePlan (cambios por línea) + SyntaxTextGuard
 │  │  └─ Engine/                                     # DocumentSweeper (un documento), RoslynCodeCleaner (paralelo)
